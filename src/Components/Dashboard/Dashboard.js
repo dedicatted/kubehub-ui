@@ -16,7 +16,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems, SecondaryListItems } from './listItems';
 import { Routes } from './Routes';
-import '../../css/Dashboard.css'
 
 const drawerWidth = 240;
 
