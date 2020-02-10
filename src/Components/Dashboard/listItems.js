@@ -52,63 +52,6 @@ export function MainListItems()	{
 						<ListItemText primary="Clouds" />
 					</ListItem>
 				</Link>
-				<Link to={{pathname: '/customers'}} className={classes.links}>
-					<ListItem button >
-						<ListItemIcon>
-							<PeopleIcon />
-						</ListItemIcon>
-						<ListItemText primary="Customers" />
-					</ListItem>
-				</Link>
-				<Link to={{pathname: '/reports'}} className={classes.links}>
-					<ListItem button>
-						<ListItemIcon>
-							<BarChartIcon />
-						</ListItemIcon>
-						<ListItemText primary="Reports" />
-					</ListItem>
-				</Link>
-				<Link to={{pathname: '/integrations'}} className={classes.links} >
-					<ListItem button>
-						<ListItemIcon>
-							<LayersIcon />
-						</ListItemIcon>
-						<ListItemText primary="Integrations" />
-					</ListItem>
-				</Link>
 			</div>
 		)
 	};
-
-export function SecondaryListItems() {
-	const classes = useStyle();
-	return(
-	<div>
-		<ListSubheader inset>Saved reports</ListSubheader>
-		<Link to={{pathname: '/CurrentMonth'}} className={classes.links}>
-			<ListItem button>
-				<ListItemIcon>
-					<AssignmentIcon />
-				</ListItemIcon>
-				<ListItemText primary="Current month" />
-			</ListItem>
-		</Link>
-		<Link to={{pathname: '/LastQuarter'}} className={classes.links}>
-			<ListItem button>
-				<ListItemIcon>
-					<AssignmentIcon />
-				</ListItemIcon>
-				<ListItemText primary="Last quarter" />
-			</ListItem>
-		</Link>
-		<Link to={{pathname: '/Year-endSale'}} className={classes.links}>
-			<ListItem button>
-				<ListItemIcon>
-					<AssignmentIcon />
-				</ListItemIcon>
-				<ListItemText primary="Year-end sale" />
-			</ListItem>
-		</Link>
-	</div>
-	)
-};

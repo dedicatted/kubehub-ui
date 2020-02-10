@@ -6,19 +6,19 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import MenuItem from '@material-ui/core/MenuItem';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
 import { useSelector, useDispatch } from 'react-redux'
 import { addCloud } from '../../Actions/CloudActions';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
-import { showClouds, deleteCloud, editCloud } from '../../Actions/CloudActions';
+import { showClouds } from '../../Actions/CloudActions';
+import { TableOfClouds } from './TabelOfClouds';
+import { EditCloud } from './EditCloud'
+import { makeStyles } from '@material-ui/core';
 
+const useStyle = makeStyles(theme => ({
+	flex:{
+		display: 'flex',
+		justifyContent: 'space-between'
+	}
+}))
 const CP_types = [
 	{
 		value: 'AWS'
@@ -32,6 +32,7 @@ const CP_types = [
 ];
 
 export function Clouds () {
+	const classes = useStyle();
 		const clouds = useSelector(state => state.clouds);
 		const [createCloudWindowOpen, setCreateCloudWindowOpen] = React.useState(false);
 		const [CP_type, setCP_type] = React.useState('AWS');
@@ -43,12 +44,6 @@ export function Clouds () {
 		const [editName, setEditName] = React.useState('');
 		const [editCloudIndex, seteditCloudIndex] = React.useState(0);
 		const dispatch = useDispatch();
-		const handleEditCP_typeChange = event => {
-			setEditCP_type(event.target.value);
-		};
-		const handleEditNameChange = event => {
-			setEditName(event.target.value);
-		};
 		const handleEditWindowOpen = (index) => {
 			setEditCloudWindowOpen(true);
 			for(let i = 0; i < clouds.length; i++) {
@@ -60,6 +55,7 @@ export function Clouds () {
 				}
 			}
 		}
+
 		const handleEditWindowClose = () => {
 			setEditCloudWindowOpen(false);
 		}
@@ -106,42 +102,14 @@ export function Clouds () {
 			},100)
 		}
 
-		const editCloudData = () => {
-			console.log(editCP_type, editName, editCloudIndex,clouds);
-			dispatch(editCloud(editCP_type, editName, editCloudIndex));
-			fetch('http://192.168.84.189:8080/api/cloud_providers/edit',{
-				method: 'POST',
-				body: JSON.stringify({
-					id: clouds[editCloudIndex].id,
-					cp_type: editCP_type,
-					name: editName
-				})
-			})
-			setEditCloudWindowOpen(false);
-		}
 
-		const deleteCloudData = (index) => {
-			for(let i = 0; i <= clouds.length; i++) {
-				if(clouds[i].id === index) {
-					dispatch(deleteCloud(i));
-					fetch('http://192.168.84.189:8080/api/cloud_providers/remove',{
-						method: 'POST',
-						body: JSON.stringify({id: index})
-					})
-					.then(data => {
-						console.log(data);
-						return data;
-					})
-					.then(() => refreshCloudData())
-					break;
-
-				}
-			}
-		}
 
 		return (
 			<div>
-				<Button variant="contained" color='primary' onClick={handleCreateWindowOpen}>Add cloud</Button>
+				<div className={classes.flex}>
+					<Button variant="contained" color="primary" onClick={handleCreateWindowOpen}>Add cloud</Button>
+					<Button variant="contained" color="primary" onClick={refreshCloudData}>Refresh data</Button>
+				</div>
 				{/* Create Dialog Window */}
 				<Dialog open={createCloudWindowOpen} onClose={handleCreateWindowClose} aria-labelledby="form-dialog-title">
 					<DialogTitle id="form-dialog-title">Create cloud</DialogTitle>
@@ -198,77 +166,24 @@ export function Clouds () {
 					</DialogActions>
 				</Dialog>
 				{/* Show Clouds */}
-				<TableContainer>
-					<Table aria-label="simple table">
-						<TableHead>
-						<TableRow>
-							<TableCell>Name</TableCell>
-							<TableCell align="right">API-Endpoint</TableCell>
-							<TableCell align="right">CP-Type</TableCell>
-							<TableCell align="center">Actions</TableCell>
-						</TableRow>
-						</TableHead>
-						<TableBody>
-							{clouds.map((cloud, i) => {
-								console.log(clouds[i].id);
-								return (
-									<TableRow key={i}>
-									<TableCell component="th" scope="row">{cloud.name}</TableCell>
-									<TableCell align="right">{cloud.api_endpoint}</TableCell>
-									<TableCell align="right">{cloud.cp_type}</TableCell>
-									<TableCell align="center">
-									<IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}}>
-										<DeleteIcon />
-									</IconButton>
-									<IconButton onClick={() => {handleEditWindowOpen(cloud.id)}}>
-										<EditIcon />
-									</IconButton>
-									</TableCell>
-									</TableRow>
-								)
-							})}
-						</TableBody>
-					</Table>
-				</TableContainer>
 
+				<TableOfClouds
+					handleEditWindowOpen={handleEditWindowOpen}
+					refreshCloudData={refreshCloudData}
+				/>
 				{/* Edit cloud Window */}
+				<EditCloud
+					CP_types={CP_types}
+					handleEditWindowClose={handleEditWindowClose}
+					editCP_type={editCP_type}
+					editName={editName}
+					editCloudIndex={editCloudIndex}
+					setEditCP_type={setEditCP_type}
+					setEditName={setEditName}
+					editCloudWindowOpen={editCloudWindowOpen}
+					setEditCloudWindowOpen={setEditCloudWindowOpen}
+				/>
 
-				<Dialog open={editCloudWindowOpen} onClose={handleEditWindowClose} aria-labelledby="form-dialog-title">
-					<DialogTitle id="form-dialog-title">Edit cloud</DialogTitle>
-					<DialogContent>
-						<TextField
-							id="standard-select-CP_type"
-							select
-							label="Type of clouds"
-							value={editCP_type}
-							onChange={handleEditCP_typeChange}
-							helperText="Please select your cloud"
-							fullWidth
-						>
-							{CP_types.map(CP_type => (
-								<MenuItem key={CP_type.value} value={CP_type.value}>
-									{CP_type.value}
-								</MenuItem>
-							))}
-						</TextField>
-						<TextField
-							margin="dense"
-							id="name"
-							label="Name"
-							fullWidth
-							value={editName}
-							onChange={handleEditNameChange}
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleEditWindowClose} color="primary">
-							Cancel
-						</Button>
-						<Button onClick={editCloudData} color="primary">
-							Save
-						</Button>
-					</DialogActions>
-				</Dialog>
 			</div>
 		);
 }
