@@ -4,7 +4,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
@@ -15,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch } from 'react-redux'
 import { showClouds } from '../../Actions/CloudActions';
 import CloudCircleIcon from '@material-ui/icons/CloudCircle';
+import ComputerIcon from '@material-ui/icons/Computer';
 
 const useStyle = makeStyles({
 	links: {
@@ -52,12 +52,12 @@ export function MainListItems()	{
 						<ListItemText primary="Clouds" />
 					</ListItem>
 				</Link>
-				<Link to={{pathname: '/customers'}} className={classes.links}>
+				<Link to={{pathname: '/vm_group'}} className={classes.links}>
 					<ListItem button >
 						<ListItemIcon>
-							<PeopleIcon />
+							<ComputerIcon />
 						</ListItemIcon>
-						<ListItemText primary="Customers" />
+						<ListItemText primary="VM group" />
 					</ListItem>
 				</Link>
 				<Link to={{pathname: '/reports'}} className={classes.links}>

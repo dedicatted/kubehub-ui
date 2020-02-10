@@ -2,6 +2,7 @@ const ADD_CLOUD = 'ADD_CLOUD';
 const SHOW_CLOUDS = 'SHOW_CLOUDS';
 const DELETE_CLOUD = 'DELETE_CLOUD';
 const EDIT_CLOUD = 'EDIT_CLOUD';
+const GET_CLOUD_ID = 'GET_CLOUD_ID'
 export const addCloud = (cp_type, name, api_endpoint, password) => {
 	return {
 		type: ADD_CLOUD,
@@ -17,7 +18,6 @@ export const showClouds = (cloudsInBD) => {
 		cloudsInBD: cloudsInBD
 	}
 }
-
 export const deleteCloud = (index) => {
 	return {
 		type: DELETE_CLOUD,
@@ -30,5 +30,12 @@ export const editCloud = (cp_type, name,index) => {
 		cp_type: cp_type,
 		name: name,
 		index:index
+	}
+}
+export const getCloudId = (data ,index) => {
+	return {
+		type: GET_CLOUD_ID,
+		data: data,
+		index: index
 	}
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -60,6 +60,7 @@ export function Clouds () {
 				}
 			}
 		}
+		const url = 'http://192.168.84.189:8080';
 		const handleEditWindowClose = () => {
 			setEditCloudWindowOpen(false);
 		}
@@ -82,7 +83,7 @@ export function Clouds () {
 			setPassword(event.target.value);
 		};
 		const refreshCloudData = () => {
-			fetch('http://192.168.84.189:8080/api/cloud_providers/list')
+			fetch(`${url}/api/cloud_providers/list`)
 			.then(response => response.json())
 			.then(data => data.cloud_provider_list)
 			.then(data => {
@@ -91,7 +92,7 @@ export function Clouds () {
 		}
 		const sendCloudData = () => {
 			let xhr = new XMLHttpRequest();
-			xhr.open('POST','http://192.168.84.189:8080/api/cloud_providers/add');
+			xhr.open('POST',`${url}/api/cloud_providers/add`);
 			let data = JSON.stringify({
 				cp_type: CP_type,
 				name: name,
@@ -109,7 +110,7 @@ export function Clouds () {
 		const editCloudData = () => {
 			console.log(editCP_type, editName, editCloudIndex,clouds);
 			dispatch(editCloud(editCP_type, editName, editCloudIndex));
-			fetch('http://192.168.84.189:8080/api/cloud_providers/edit',{
+			fetch(`${url}/api/cloud_providers/edit`,{
 				method: 'POST',
 				body: JSON.stringify({
 					id: clouds[editCloudIndex].id,
@@ -124,7 +125,7 @@ export function Clouds () {
 			for(let i = 0; i <= clouds.length; i++) {
 				if(clouds[i].id === index) {
 					dispatch(deleteCloud(i));
-					fetch('http://192.168.84.189:8080/api/cloud_providers/remove',{
+					fetch(`${url}/api/cloud_providers/remove`,{
 						method: 'POST',
 						body: JSON.stringify({id: index})
 					})
