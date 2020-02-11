@@ -29,24 +29,24 @@ export function MainListItems()	{
 			dispatch(showClouds(data))
 		})
 	}
-		return(
-			<div>
-				<Link to='/' className={classes.links}>
-				<ListItem button>
+	return(
+		<div>
+			<Link to='/' className={classes.links}>
+			<ListItem button>
+				<ListItemIcon>
+					<DashboardIcon />
+				</ListItemIcon>
+				<ListItemText primary="Dashboard" />
+			</ListItem>
+			</Link>
+			<Link to={{pathname: '/clouds'}} className={classes.links}>
+				<ListItem button onClick={getCloudData}>
 					<ListItemIcon>
-						<DashboardIcon />
+						<CloudCircleIcon />
 					</ListItemIcon>
-					<ListItemText primary="Dashboard" />
+					<ListItemText primary="Clouds" />
 				</ListItem>
-				</Link>
-				<Link to={{pathname: '/clouds'}} className={classes.links}>
-					<ListItem button onClick={getCloudData}>
-						<ListItemIcon>
-							<CloudCircleIcon />
-						</ListItemIcon>
-						<ListItemText primary="Clouds" />
-					</ListItem>
-				</Link>
-			</div>
-		)
-	};
+			</Link>
+		</div>
+	)
+};
