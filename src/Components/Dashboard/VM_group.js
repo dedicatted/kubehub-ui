@@ -32,7 +32,7 @@ export function VM_group() {
 	const [templateVMID, setTemplateVMID] = React.useState();
 	const serverURL = 'http://192.168.84.189:8080';
 	const createVM_group = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/create`, {
+		fetch(`${serverURL}/api/proxmox/vm/group/add`, {
 			method: 'POST',
 			body: JSON.stringify({
 				cloud_provider_id: cloudId,
