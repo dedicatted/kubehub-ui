@@ -41,9 +41,9 @@ export function TableOfClouds (props) {
 			<Table aria-label="simple table">
 				<TableHead>
 				<TableRow>
-					<TableCell>Name</TableCell>
-					<TableCell align="right">API-Endpoint</TableCell>
-					<TableCell align="right">CP-Type</TableCell>
+					<TableCell align="center">Name</TableCell>
+					<TableCell align="center">API-Endpoint</TableCell>
+					<TableCell align="center">CP-Type</TableCell>
 					<TableCell align="center">Actions</TableCell>
 				</TableRow>
 				</TableHead>
@@ -52,9 +52,9 @@ export function TableOfClouds (props) {
 						console.log(clouds[i].id);
 						return (
 							<TableRow key={i}>
-							<TableCell component="th" scope="row">{cloud.name}</TableCell>
-							<TableCell align="right">{cloud.api_endpoint}</TableCell>
-							<TableCell align="right">{cloud.cp_type}</TableCell>
+							<TableCell component="th" scope="row" align="center">{cloud.name}</TableCell>
+							<TableCell align="left">{cloud.api_endpoint}</TableCell>
+							<TableCell align="left">{cloud.cp_type}</TableCell>
 							<TableCell align="center">
 							<IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}}>
 								<DeleteIcon />
