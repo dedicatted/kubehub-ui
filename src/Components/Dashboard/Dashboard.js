@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
  	},
  	title: {
  	 	flexGrow: 1,
- 	},
+	},
  	drawerPaper: {
  	 	position: 'relative',
  	 	whiteSpace: 'nowrap',
@@ -130,8 +130,7 @@ export 	function Dashboard() {
 				}}
 				open={open}
 			>
-				<div className={classes.toolbarIcon}></div>
-				<Divider />
+				<div className={classes.appBarSpacer} />
 				<List>
 					<MainListItems />
 				</List>
