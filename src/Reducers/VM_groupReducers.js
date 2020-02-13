@@ -10,6 +10,8 @@ export const vm_group = (state = [], action) => {
 					name: action.name
 				}
 			]
+		case 'SHOW_VM_GROUP':
+			return action.VM_Group
 		default:
 			return state;
 	}

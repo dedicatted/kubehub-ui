@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -7,19 +7,19 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds, getCloudId } from '../../Actions/CloudActions';
+import { addVM_group } from '../../Actions/VM_groupActions'
 import { getTemplates } from '../../Actions/VM_groupActions'
 import MenuItem from '@material-ui/core/MenuItem';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import EditIcon from '@material-ui/icons/Edit';
+import { TableOfVMGroup } from './TableOfVMGroups';
+import { makeStyles } from '@material-ui/core';
 
+const useStyles = makeStyles(theme => ({
+	createButtonMargin: {
+		marginBottom: '20px'
+	}
+}))
 export function VM_group() {
+	const classes = useStyles();
 	const dispatch = useDispatch();
 	const clouds = useSelector(state => state.clouds);
 	const cloudId = useSelector(state => state.cloudId);
@@ -42,11 +42,13 @@ export function VM_group() {
 				name: name
 			})
 		})
+		.then(dispatch(addVM_group(cloudId,templateVMID, numberOfNodes, name)))
 		.then(response => response)
 		.then(data => data.json())
 		.then(data => console.log(data));
 		setCreateVmGroupWindowOpen(false);
 	}
+
 	const refreshCloudData = () => {
 		fetch(`${serverURL}/api/cloud_providers/list`)
 		.then(response => response.json())
@@ -57,6 +59,8 @@ export function VM_group() {
 			},100)
 		})
 	}
+
+
 	const handleCreateVmGroupWindowOpen = () => {
 		refreshCloudData();
 		setCreateVmGroupWindowOpen(true);
@@ -94,12 +98,11 @@ export function VM_group() {
 			}
 		}
 		console.log(templateVMID);
-
 	}
 
 	return (
 		<div>
-			<Button variant="contained" color='primary' onClick={handleCreateVmGroupWindowOpen} >Create VM group</Button>
+			<Button className={classes.createButtonMargin} variant="contained" color='primary' onClick={handleCreateVmGroupWindowOpen} >Create VM group</Button>
 			<Dialog open={createVmGroupWindowOpen} onClose={handleCreateVmGroupWindowClose} aria-labelledby="form-dialog-title">
 				<DialogTitle id="form-dialog-title">Create virtual machine group</DialogTitle>
 				<DialogContent>
@@ -161,38 +164,7 @@ export function VM_group() {
 					</Button>
 				</DialogActions>
 			</Dialog>
-			{/* <TableContainer>
-					<Table aria-label="simple table">
-						<TableHead>
-						<TableRow>
-							<TableCell>Name</TableCell>
-							<TableCell align="right">API-Endpoint</TableCell>
-							<TableCell align="right">CP-Type</TableCell>
-							<TableCell align="center">Actions</TableCell>
-						</TableRow>
-						</TableHead>
-						<TableBody>
-							{clouds.map((cloud, i) => {
-								console.log(clouds[i].id);
-								return (
-									<TableRow key={i}>
-									<TableCell component="th" scope="row">{cloud.name}</TableCell>
-									<TableCell align="right">{cloud.api_endpoint}</TableCell>
-									<TableCell align="right">{cloud.cp_type}</TableCell>
-									<TableCell align="center">
-									<IconButton aria-label="delete">
-										<DeleteIcon />
-									</IconButton>
-									<IconButton>
-										<EditIcon />
-									</IconButton>
-									</TableCell>
-									</TableRow>
-								)
-							})}
-						</TableBody>
-					</Table>
-				</TableContainer> */}
+			<TableOfVMGroup />
 		</div>
 	)
 }
