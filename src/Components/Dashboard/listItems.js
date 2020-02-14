@@ -7,8 +7,6 @@ import {
 	Link
 } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { useDispatch } from 'react-redux'
-import { showClouds } from '../../Actions/CloudActions';
 import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 
 const useStyle = makeStyles({
@@ -20,15 +18,6 @@ const useStyle = makeStyles({
 
 export function MainListItems()	{
 	const classes = useStyle();
-	const dispatch = useDispatch();
-	function getCloudData () {
-		fetch('http://192.168.84.189:8080/api/cloud_providers/list')
-		.then(response => response.json())
-		.then(data => data.cloud_provider_list)
-		.then(data => {
-			dispatch(showClouds(data))
-		})
-	}
 	return(
 		<div>
 			<Link to='/' className={classes.links}>
@@ -40,7 +29,7 @@ export function MainListItems()	{
 			</ListItem>
 			</Link>
 			<Link to={{pathname: '/clouds'}} className={classes.links}>
-				<ListItem button onClick={getCloudData}>
+				<ListItem button >
 					<ListItemIcon>
 						<CloudCircleIcon />
 					</ListItemIcon>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -34,6 +34,7 @@ const CP_types = [
 export function Clouds () {
 	const classes = useStyle();
 	const clouds = useSelector(state => state.clouds);
+	const [stateClouds,setStateClouds] =React.useState(clouds);
 	const [createCloudWindowOpen, setCreateCloudWindowOpen] = React.useState(false);
 	const [CP_type, setCP_type] = React.useState('AWS');
 	const [name, setName] = React.useState('');
@@ -85,6 +86,7 @@ export function Clouds () {
 			dispatch(showClouds(data))
 		})
 	}
+	useEffect(refreshCloudData,[stateClouds]);
 	const sendCloudData = () => {
 		let xhr = new XMLHttpRequest();
 		xhr.open('POST','http://192.168.84.189:8080/api/cloud_providers/add');
@@ -97,9 +99,9 @@ export function Clouds () {
 		dispatch(addCloud(CP_type,name,api_endpoint,password))
 		xhr.send(data);
 		setCreateCloudWindowOpen(false);
-		setTimeout(() =>{
-			refreshCloudData();
-		},100)
+		// setTimeout(() =>{
+		// 	refreshCloudData();
+		// },100)
 	}
 
 
