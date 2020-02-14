@@ -53,8 +53,8 @@ export function TableOfClouds (props) {
 						return (
 							<TableRow key={i}>
 							<TableCell component="th" scope="row" align="center">{cloud.name}</TableCell>
-							<TableCell align="left">{cloud.api_endpoint}</TableCell>
-							<TableCell align="left">{cloud.cp_type}</TableCell>
+							<TableCell align="center">{cloud.api_endpoint}</TableCell>
+							<TableCell align="center">{cloud.cp_type}</TableCell>
 							<TableCell align="center">
 							<IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}}>
 								<DeleteIcon />
