@@ -14,6 +14,10 @@ const useStyles = makeStyles(thme => ({
 	tableMargin: {
 		marginBottom: '50px'
 	},
+	tableNameWidth: {
+		width: '20%'
+	}
+
 }))
 export function TableOfVMGroup (props) {
 	const classes = useStyles();
@@ -31,6 +35,7 @@ export function TableOfVMGroup (props) {
 			return data;
 		})
 	}
+	useEffect(props.refreshCloudData, [clouds]);
 	useEffect(refreshVMGroupData, [stateVMGroup]);
 	return (
 		<div>
@@ -53,7 +58,7 @@ export function TableOfVMGroup (props) {
 								console.log(VMGroupItem[i]);
 								return (
 									<TableRow key={i}>
-										<TableCell component="th" scope="row">{VM.name}</TableCell>
+										<TableCell className={classes.tableNameWidth} component="th" scope="row">{VM.name}</TableCell>
 										<TableCell align="center">{VM.ip}</TableCell>
 										<TableCell align="center">{
 											clouds.map((cloud, i) => {

@@ -16,7 +16,11 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles(theme => ({
 	createButtonMargin: {
 		marginBottom: '20px'
+	},
+	dialogWidth: {
+		width: '552px'
 	}
+
 }))
 export function VM_group() {
 	const classes = useStyles();
@@ -108,56 +112,55 @@ export function VM_group() {
 			<Button className={classes.createButtonMargin} variant="contained" color='primary' onClick={handleCreateVmGroupWindowOpen} >Create VM group</Button>
 			<Dialog open={createVmGroupWindowOpen} onClose={handleCreateVmGroupWindowClose} aria-labelledby="form-dialog-title">
 				<DialogTitle id="form-dialog-title">Create virtual machine group</DialogTitle>
-				<DialogContent>
-				<TextField
-					id="standard-select-CP_type"
-					select
-					label="Type of clouds"
-					value={CP_type}
-					onChange={handleCP_typeChange}
-					helperText="Please select your cloud"
-					fullWidth
-				>
-				{clouds.map(cloud => (
-					<MenuItem key={cloud.id} value={cloud.cp_type}>
-						{cloud.cp_type}
-					</MenuItem>
-				))}
-				</TextField>
+				<DialogContent className={classes.dialogWidth}>
 					<TextField
-						value={name}
-						onChange={handleNameChange}
-						margin="dense"
-						id="name"
-						label="Name"
-						fullWidth
-					/>
-
-					<TextField
-						margin="dense"
-						id="number_of_nodes"
-						label="Number of nodes"
-						fullWidth
-						value={numberOfNodes}
-						onChange={handleNumberOfNodes}
-					/>
-					<TextField
-						margin="dense"
-						id="template"
-						label="Template"
-						value={template}
-						onChange={handleTemplate}
+						id="standard-select-CP_type"
 						select
+						label="Type of clouds"
+						value={CP_type}
+						onChange={handleCP_typeChange}
+						helperText="Please select your cloud"
 						fullWidth
 					>
-					{templates.map(template => (
-						<MenuItem key={template.id} value={template.name}>
-							{template.name}
+					{clouds.map(cloud => (
+						<MenuItem key={cloud.id} value={cloud.cp_type}>
+							{cloud.cp_type}
 						</MenuItem>
 					))}
 					</TextField>
+						<TextField
+							value={name}
+							onChange={handleNameChange}
+							margin="dense"
+							id="name"
+							label="Name"
+							fullWidth
+						/>
 
-				</DialogContent>
+						<TextField
+							margin="dense"
+							id="number_of_nodes"
+							label="Number of nodes"
+							fullWidth
+							value={numberOfNodes}
+							onChange={handleNumberOfNodes}
+						/>
+						<TextField
+							margin="dense"
+							id="template"
+							label="Template"
+							value={template}
+							onChange={handleTemplate}
+							select
+							fullWidth
+						>
+						{templates.map(template => (
+							<MenuItem key={template.id} value={template.name}>
+								{template.name}
+							</MenuItem>
+						))}
+						</TextField>
+					</DialogContent>
 				<DialogActions>
 					<Button onClick={handleCreateVmGroupWindowClose} color="primary">
 						Cancel
@@ -167,7 +170,7 @@ export function VM_group() {
 					</Button>
 				</DialogActions>
 			</Dialog>
-			<TableOfVMGroup />
+			<TableOfVMGroup refreshCloudData={refreshCloudData} />
 		</div>
 	)
 }
