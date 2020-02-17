@@ -34,9 +34,9 @@ export function TableOfVMGroup (props) {
 	useEffect(refreshVMGroupData, [stateVMGroup]);
 	return (
 		<div>
-			{VMGroup.map(VMGroupItem => {
+			{VMGroup.map((VMGroupItem, i) => {
 				return (
-					<TableContainer className={classes.tableMargin}>
+					<TableContainer className={classes.tableMargin} key={i}>
 						{/* <h1>{VMGroupItem.vms[0].name}</h1> */}
 						<Typography variant="h5">{VMGroupItem.vms[0].name}</Typography>
 					<Table aria-label="simple table">
@@ -53,13 +53,13 @@ export function TableOfVMGroup (props) {
 								console.log(VMGroupItem[i]);
 								return (
 									<TableRow key={i}>
-									<TableCell component="th" scope="row">{VM.name}</TableCell>
-									<TableCell align="center">{VM.ip}</TableCell>
-									<TableCell align="center">{
-										clouds.map((cloud, i) => {
-											return(clouds[i].id = VM.cloud_provider_id ? clouds[i].name : null)
-										})
-									}</TableCell>
+										<TableCell component="th" scope="row">{VM.name}</TableCell>
+										<TableCell align="center">{VM.ip}</TableCell>
+										<TableCell align="center">{
+											clouds.map((cloud, i) => {
+												return(clouds[i].id === VM.cloud_provider_id ? clouds[i].name : null)
+											})
+										}</TableCell>
 									<TableCell align="center">
 									{/* <IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}}>
 										<DeleteIcon />

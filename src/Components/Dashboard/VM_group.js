@@ -42,10 +42,13 @@ export function VM_group() {
 				name: name
 			})
 		})
-		.then(dispatch(addVM_group(cloudId,templateVMID, numberOfNodes, name)))
 		.then(response => response)
 		.then(data => data.json())
-		.then(data => console.log(data));
+		.then(data => {
+			console.log(data);
+			return data;
+		})
+		.then(data => dispatch(addVM_group(data.data)))
 		setCreateVmGroupWindowOpen(false);
 	}
 
