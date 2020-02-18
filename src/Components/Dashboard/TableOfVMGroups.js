@@ -26,17 +26,9 @@ export function TableOfVMGroup (props) {
 	const VMGroup = useSelector(state => state.vm_group);
 	const clouds = useSelector(state => state.clouds);
 	const [stateVMGroup,setStateVMGroup] = useState(VMGroup);
-	const refreshVMGroupData = () => {
-		fetch(`${serverUrl}/api/proxmox/vm/group/list`)
-		.then(response => response.json())
-		.then(data => data.vm_group_list)
-		.then(data => {
-			dispatch(showVMGroup(data));
-			return data;
-		})
-	}
-	useEffect(props.refreshCloudData, [clouds]);
-	useEffect(refreshVMGroupData, [stateVMGroup]);
+
+	useEffect(props.refreshCloudData, [stateVMGroup]);
+	useEffect(props.refreshVMGroupData, [stateVMGroup]);
 	return (
 		<div>
 			{VMGroup.map((VMGroupItem, i) => {

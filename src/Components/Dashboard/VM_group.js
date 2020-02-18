@@ -7,7 +7,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds, getCloudId } from '../../Actions/CloudActions';
-import { addVM_group } from '../../Actions/VM_groupActions'
+import { addVM_group, showVMGroup } from '../../Actions/VM_groupActions'
 import { getTemplates } from '../../Actions/VM_groupActions'
 import MenuItem from '@material-ui/core/MenuItem';
 import { TableOfVMGroup } from './TableOfVMGroups';
@@ -53,6 +53,9 @@ export function VM_group() {
 			return data;
 		})
 		.then(data => dispatch(addVM_group(data.data)))
+		.then(data => {
+			refreshVMGroupData();
+		})
 		setCreateVmGroupWindowOpen(false);
 	}
 
@@ -66,8 +69,15 @@ export function VM_group() {
 			},100)
 		})
 	}
-
-
+	const refreshVMGroupData = () => {
+		fetch(`${serverURL}/api/proxmox/vm/group/list`)
+		.then(response => response.json())
+		.then(data => data.vm_group_list)
+		.then(data => {
+			dispatch(showVMGroup(data));
+			return data;
+		})
+	}
 	const handleCreateVmGroupWindowOpen = () => {
 		refreshCloudData();
 		setCreateVmGroupWindowOpen(true);
@@ -170,7 +180,7 @@ export function VM_group() {
 					</Button>
 				</DialogActions>
 			</Dialog>
-			<TableOfVMGroup refreshCloudData={refreshCloudData} />
+			<TableOfVMGroup refreshVMGroupData={refreshVMGroupData} refreshCloudData={refreshCloudData} />
 		</div>
 	)
 }
