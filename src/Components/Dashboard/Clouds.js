@@ -99,9 +99,9 @@ export function Clouds () {
 		dispatch(addCloud(CP_type,name,api_endpoint,password))
 		xhr.send(data);
 		setCreateCloudWindowOpen(false);
-		// setTimeout(() =>{
-		// 	refreshCloudData();
-		// },100)
+		setTimeout(() =>{
+			refreshCloudData();
+		},100)
 	}
 
 
