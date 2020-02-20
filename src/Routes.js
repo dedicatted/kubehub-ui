@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Clouds } from './Components/Dashboard/Clouds';
+import { Clouds } from './Components/Dashboard/Clouds/Clouds';
 export const Routes = (
 	<Switch>
 		<Route exact path="/" render={() => <h1>Dashboard</h1>} />
