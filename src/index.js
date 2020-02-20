@@ -1,11 +1,11 @@
 import React from 'react';
+import { createStore } from 'redux';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import {BrowserRouter as Router} from 'react-router-dom';
 import './index.css';
 import { Dashboard } from './Components/Dashboard/Dashboard';
 import * as serviceWorker from './serviceWorker';
-import {BrowserRouter as Router} from 'react-router-dom';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
 import { allReducers } from './Reducers/AllReducers'
 
 const store = createStore(
