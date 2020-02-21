@@ -1,12 +1,7 @@
 import React from 'react';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
+import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCloudId } from '../../Actions/CloudActions';
-import { MenuItem, Button, makeStyles } from '@material-ui/core';
 import { addVM_group } from '../../Actions/VM_groupActions';
 
 const useStyles = makeStyles(theme => ({

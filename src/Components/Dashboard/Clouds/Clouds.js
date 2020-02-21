@@ -1,24 +1,10 @@
-import React, {useEffect} from 'react';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import MenuItem from '@material-ui/core/MenuItem';
+import React, { useEffect } from 'react';
+import { Button, TextField, Dialog, DialogActions, DialogContent, DialogTitle, MenuItem } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux'
-import { addCloud } from '../../Actions/CloudActions';
-import { showClouds } from '../../Actions/CloudActions';
+import { showClouds, addCloud } from '../../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud'
-import { makeStyles } from '@material-ui/core';
 
-const useStyle = makeStyles(theme => ({
-	flex:{
-		display: 'flex',
-		justifyContent: 'space-between'
-	}
-}))
 const CP_types = [
 	{
 		value: 'AWS'
@@ -32,9 +18,8 @@ const CP_types = [
 ];
 
 export function Clouds () {
-	const classes = useStyle();
 	const clouds = useSelector(state => state.clouds);
-	const [stateClouds,setStateClouds] =React.useState(clouds);
+	const [stateClouds] =React.useState(clouds);
 	const [createCloudWindowOpen, setCreateCloudWindowOpen] = React.useState(false);
 	const [CP_type, setCP_type] = React.useState('AWS');
 	const [name, setName] = React.useState('');
@@ -108,10 +93,7 @@ export function Clouds () {
 
 	return (
 		<div>
-			<div className={classes.flex}>
-				<Button variant="contained" color="primary" onClick={handleCreateWindowOpen}>Add cloud</Button>
-				<Button variant="contained" color="primary" onClick={refreshCloudData}>Refresh data</Button>
-			</div>
+			<Button variant="contained" color="primary" onClick={handleCreateWindowOpen}>Add cloud</Button>
 			{/* Create Dialog Window */}
 			<Dialog open={createCloudWindowOpen} onClose={handleCreateWindowClose} aria-labelledby="form-dialog-title">
 				<DialogTitle id="form-dialog-title">Create cloud</DialogTitle>

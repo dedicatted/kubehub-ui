@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { makeStyles, IconButton, Tooltip, Card, CardContent, Typography, TableHead, TableRow, TableContainer, TableCell, TableBody, Table } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
-import { useSelector } from 'react-redux';
-import { makeStyles, IconButton, Tooltip, Card, CardContent, Typography, TableHead, TableRow, TableContainer, TableCell, TableBody, Table } from '@material-ui/core';
 
 const useStyles = makeStyles(thme => ({
 	tableMargin: {
