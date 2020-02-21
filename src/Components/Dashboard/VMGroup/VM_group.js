@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { showClouds } from '../../Actions/CloudActions';
-import { showVMGroup, getTemplates } from '../../Actions/VM_groupActions'
+import { showClouds } from '../../../Actions/CloudActions';
+import { showVMGroup, getTemplates } from '../../../Actions/VM_groupActions'
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { makeStyles, Button } from '@material-ui/core';
 import { CreateVMGroup } from './CreateVMGroup';
@@ -9,8 +9,7 @@ import { CreateVMGroup } from './CreateVMGroup';
 const useStyles = makeStyles(theme => ({
 	createButtonMargin: {
 		marginBottom: '20px'
-	},
-
+	}
 }))
 export function VM_group() {
 	const classes = useStyles();

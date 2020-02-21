@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, IconButton, Tooltip, Card, CardContent, Typography, TableHead, TableRow, TableContainer, TableCell, TableBody, Table } from '@material-ui/core';
+import { makeStyles, IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
-
+import TemplateCard  from "./TemplateCard";
 const useStyles = makeStyles(thme => ({
 	tableMargin: {
 		marginBottom: '50px'
@@ -14,32 +14,17 @@ const useStyles = makeStyles(thme => ({
 	tebaleTemplateWidth: {
 		width: '30%'
 	},
+	DeleteIcon: {
+		'&:hover' : {
+			color: '#f44336'
+		}
+	}
 }))
 export function TableOfVMGroup (props) {
 	const classes = useStyles();
 	const VMGroup = useSelector(state => state.vm_group);
 	const clouds = useSelector(state => state.clouds);
-	const [stateVMGroup, setStateVMGroup] = useState(VMGroup);
-	const templateDescription = template => {
-		return(
-			<Card variant="outlined" className={classes.CardStyle}>
-				<CardContent>
-					<Typography variant="body2" component="p">
-						OS: {template.name.split('-')[1]}
-					</Typography>
-					<Typography variant="body2" component="p">
-						Number of Cores: {template.maxcpu} core
-					</Typography>
-					<Typography variant="body2" component="p">
-						Bootdisk size: {Math.floor(template.maxdisk * 10**-9)} GB
-					</Typography>
-					<Typography variant="body2" component="p">
-						RAM: {Math.floor(template.maxmem * 10**-9)} GB
-					</Typography>
-				</CardContent>
-			</Card>
-		)
-	}
+	const [stateVMGroup] = useState(VMGroup);
 	useEffect(props.refreshCloudData, [stateVMGroup]);
 	useEffect(props.refreshVMGroupData, [stateVMGroup]);
 	return (
@@ -58,13 +43,22 @@ export function TableOfVMGroup (props) {
 					</TableHead>
 					<TableBody>
 						{VMGroup.map((VMGroupItem, i) => {
-							console.log(VMGroupItem[i]);
+							console.log(VMGroupItem);
 							return (
-								<TableRow key={i}>
+								<TableRow key={VMGroupItem.id}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMGroupItem.name}</TableCell>
 									<TableCell align="center" className={classes.tebaleTemplateWidth}>{
 										props.templates.map((template, i) => {
-											return(VMGroupItem.vms[0].template_id === template.id ? <Tooltip title={templateDescription(template)}><div>{template.name}</div></Tooltip> : null)
+											return(
+												VMGroupItem.vms[0].template_id === template.id ? (
+													<Tooltip
+														interactive key={i}
+														title={<TemplateCard template={template}/>}
+													>
+														<div>{template.name}</div>
+													</Tooltip>
+												) : null
+											);
 										})
 									}</TableCell>
 									<TableCell align="center">{VMGroupItem.vms.length}</TableCell>
@@ -75,7 +69,7 @@ export function TableOfVMGroup (props) {
 									}</TableCell>
 									<TableCell align="center">Ready</TableCell>
 									<TableCell align="center">
-										<IconButton aria-label="delete">
+										<IconButton className={classes.DeleteIcon} aria-label="delete">
 											<DeleteIcon />
 										</IconButton>
 										<IconButton>
