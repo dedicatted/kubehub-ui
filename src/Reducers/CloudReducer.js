@@ -27,3 +27,11 @@ export const clouds = (state = [], action) => {
 			return state;
 	}
 }
+export const cloudId = (state = 0, action) => {
+	switch(action.type) {
+		case 'GET_CLOUD_ID':
+			return action.data[action.index].id;
+		default:
+			return state;
+	}
+}

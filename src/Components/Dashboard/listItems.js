@@ -3,6 +3,7 @@ import { ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/c
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Link } from 'react-router-dom'
 import CloudCircleIcon from '@material-ui/icons/CloudCircle';
+import ComputerIcon from '@material-ui/icons/Computer';
 
 const useStyle = makeStyles({
 	links: {
@@ -31,6 +32,14 @@ export function MainListItems()	{
 					<ListItemText primary="Clouds" />
 				</ListItem>
 			</Link>
+			<Link to={{pathname: '/vm_group'}} className={classes.links}>
+					<ListItem button >
+						<ListItemIcon>
+							<ComputerIcon />
+						</ListItemIcon>
+						<ListItemText primary="VM group" />
+					</ListItem>
+				</Link>
 		</div>
 	)
 };
