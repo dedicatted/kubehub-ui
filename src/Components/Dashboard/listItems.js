@@ -1,13 +1,9 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
+import { ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import {
-	Link
-} from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles'
+import { Link } from 'react-router-dom'
 import CloudCircleIcon from '@material-ui/icons/CloudCircle';
+import ComputerIcon from '@material-ui/icons/Computer';
 
 const useStyle = makeStyles({
 	links: {
@@ -36,6 +32,14 @@ export function MainListItems()	{
 					<ListItemText primary="Clouds" />
 				</ListItem>
 			</Link>
+			<Link to={{pathname: '/vm_group'}} className={classes.links}>
+					<ListItem button >
+						<ListItemIcon>
+							<ComputerIcon />
+						</ListItemIcon>
+						<ListItemText primary="VM group" />
+					</ListItem>
+				</Link>
 		</div>
 	)
 };
