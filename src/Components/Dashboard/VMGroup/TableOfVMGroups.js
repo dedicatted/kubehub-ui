@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import TemplateCard  from "./TemplateCard";
-const useStyles = makeStyles(thme => ({
+import DeleteVMGroup from "./DeleteVMGroup"
+const useStyles = makeStyles(tehme => ({
 	tableMargin: {
 		marginBottom: '50px'
 	},
@@ -25,8 +26,14 @@ export function TableOfVMGroup (props) {
 	const VMGroup = useSelector(state => state.vm_group);
 	const clouds = useSelector(state => state.clouds);
 	const [stateVMGroup] = useState(VMGroup);
+	const [selectedVMGroup, setSelectedVMGroup] = useState([]);
+	const [deleteVMGroupWindow, setDeleteVMGroupWindow] = useState(false);
 	useEffect(props.refreshCloudData, [stateVMGroup]);
 	useEffect(props.refreshVMGroupData, [stateVMGroup]);
+	const handleDeleteVMGroupWindowOpen = (vm_group) => {
+		setSelectedVMGroup(vm_group);
+		setDeleteVMGroupWindow(true);
+	};
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>
@@ -43,21 +50,22 @@ export function TableOfVMGroup (props) {
 					</TableHead>
 					<TableBody>
 						{VMGroup.map((VMGroupItem, i) => {
-							console.log(VMGroupItem);
 							return (
 								<TableRow key={VMGroupItem.id}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMGroupItem.name}</TableCell>
 									<TableCell align="center" className={classes.tebaleTemplateWidth}>{
 										props.templates.map((template, i) => {
 											return(
-												VMGroupItem.vms[0].template_id === template.id ? (
+												VMGroupItem.vms[0].template_id === template.id
+												? (
 													<Tooltip
 														interactive key={i}
-														title={<TemplateCard template={template}/>}
+														title={<TemplateCard template={template} />}
 													>
 														<div>{template.name}</div>
 													</Tooltip>
-												) : null
+												)
+												: null
 											);
 										})
 									}</TableCell>
@@ -69,9 +77,17 @@ export function TableOfVMGroup (props) {
 									}</TableCell>
 									<TableCell align="center">Ready</TableCell>
 									<TableCell align="center">
-										<IconButton className={classes.DeleteIcon} aria-label="delete">
+										<IconButton className={classes.DeleteIcon} onClick={() => {handleDeleteVMGroupWindowOpen(VMGroupItem)}} aria-label="delete">
 											<DeleteIcon />
 										</IconButton>
+										<DeleteVMGroup
+											// VMGroupName={VMGroupItem.vms[0].name}
+											deleteVMGroupWindow={deleteVMGroupWindow}
+											setDeleteVMGroupWindow={setDeleteVMGroupWindow}
+											// VMGroupId={VMGroupItem.id}
+											// VMGroupItem={VMGroupItem}
+											selectedVMGroup={selectedVMGroup}
+										/>
 										<IconButton>
 											<InfoIcon />
 										</IconButton>
