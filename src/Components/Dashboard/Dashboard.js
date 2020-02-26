@@ -81,12 +81,14 @@ const useStyles = makeStyles(theme => ({
  	},
 }));
 
+export const serverURL = 'http://192.168.84.189:8080';
 export 	function Dashboard() {
  	const classes = useStyles();
- 	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = React.useState(false);
+
  	const handleDrawerOpenClose = () => {
  	 	setOpen(!open);
- 	};
+	 };
 
  	return (
 		<div className={classes.root}>
