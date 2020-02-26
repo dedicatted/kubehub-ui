@@ -1,26 +1,22 @@
 import React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField  } from '@material-ui/core'
-import { useSelector, useDispatch } from 'react-redux'
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField  } from '@material-ui/core';
 import { editCloud } from '../../../Actions/CloudActions';
-
+import { serverURL } from '../Dashboard';
 
 
 
 export function EditCloud (props) {
-	const clouds = useSelector(state => state.clouds);
-	const dispatch = useDispatch();
-
 	const editCloudData = () => {
-		dispatch(editCloud(props.editCP_type, props.editName, props.editCloudIndex));
-		fetch('http://192.168.84.189:8080/api/cloud_providers/edit',{
+		props.dispatch(editCloud(props.editCP_type, props.editName, props.editCloudIndex));
+		fetch(`${serverURL}/api/cloud_providers/edit`,{
 			method: 'POST',
 			body: JSON.stringify({
-				id: clouds[props.editCloudIndex].id,
+				id: props.clouds[props.editCloudIndex].id,
 				name: props.editName
 			})
 		})
 		props.setEditCloudWindowOpen(false);
-	}
+	};
 	const handleEditNameChange = event => {
 		props.setEditName(event.target.value);
 	};
@@ -47,5 +43,5 @@ export function EditCloud (props) {
 				</Button>
 			</DialogActions>
 		</Dialog>
-	)
-}
+	);
+};

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
-import { Link } from 'react-router-dom'
 import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 import ComputerIcon from '@material-ui/icons/Computer';
 

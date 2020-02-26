@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, TextField, DialogContent, DialogActions, Button, makeStyles, Grid } from '@material-ui/core';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { deleteVMGroup } from '../../../Actions/VM_groupActions';
+import { deleteVMGroup } from '../../../Actions/VMGroupActions';
 import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({

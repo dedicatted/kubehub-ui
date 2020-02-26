@@ -2,7 +2,7 @@ const ADD_VM_GROUP = 'ADD_VM_GROUP';
 const GET_TEMPLATES = 'GET_TEMPLATES';
 const SHOW_VM_GROUP = 'SHOW_VM_GROUP';
 const DELETE_VM_GROUP = 'DELETE_VM_GROUP';
-export const addVM_group = (data) => {
+export const addVMGroup = (data) => {
 	return {
 		type: ADD_VM_GROUP,
 		data: data
