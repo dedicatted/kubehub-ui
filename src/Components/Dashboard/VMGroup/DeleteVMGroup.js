@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, TextField, DialogContent, DialogActions, Button, m
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { deleteVMGroup } from '../../../Actions/VMGroupActions';
 import { useDispatch } from 'react-redux';
+import { serverURL } from '../Dashboard';
 
 const useStyles = makeStyles(theme => ({
 	nameTextField: {
@@ -12,7 +13,6 @@ const useStyles = makeStyles(theme => ({
 export default function DeleteVMGroup (props) {
 	const classes = useStyles();
 	const dispatch = useDispatch();
-	const serverURL = 'http://192.168.84.189:8080';
 	const [nameOfVMGroup, setNameOfVMGroup] = useState('');
 	const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
 	const handledeleteVMGroupWindowClose = () => {
