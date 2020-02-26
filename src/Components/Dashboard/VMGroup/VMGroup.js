@@ -1,20 +1,13 @@
 import React from 'react';
-import { makeStyles, Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../../Actions/CloudActions';
-import { showVMGroup, getTemplates } from '../../../Actions/VM_groupActions';
+import { showVMGroup, getTemplates } from '../../../Actions/VMGroupActions';
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { CreateVMGroup } from './CreateVMGroup';
 import { serverURL } from '../Dashboard';
 
-const useStyles = makeStyles(theme => ({
-	createButtonMargin: {
-		marginBottom: '20px'
-	},
-}));
-
-export function VM_group() {
-	const classes = useStyles();
+export function VMGroup() {
 	const dispatch = useDispatch();
 	const templates = useSelector(state => state.templates);
 	const clouds = useSelector(state => state.clouds);
@@ -50,7 +43,7 @@ export function VM_group() {
 
 	return (
 		<div>
-			<Button className={classes.createButtonMargin} variant="contained" color='primary' onClick={handleCreateVmGroupWindowOpen} >Create VM group</Button>
+			<Button variant="contained" color='primary' onClick={handleCreateVmGroupWindowOpen}>Create VM group</Button>
 			<CreateVMGroup
 				createVmGroupWindowOpen={createVmGroupWindowOpen}
 				setCreateVmGroupWindowOpen={setCreateVmGroupWindowOpen}

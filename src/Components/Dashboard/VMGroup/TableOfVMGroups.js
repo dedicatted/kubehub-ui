@@ -27,7 +27,7 @@ export function TableOfVMGroup (props) {
 	const [stateVMGroup] = useState(VMGroup);
 	useEffect(props.refreshCloudData, [stateVMGroup]);
 	useEffect(props.refreshVMGroupData, [stateVMGroup]);
-	
+
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>

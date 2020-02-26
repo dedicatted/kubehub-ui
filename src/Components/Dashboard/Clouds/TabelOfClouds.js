@@ -25,7 +25,7 @@ export function TableOfClouds (props) {
 			<Table aria-label="simple table">
 				<TableHead>
 					<TableRow>
-						<TableCell align="center">Name</TableCell>
+						<TableCell>Name</TableCell>
 						<TableCell align="center">API-Endpoint</TableCell>
 						<TableCell align="center">CP-Type</TableCell>
 						<TableCell align="center">Actions</TableCell>
@@ -35,7 +35,7 @@ export function TableOfClouds (props) {
 					{props.clouds.map((cloud, i) => {
 						return (
 							<TableRow key={i}>
-								<TableCell component="th" scope="row" align="center">{cloud.name}</TableCell>
+								<TableCell component="th" scope="row">{cloud.name}</TableCell>
 								<TableCell align="center">{cloud.api_endpoint}</TableCell>
 								<TableCell align="center">{cloud.cp_type}</TableCell>
 								<TableCell align="center">
