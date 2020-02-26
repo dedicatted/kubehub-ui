@@ -1,38 +1,34 @@
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getCloudId } from '../../../Actions/CloudActions';
 import { addVM_group } from '../../../Actions/VM_groupActions';
+import { serverURL } from '../Dashboard';
 
 const useStyles = makeStyles(theme => ({
 	dialogWidth: {
 		width: '552px'
 	}
 
-}))
+}));
 
 export function CreateVMGroup (props) {
 	const classes = useStyles();
-	const serverURL = 'http://192.168.84.189:8080';
 	const [name, setName] = React.useState('');
 	const [CP_type, setCP_type] = React.useState('');
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
 	const [template, setTemplate] = React.useState('');
 	const [templateVMID, setTemplateVMID] = React.useState();
-	const dispatch = useDispatch();
-	const clouds = useSelector(state => state.clouds);
-	const templates = useSelector(state => state.templates);
 	const cloudId = useSelector(state => state.cloudId);
 
 	const handleCreateVmGroupWindowClose = () => {
 		props.setCreateVmGroupWindowOpen(false);
 	};
 	const handleCP_typeChange = event => {
-		console.log(event.target.value)
 		setCP_type(event.target.value);
-		for (let i = 0; i < clouds.length; i++) {
-			if(clouds[i].cp_type === event.target.value) {
-				dispatch(getCloudId(clouds,i))
+		for (let i = 0; i < props.clouds.length; i++) {
+			if(props.clouds[i].cp_type === event.target.value) {
+				props.dispatch(getCloudId(props.clouds,i));
 			}
 		}
 	};
@@ -45,10 +41,10 @@ export function CreateVMGroup (props) {
 	const handleTemplate = event => {
 		setTemplate(event.target.value);
 		console.log(event.target.value);
-		for (let i = 0; i <= templates.length; i++) {
-			console.log(templates[i]);
-			if (templates[i].name === event.target.value) {
-				setTemplateVMID(templates[i].id);
+		for (let i = 0; i <= props.templates.length; i++) {
+			console.log(props.templates[i]);
+			if (props.templates[i].name === event.target.value) {
+				setTemplateVMID(props.templates[i].id);
 				break;
 			}
 		}
@@ -67,16 +63,11 @@ export function CreateVMGroup (props) {
 		})
 		.then(response => response)
 		.then(data => data.json())
-		.then(data => {
-			console.log(data);
-			return data;
-		})
-		.then(data => dispatch(addVM_group(data.data)))
-		.then(data => {
-			props.refreshVMGroupData();
-		})
+		.then(data => props.dispatch(addVM_group(data.data)))
+		.then(data => props.refreshVMGroupData())
 		props.setCreateVmGroupWindowOpen(false);
 	};
+
 	return (
 		<Dialog open={props.createVmGroupWindowOpen} onClose={handleCreateVmGroupWindowClose} aria-labelledby="form-dialog-title">
 			<DialogTitle id="form-dialog-title">Create virtual machine group</DialogTitle>
@@ -90,7 +81,7 @@ export function CreateVMGroup (props) {
 					helperText="Please select your cloud"
 					fullWidth
 				>
-				{clouds.map(cloud => (
+				{props.clouds.map(cloud => (
 					<MenuItem key={cloud.id} value={cloud.cp_type}>
 						{cloud.cp_type}
 					</MenuItem>
@@ -122,7 +113,7 @@ export function CreateVMGroup (props) {
 						select
 						fullWidth
 					>
-					{templates.map(template => (
+					{props.templates.map(template => (
 						<MenuItem key={template.id} value={template.name}>
 							{template.name}
 						</MenuItem>
@@ -139,4 +130,4 @@ export function CreateVMGroup (props) {
 			</DialogActions>
 		</Dialog>
 	);
-}
+};
