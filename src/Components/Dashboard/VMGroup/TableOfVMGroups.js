@@ -80,14 +80,6 @@ export function TableOfVMGroup (props) {
 										<IconButton className={classes.DeleteIcon} onClick={() => {handleDeleteVMGroupWindowOpen(VMGroupItem)}} aria-label="delete">
 											<DeleteIcon />
 										</IconButton>
-										<DeleteVMGroup
-											// VMGroupName={VMGroupItem.vms[0].name}
-											deleteVMGroupWindow={deleteVMGroupWindow}
-											setDeleteVMGroupWindow={setDeleteVMGroupWindow}
-											// VMGroupId={VMGroupItem.id}
-											// VMGroupItem={VMGroupItem}
-											selectedVMGroup={selectedVMGroup}
-										/>
 										<IconButton>
 											<InfoIcon />
 										</IconButton>
@@ -98,6 +90,12 @@ export function TableOfVMGroup (props) {
 					</TableBody>
 				</Table>
 			</TableContainer>
+			<DeleteVMGroup
+				deleteVMGroupWindow={deleteVMGroupWindow}
+				setDeleteVMGroupWindow={setDeleteVMGroupWindow}
+				selectedVMGroup={selectedVMGroup}
+				refreshVMGroupData={props.refreshVMGroupData}
+			/>
 		</div>
 	);
 };

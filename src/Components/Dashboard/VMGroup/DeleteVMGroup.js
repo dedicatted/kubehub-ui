@@ -33,8 +33,11 @@ export default function DeleteVMGroup (props) {
 				vm_group_id: vm_group_id
 			})
 		})
-		.then(() => {dispatch(deleteVMGroup(vm_group_id))})
+		.then(() => dispatch(deleteVMGroup(vm_group_id)))
+		.then(() => props.refreshVMGroupData())
 		handledeleteVMGroupWindowClose();
+		setDeleteButtonDisabled(true);
+		setNameOfVMGroup('');
 	}
 
 	return (
@@ -52,7 +55,7 @@ export default function DeleteVMGroup (props) {
 						label="Name of VM group"
 						value={nameOfVMGroup}
 						onChange={handleNameOfVMGroupChange}
-						helperText="Please select your cloud"
+						helperText="Enter the name of the machine group you want to delete"
 						className={classes.nameTextField}
 					>
 					</TextField>
