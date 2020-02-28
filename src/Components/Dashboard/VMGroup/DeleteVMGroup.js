@@ -26,19 +26,22 @@ export default function DeleteVMGroup (props) {
 			setDeleteButtonDisabled(true);
 		}
 	};
-	const onClickDeleteVMGroup = (vm_group_id) => {
+	const onClickDeleteVMGroup = (selectedVMGroup) => {
+		selectedVMGroup.status = 'removing';
 		fetch(`${serverURL}/api/proxmox/vm/group/remove`, {
 			method: 'POST',
 			body: JSON.stringify({
-				vm_group_id: vm_group_id
+				vm_group_id: selectedVMGroup.id
 			})
 		})
-		.then(() => dispatch(deleteVMGroup(vm_group_id)))
+		.then(Response => console.log(Response))
+		.then(() => dispatch(deleteVMGroup(selectedVMGroup.id)))
 		.then(() => props.refreshVMGroupData())
 		handledeleteVMGroupWindowClose();
 		setDeleteButtonDisabled(true);
 		setNameOfVMGroup('');
 	}
+
 
 	return (
 		<Dialog open={props.deleteVMGroupWindow} onClose={handledeleteVMGroupWindowClose} aria-labelledby="form-dialog-title">
@@ -68,7 +71,7 @@ export default function DeleteVMGroup (props) {
 				<Button color="primary" onClick={handledeleteVMGroupWindowClose}>
 					Cancel
 				</Button>
-				<Button color="primary" disabled={deleteButtonDisabled} onClick={() => {onClickDeleteVMGroup(props.selectedVMGroup.id)}}>
+				<Button color="primary" disabled={deleteButtonDisabled} onClick={() => {onClickDeleteVMGroup(props.selectedVMGroup)}}>
 					Delete
 				</Button>
 			</DialogActions>

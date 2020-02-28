@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../../Actions/CloudActions';
 import { showVMGroup, getTemplates } from '../../../Actions/VMGroupActions';
@@ -42,7 +42,7 @@ export function VMGroup() {
 	};
 
 	return (
-		<div>
+		<Container maxWidth='xl'>
 			<Button variant="contained" color='primary' onClick={handleCreateVmGroupWindowOpen}>Create VM group</Button>
 			<CreateVMGroup
 				createVmGroupWindowOpen={createVmGroupWindowOpen}
@@ -57,7 +57,8 @@ export function VMGroup() {
 				refreshCloudData={refreshCloudData}
 				templates={templates}
 				clouds={clouds}
+				dispatch={dispatch}
 			/>
-		</div>
+		</Container>
 	);
 };

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { makeStyles, IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table } from '@material-ui/core';
+import { makeStyles, IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table, CircularProgress } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import TemplateCard  from "./TemplateCard";
-import DeleteVMGroup from "./DeleteVMGroup"
+import DeleteVMGroup from "./DeleteVMGroup";
+
 const useStyles = makeStyles(tehme => ({
 	tableMargin: {
 		marginBottom: '50px'
@@ -34,6 +35,12 @@ export function TableOfVMGroup (props) {
 		setSelectedVMGroup(vm_group);
 		setDeleteVMGroupWindow(true);
 	};
+	useEffect(() => {
+		const interval = setInterval(() => {
+			props.refreshVMGroupData()
+		}, 6000);
+		return () => clearInterval(interval);
+	  }, []);
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>
@@ -50,6 +57,7 @@ export function TableOfVMGroup (props) {
 					</TableHead>
 					<TableBody>
 						{VMGroup.map((VMGroupItem, i) => {
+							console.log(VMGroupItem);
 							return (
 								<TableRow key={VMGroupItem.id}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMGroupItem.name}</TableCell>
@@ -75,7 +83,7 @@ export function TableOfVMGroup (props) {
 											return(cloud.id === VMGroupItem.vms[0].cloud_provider_id ? cloud.name : null)
 										})
 									}</TableCell>
-									<TableCell align="center">Ready</TableCell>
+									<TableCell align="center">{VMGroupItem.status === 'removing' ? <CircularProgress /> : VMGroupItem.status}</TableCell>
 									<TableCell align="center">
 										<IconButton className={classes.DeleteIcon} onClick={() => {handleDeleteVMGroupWindowOpen(VMGroupItem)}} aria-label="delete">
 											<DeleteIcon />
@@ -95,6 +103,7 @@ export function TableOfVMGroup (props) {
 				setDeleteVMGroupWindow={setDeleteVMGroupWindow}
 				selectedVMGroup={selectedVMGroup}
 				refreshVMGroupData={props.refreshVMGroupData}
+				VMGroup={VMGroup}
 			/>
 		</div>
 	);
