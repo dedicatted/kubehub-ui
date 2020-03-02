@@ -38,7 +38,7 @@ export function TableOfVMGroup (props) {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			props.refreshVMGroupData()
-		}, 6000);
+		}, 4000);
 		return () => clearInterval(interval);
 	  }, []);
 	return (
@@ -80,12 +80,28 @@ export function TableOfVMGroup (props) {
 									<TableCell align="center">{VMGroupItem.vms.length}</TableCell>
 									<TableCell align="center">{
 										props.clouds.map((cloud, i) => {
-											return(cloud.id === VMGroupItem.vms[0].cloud_provider_id ? cloud.name : null)
+											return(cloud.id === VMGroupItem.vms[0].cloud_provider_id
+												? cloud.name
+												: null
+											)
 										})
 									}</TableCell>
-									<TableCell align="center">{VMGroupItem.status === 'removing' ? <CircularProgress /> : VMGroupItem.status}</TableCell>
 									<TableCell align="center">
-										<IconButton className={classes.DeleteIcon} onClick={() => {handleDeleteVMGroupWindowOpen(VMGroupItem)}} aria-label="delete">
+										{VMGroupItem.status === 'removing'
+											? <CircularProgress />
+											: VMGroupItem.status
+										}
+									</TableCell>
+									<TableCell align="center">
+										<IconButton
+											disabled={VMGroupItem.status === 'removing' || VMGroupItem.status === 'creating'
+												? true
+												: false
+											}
+											className={classes.DeleteIcon}
+											onClick={() => {handleDeleteVMGroupWindowOpen(VMGroupItem)}}
+											aria-label="delete"
+										>
 											<DeleteIcon />
 										</IconButton>
 										<IconButton>

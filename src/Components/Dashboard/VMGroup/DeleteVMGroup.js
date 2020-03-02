@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, TextField, DialogContent, DialogActions, Button, makeStyles, Grid } from '@material-ui/core';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { deleteVMGroup } from '../../../Actions/VMGroupActions';
-import { useDispatch } from 'react-redux';
 import { serverURL } from '../Dashboard';
 
 const useStyles = makeStyles(theme => ({
@@ -12,7 +10,6 @@ const useStyles = makeStyles(theme => ({
 }))
 export default function DeleteVMGroup (props) {
 	const classes = useStyles();
-	const dispatch = useDispatch();
 	const [nameOfVMGroup, setNameOfVMGroup] = useState('');
 	const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
 	const handledeleteVMGroupWindowClose = () => {
@@ -27,16 +24,14 @@ export default function DeleteVMGroup (props) {
 		}
 	};
 	const onClickDeleteVMGroup = (selectedVMGroup) => {
-		selectedVMGroup.status = 'removing';
 		fetch(`${serverURL}/api/proxmox/vm/group/remove`, {
 			method: 'POST',
 			body: JSON.stringify({
 				vm_group_id: selectedVMGroup.id
 			})
 		})
-		.then(Response => console.log(Response))
-		.then(() => dispatch(deleteVMGroup(selectedVMGroup.id)))
-		.then(() => props.refreshVMGroupData())
+		.then(props.refreshVMGroupData()) // !! After sending the request
+		.then(() => props.refreshVMGroupData()) // !! After receiving a response
 		handledeleteVMGroupWindowClose();
 		setDeleteButtonDisabled(true);
 		setNameOfVMGroup('');
