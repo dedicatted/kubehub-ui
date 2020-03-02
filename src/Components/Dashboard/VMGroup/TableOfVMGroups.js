@@ -20,6 +20,9 @@ const useStyles = makeStyles(tehme => ({
 		'&:hover' : {
 			color: '#f44336'
 		}
+	},
+	removingCircularProgress: {
+		color: '#f44336'
 	}
 }));
 
@@ -57,7 +60,6 @@ export function TableOfVMGroup (props) {
 					</TableHead>
 					<TableBody>
 						{VMGroup.map((VMGroupItem, i) => {
-							console.log(VMGroupItem);
 							return (
 								<TableRow key={VMGroupItem.id}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMGroupItem.name}</TableCell>
@@ -87,8 +89,11 @@ export function TableOfVMGroup (props) {
 										})
 									}</TableCell>
 									<TableCell align="center">
-										{VMGroupItem.status === 'removing'
-											? <CircularProgress />
+										{VMGroupItem.status === 'removing' || VMGroupItem.status === 'creating'
+											? <CircularProgress className={VMGroupItem.status === 'removing'
+												? classes.removingCircularProgress
+												: null
+											} />
 											: VMGroupItem.status
 										}
 									</TableCell>

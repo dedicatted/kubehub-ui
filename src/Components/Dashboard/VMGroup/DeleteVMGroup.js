@@ -31,7 +31,10 @@ export default function DeleteVMGroup (props) {
 			})
 		})
 		.then(props.refreshVMGroupData()) // !! After sending the request
-		.then(() => props.refreshVMGroupData()) // !! After receiving a response
+		.then(response => {
+			props.refreshVMGroupData();
+			console.log(response);
+		}) // !! After receiving a response
 		handledeleteVMGroupWindowClose();
 		setDeleteButtonDisabled(true);
 		setNameOfVMGroup('');

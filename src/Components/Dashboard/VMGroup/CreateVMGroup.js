@@ -61,7 +61,11 @@ export function CreateVMGroup (props) {
 			})
 		})
 		.then(props.refreshVMGroupData()) // !! After sending the request
-		.then(() => props.refreshVMGroupData()) // !! After receiving a response
+		.then(response => {
+			props.refreshVMGroupData();
+			console.log(response);
+
+		}) // !! After receiving a response
 		props.setCreateVmGroupWindowOpen(false);
 	};
 
