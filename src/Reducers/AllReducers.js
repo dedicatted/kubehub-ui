@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import { clouds, cloudId } from './CloudReducer';
-import { vm_group, templates } from './VM_groupReducers'
+import { vm_group, templates } from './VMGroupReducer'
 
 export  const allReducers = combineReducers({
 	clouds,

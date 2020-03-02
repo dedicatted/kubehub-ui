@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { makeStyles, IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { makeStyles, IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import TemplateCard  from "./TemplateCard";
@@ -19,14 +19,15 @@ const useStyles = makeStyles(thme => ({
 			color: '#f44336'
 		}
 	}
-}))
+}));
+
 export function TableOfVMGroup (props) {
 	const classes = useStyles();
 	const VMGroup = useSelector(state => state.vm_group);
-	const clouds = useSelector(state => state.clouds);
 	const [stateVMGroup] = useState(VMGroup);
 	useEffect(props.refreshCloudData, [stateVMGroup]);
 	useEffect(props.refreshVMGroupData, [stateVMGroup]);
+
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>
@@ -63,7 +64,7 @@ export function TableOfVMGroup (props) {
 									}</TableCell>
 									<TableCell align="center">{VMGroupItem.vms.length}</TableCell>
 									<TableCell align="center">{
-										clouds.map((cloud, i) => {
+										props.clouds.map((cloud, i) => {
 											return(cloud.id === VMGroupItem.vms[0].cloud_provider_id ? cloud.name : null)
 										})
 									}</TableCell>
@@ -83,5 +84,5 @@ export function TableOfVMGroup (props) {
 				</Table>
 			</TableContainer>
 		</div>
-	)
-}
+	);
+};
