@@ -95,7 +95,6 @@ export function CreateVMGroup (props) {
 						label="Name"
 						fullWidth
 					/>
-
 					<TextField
 						margin="dense"
 						id="number_of_nodes"
