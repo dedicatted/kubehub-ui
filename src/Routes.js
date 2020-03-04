@@ -6,6 +6,7 @@ export const Routes = (
 	<Switch>
 		<Route exact path="/" render={() => <h1>Dashboard</h1>} />
 		<Route path="/vm_group" component={VMGroup}/>
-		<Route path='/clouds' component={Clouds} />
+		<Route path="/clouds" component={Clouds} />
+		<Route path="*"render={() => <div>NotFound</div>} />
 	</Switch>
 );

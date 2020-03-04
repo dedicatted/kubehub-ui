@@ -1,11 +1,24 @@
 import React, { useEffect } from 'react';
-import { Button, Container } from '@material-ui/core';
+import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
+import { Button, Container, makeStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud';
 import { serverURL } from '../Dashboard';
 import CreateCloud from './CreateCloud';
+
+const useStyles = makeStyles(theme => ({
+	margin: {
+	  marginRight: theme.spacing(1),
+	  marginTop: theme.spacing(1),
+	},
+	links: {
+		color: 'black',
+		textDecoration: 'none'
+	}
+}));
+
 
 const CP_types = [
 	{
@@ -20,26 +33,16 @@ const CP_types = [
 ];
 
 export function Clouds () {
+	const classes = useStyles();
+	let {path, url} = useRouteMatch();
 	const clouds = useSelector(state => state.clouds);
 	const [stateClouds] =React.useState(clouds);
-	const [createCloudWindowOpen, setCreateCloudWindowOpen] = React.useState(false);
-	const [editCloudWindowOpen, setEditCloudWindowOpen] = React.useState(false);
-	const [editCP_type, setEditCP_type] = React.useState('AWS');
 	const [editName, setEditName] = React.useState('');
 	const [editCloudIndex, seteditCloudIndex] = React.useState(0);
 	const dispatch = useDispatch();
-
-	const handleEditWindowClose = () => {
-		setEditCloudWindowOpen(false);
-	};
-	const handleCreateWindowOpen = () => {
-		setCreateCloudWindowOpen(true);
-	};
 	const handleEditWindowOpen = (index) => {
-		setEditCloudWindowOpen(true);
 		for(let i = 0; i < clouds.length; i++) {
 			if(clouds[i].id === index) {
-				setEditCP_type(clouds[i].cp_type);
 				setEditName(clouds[i].name);
 				seteditCloudIndex(i);
 			}
@@ -55,32 +58,39 @@ export function Clouds () {
 
 	return (
 		<Container maxWidth='xl'>
-			<Button variant="contained" color="primary" onClick={handleCreateWindowOpen}>Add cloud</Button>
-			<CreateCloud
-				createCloudWindowOpen={createCloudWindowOpen}
-				setCreateCloudWindowOpen={setCreateCloudWindowOpen}
-				refreshCloudData={refreshCloudData}
-				CP_types={CP_types}
-				dispatch={dispatch}
-			 />
-			<TableOfClouds
-				handleEditWindowOpen={handleEditWindowOpen}
-				refreshCloudData={refreshCloudData}
-				dispatch={dispatch}
-				clouds={clouds}
-			/>
-			<EditCloud
-				CP_types={CP_types}
-				handleEditWindowClose={handleEditWindowClose}
-				editCP_type={editCP_type}
-				editName={editName}
-				editCloudIndex={editCloudIndex}
-				setEditCP_type={setEditCP_type}
-				setEditName={setEditName}
-				editCloudWindowOpen={editCloudWindowOpen}
-				setEditCloudWindowOpen={setEditCloudWindowOpen}
-				clouds={clouds}
-			/>
+			<Switch>
+				<Route exact path={path}>
+					<Link to={`${url}/create_cloud`} className={classes.links}>
+						<Button variant="contained" color="primary" >Add cloud</Button>
+					</Link>
+					<TableOfClouds
+						handleEditWindowOpen={handleEditWindowOpen}
+						refreshCloudData={refreshCloudData}
+						dispatch={dispatch}
+						clouds={clouds}
+					/>
+				</Route>
+				<Route path={`${path}/create_cloud`}>
+					<CreateCloud
+						refreshCloudData={refreshCloudData}
+						CP_types={CP_types}
+						dispatch={dispatch}
+					/>
+				</Route>
+				<Route path={`${path}/edit_cloud`}>
+					<EditCloud
+						CP_types={CP_types}
+						editName={editName}
+						editCloudIndex={editCloudIndex}
+						setEditName={setEditName}
+						clouds={clouds}
+						dispatch={dispatch}
+					/>
+				</Route>
+				<Route path={`${path}/*`}>
+					<div>1</div>
+				</Route>
+			</Switch>
 		</Container>
 	);
 };
