@@ -17,12 +17,12 @@ export function MainListItems()	{
 	return(
 		<div>
 			<Link to='/' className={classes.links}>
-			<ListItem button>
-				<ListItemIcon>
-					<DashboardIcon />
-				</ListItemIcon>
-				<ListItemText primary="Dashboard" />
-			</ListItem>
+				<ListItem button>
+					<ListItemIcon>
+						<DashboardIcon />
+					</ListItemIcon>
+					<ListItemText primary="Dashboard" />
+				</ListItem>
 			</Link>
 			<Link to={{pathname: '/clouds'}} className={classes.links}>
 				<ListItem button >
@@ -33,13 +33,13 @@ export function MainListItems()	{
 				</ListItem>
 			</Link>
 			<Link to={{pathname: '/vm_group'}} className={classes.links}>
-					<ListItem button >
-						<ListItemIcon>
-							<ComputerIcon />
-						</ListItemIcon>
-						<ListItemText primary="VM group" />
-					</ListItem>
-				</Link>
+				<ListItem button >
+					<ListItemIcon>
+						<ComputerIcon />
+					</ListItemIcon>
+					<ListItemText primary="VM group" />
+				</ListItem>
+			</Link>
 		</div>
 	)
 };

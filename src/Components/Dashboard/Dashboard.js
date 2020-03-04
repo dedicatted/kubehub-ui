@@ -130,7 +130,7 @@ export 	function Dashboard() {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Container maxWidth="lg" className={classes.container}>
+				<Container maxWidth="xl" disableGutters={true} className={classes.container}>
 					{Routes}
 				</Container>
 			</main>
