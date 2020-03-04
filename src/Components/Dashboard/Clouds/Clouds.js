@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
@@ -54,7 +54,7 @@ export function Clouds () {
 	useEffect(refreshCloudData,[stateClouds]);
 
 	return (
-		<div>
+		<Container maxWidth='xl'>
 			<Button variant="contained" color="primary" onClick={handleCreateWindowOpen}>Add cloud</Button>
 			<CreateCloud
 				createCloudWindowOpen={createCloudWindowOpen}
@@ -81,6 +81,6 @@ export function Clouds () {
 				setEditCloudWindowOpen={setEditCloudWindowOpen}
 				clouds={clouds}
 			/>
-		</div>
+		</Container>
 	);
 };

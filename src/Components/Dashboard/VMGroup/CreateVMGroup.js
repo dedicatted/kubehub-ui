@@ -2,7 +2,6 @@ import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { getCloudId } from '../../../Actions/CloudActions';
-import { addVMGroup } from '../../../Actions/VMGroupActions';
 import { serverURL } from '../Dashboard';
 
 const useStyles = makeStyles(theme => ({
@@ -61,10 +60,12 @@ export function CreateVMGroup (props) {
 				name: name
 			})
 		})
-		.then(response => response)
-		.then(data => data.json())
-		.then(data => props.dispatch(addVMGroup(data.data)))
-		.then(data => props.refreshVMGroupData())
+		.then(props.refreshVMGroupData()) // !! After sending the request
+		.then(response => {
+			props.refreshVMGroupData();
+			console.log(response);
+
+		}) // !! After receiving a response
 		props.setCreateVmGroupWindowOpen(false);
 	};
 
