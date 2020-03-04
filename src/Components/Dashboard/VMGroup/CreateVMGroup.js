@@ -76,7 +76,7 @@ export function CreateVMGroup (props) {
 				<TextField
 					id="standard-select-CP_type"
 					select
-					label="Type of clouds"
+					label="Cloud"
 					value={CP_type}
 					onChange={handleCP_typeChange}
 					helperText="Please select your cloud"

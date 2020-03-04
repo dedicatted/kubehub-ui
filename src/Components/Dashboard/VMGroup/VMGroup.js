@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../../Actions/CloudActions';
@@ -12,7 +12,12 @@ export function VMGroup() {
 	const templates = useSelector(state => state.templates);
 	const clouds = useSelector(state => state.clouds);
 	const [createVmGroupWindowOpen, setCreateVmGroupWindowOpen] = React.useState(false);
-
+	useEffect(() => {
+		const interval = setInterval(() => {
+			refreshVMGroupData()
+		}, 4000);
+		return () => clearInterval(interval);
+	  }, []);
 	const refreshCloudData = () => {
 		fetch(`${serverURL}/api/cloud_providers/list`)
 		.then(response => response.json())
@@ -28,6 +33,7 @@ export function VMGroup() {
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)))
+		.then(data => console.log(data))
 		refreshTempaltes();
 	};
 	const refreshTempaltes = () => {
