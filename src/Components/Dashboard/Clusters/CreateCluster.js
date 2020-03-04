@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, MenuItem, Grid, Container, Typography, makeStyles, Box } from '@material-ui/core';
+import { TextField, Button, MenuItem, Grid, Container, Typography, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { clearFields } from '../Dashboard';
+import { Link } from 'react-router-dom';
+import { serverURL } from '../Dashboard';
+
 
 const useStyles = makeStyles(theme => ({
 	margin: {
-	  margin: theme.spacing(1),
+	  marginRight: theme.spacing(1),
 	},
 	lable: {
 		fontWeight: "bold",
 		textTransform: "uppercase"
+	},
+	links: {
+		color: 'black',
+		textDecoration: 'none'
 	}
   }));
 
@@ -25,23 +31,27 @@ export function CreateCluster (props) {
 	const [clusterName, setClusterName] = useState('');
 	const [versionOfKubernetes, setVersionOfKubernetes] = useState('');
 	const [selectedVMGroup, setSelectedVMGroup] = useState('');
-	const [countOfMasters, setCountOfMasters] = useState('');
-	const [countOfWorkers, setCountOfWorkers] = useState('');
+	const [numberOfMasters, setNumberOfMasters] = useState('');
+	const [numberOfWorkers, setNumberOfWorkers] = useState('');
 	const [countersDisabled, setCountersDisabled] = useState(true);
-	const handleClusterCreateWindowClose = () => {
-		// props.setClusterCreateWindow(false);
-		setCountersDisabled(true);
-		clearFields(setClusterName, setVersionOfKubernetes, setSelectedVMGroup, setCountOfMasters, setCountOfWorkers);
-	};
 	const handleClusterNameChange = event => setClusterName(event.target.value);
 	const handleVersionOfKubesprayChange = event => setVersionOfKubernetes(event.target.value);
 	const handleVMGroupChange = event => {
 		setSelectedVMGroup(event.target.value);
-		clearFields(setCountOfMasters, setCountOfWorkers);
 		setCountersDisabled(false);
 	};
-	const handleCountOfMasters = event => setCountOfMasters(event.target.value);
-	const handleSetCountOfWorkers = event => setCountOfWorkers(event.target.value);
+	const handlenumberOfMasters = event => setNumberOfMasters(event.target.value);
+	const handlesetNumberOfWorkers = event => setNumberOfWorkers(event.target.value);
+	const createCluster = () => {
+		fetch(`${serverURL}/cluster/create`, {
+			method: 'POST',
+			body: JSON.stringify({
+				name: clusterName,
+				k8s_version: versionOfKubernetes,
+				vm_group_id: selectedVMGroup.id
+			})
+		})
+	}
 	useEffect(props.refreshVMGroupData, [props]);
 	return (
 		<Container maxWidth='xl' aria-labelledby="form-dialog-title">
@@ -103,24 +113,25 @@ export function CreateCluster (props) {
 			<Grid
 				container
 				direction="row"
-				justify="space-evenly"
+				justify="flex-start"
 				alignItems="center"
 			>
 				<TextField
-					id="standard-select-countOfMasters"
+					id="standard-select-numberOfMasters"
 					label="Count of masters"
 					size='small'
 					select
-					value={countOfMasters}
+					value={numberOfMasters}
 					disabled={countersDisabled}
-					onChange={handleCountOfMasters}
+					onChange={handlenumberOfMasters}
 					helperText="Select count of masters"
 					variant='outlined'
 					margin="dense"
+					className={classes.margin}
 				>
 					{selectedVMGroup
 						? (selectedVMGroup.vms.map((vm, i) => {
-							i = i - countOfWorkers + 1;
+							i = i - numberOfWorkers + 1;
 							if(i > 0) {
 								return (
 									<MenuItem key={i} value={i}>
@@ -134,20 +145,21 @@ export function CreateCluster (props) {
 				}
 				</TextField>
 				<TextField
-					id="standard-select-countOfWorkers"
+					id="standard-select-numberOfWorkers"
 					label="Count of workers"
 					size='small'
 					select
-					value={countOfWorkers}
+					value={numberOfWorkers}
 					disabled={countersDisabled}
-					onChange={handleSetCountOfWorkers}
+					onChange={handlesetNumberOfWorkers}
 					helperText="Select count of workers"
 					variant='outlined'
 					margin="dense"
+					className={classes.margin}
 				>
 					{selectedVMGroup
 						? (selectedVMGroup.vms.map((vm, i) => {
-							i = i - countOfMasters + 1;
+							i = i - numberOfMasters + 1;
 							if(i >= 0) {
 								return (
 									<MenuItem key={i} value={i}>
@@ -167,12 +179,16 @@ export function CreateCluster (props) {
 				justify="flex-end"
 				alignItems="center"
 			>
-				<Button className={classes.margin} variant="contained" color="primary">
-					Cancel
-				</Button>
-				<Button  variant="contained" color="primary">
-					Create
-				</Button>
+				<Link to="/clusters" className={classes.links}>
+					<Button variant="contained" color="primary" className={classes.margin}>
+						Cancel
+					</Button>
+				</Link>
+				<Link to="/clusters" className={classes.links}>
+					<Button variant="contained" color="primary" className={classes.margin} onClick={createCluster}>
+						Create
+					</Button>
+				</Link>
 			</Grid>
 
 		</Container>
