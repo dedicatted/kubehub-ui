@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField  } from '@material-ui/core';
-import { editCloud } from '../../../Actions/CloudActions';
+import { editCloud } from '../../Actions/CloudActions';
 import { serverURL } from '../Dashboard';
 
 

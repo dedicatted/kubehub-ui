@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogTitle, DialogContent, TextField, DialogActions, Button, MenuItem } from '@material-ui/core';
 import { serverURL } from '../Dashboard';
-import { addCloud } from '../../../Actions/CloudActions';
+import { addCloud } from '../../Actions/CloudActions';
 
 export default function CreateCloud (props) {
 	const [CP_type, setCP_type] = React.useState('AWS');

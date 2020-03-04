@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { showClouds } from '../../../Actions/CloudActions';
-import { showVMGroup, getTemplates } from '../../../Actions/VMGroupActions';
+import { showClouds } from '../../Actions/CloudActions';
+import { showVMGroup, getTemplates } from '../../Actions/VMGroupActions';
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { CreateVMGroup } from './CreateVMGroup';
 import { serverURL } from '../Dashboard';

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { getCloudId } from '../../../Actions/CloudActions';
+import { getCloudId } from '../../Actions/CloudActions';
 import { serverURL } from '../Dashboard';
 
 const useStyles = makeStyles(theme => ({

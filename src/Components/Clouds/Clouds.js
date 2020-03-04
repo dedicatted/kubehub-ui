@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import { showClouds } from '../../../Actions/CloudActions';
+import { showClouds } from '../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud';
 import { serverURL } from '../Dashboard';
