@@ -52,7 +52,7 @@ export function CreateCluster (props) {
 			})
 		})
 	}
-	useEffect(props.refreshVMGroupData, [props]);
+	useEffect(props.refreshVMGroupData, []);
 	return (
 		<Container maxWidth='xl' aria-labelledby="form-dialog-title">
 			<Typography
@@ -139,6 +139,9 @@ export function CreateCluster (props) {
 									</MenuItem>
 								)
 							}
+							else{
+								return null;
+							}
 						}))
 						: null
 					}
@@ -159,13 +162,16 @@ export function CreateCluster (props) {
 				>
 					{selectedVMGroup
 						? (selectedVMGroup.vms.map((vm, i) => {
-							i = i - numberOfMasters + 1;
+							i = i - numberOfMasters;
 							if(i >= 0) {
 								return (
 									<MenuItem key={i} value={i}>
 										{i}
 									</MenuItem>
 								)
+							}
+							else {
+								return null;
 							}
 						}))
 						: <MenuItem>No</MenuItem>

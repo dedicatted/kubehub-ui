@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../../Actions/CloudActions';
@@ -12,12 +12,26 @@ export function VMGroup() {
 	const templates = useSelector(state => state.templates);
 	const clouds = useSelector(state => state.clouds);
 	const [createVmGroupWindowOpen, setCreateVmGroupWindowOpen] = React.useState(false);
+	const refreshTempaltes = useCallback(() => {
+		fetch(`${serverURL}/api/proxmox/template/list`)
+		.then(response => response)
+		.then(data => data.json())
+		.then(data => dispatch(getTemplates(data.template_list)))
+	},[dispatch]);
+	const refreshVMGroupData = useCallback(() => {
+		fetch(`${serverURL}/api/proxmox/vm/group/list`)
+		.then(response => response.json())
+		.then(data => data.vm_group_list)
+		.then(data => dispatch(showVMGroup(data)))
+		.then(data => console.log(data))
+		refreshTempaltes();
+	}, [dispatch, refreshTempaltes]);
 	useEffect(() => {
 		const interval = setInterval(() => {
 			refreshVMGroupData()
 		}, 4000);
 		return () => clearInterval(interval);
-	  }, []);
+	  }, [refreshVMGroupData]);
 	const refreshCloudData = () => {
 		fetch(`${serverURL}/api/cloud_providers/list`)
 		.then(response => response.json())
@@ -28,20 +42,9 @@ export function VMGroup() {
 			},100)
 		})
 	};
-	const refreshVMGroupData = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/list`)
-		.then(response => response.json())
-		.then(data => data.vm_group_list)
-		.then(data => dispatch(showVMGroup(data)))
-		.then(data => console.log(data))
-		refreshTempaltes();
-	};
-	const refreshTempaltes = () => {
-		fetch(`${serverURL}/api/proxmox/template/list`)
-		.then(response => response)
-		.then(data => data.json())
-		.then(data => dispatch(getTemplates(data.template_list)))
-	};
+
+
+
 	const handleCreateVmGroupWindowOpen = () => {
 		refreshCloudData();
 		setCreateVmGroupWindowOpen(true);
