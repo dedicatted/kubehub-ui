@@ -4,7 +4,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { serverURL } from '../Dashboard';
 import { useDispatch, useSelector } from 'react-redux';
-import { showClusters } from '../../../Actions/ClusterActions';
+import { showClusters } from '../../Actions/ClusterActions';
 
 export function TableOfClusters (props) {
 	const dispatch = useDispatch();

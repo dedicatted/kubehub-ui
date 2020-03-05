@@ -4,7 +4,7 @@ import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Div
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems } from './listItems';
-import { Routes } from '../../Routes';
+import { Routes } from '../Routes';
 
 
 const drawerWidth = 220;

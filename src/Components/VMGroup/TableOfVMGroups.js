@@ -38,6 +38,12 @@ export function TableOfVMGroup (props) {
 		setSelectedVMGroup(vm_group);
 		setDeleteVMGroupWindow(true);
 	};
+	useEffect(() => {
+		const interval = setInterval(() => {
+			props.refreshVMGroupData()
+		}, 4000);
+		return () => clearInterval(interval);
+	  }, [props]);
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Clouds } from './Components/Dashboard/Clouds/Clouds';
-import { VMGroup } from './Components/Dashboard/VMGroup/VMGroup'
-import { Clusters } from './Components/Dashboard/Clusters/Clusters';
+import { Clouds } from './Components/Clouds/Clouds';
+import { VMGroup } from './Components/VMGroup/VMGroup'
+import { Clusters } from './Components/Clusters/Clusters';
 export const Routes = (
 	<Switch>
 		<Route exact path="/" render={() => <h1>Dashboard</h1>} />

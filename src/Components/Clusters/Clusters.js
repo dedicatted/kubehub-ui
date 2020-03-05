@@ -3,7 +3,7 @@ import { Button, makeStyles, Container } from '@material-ui/core';
 import { CreateCluster } from './CreateCluster';
 import { serverURL } from '../Dashboard';
 import { useDispatch, useSelector } from 'react-redux';
-import { showVMGroup } from '../../../Actions/VMGroupActions';
+import { showVMGroup } from '../../Actions/VMGroupActions';
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
 import { TableOfClusters } from './TableOfClusters';
 

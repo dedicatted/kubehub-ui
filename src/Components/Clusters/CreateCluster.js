@@ -113,90 +113,86 @@ export function CreateCluster (props) {
 			<Grid
 				container
 				direction="row"
-				justify="flex-start"
+				justify="space-between"
 				alignItems="center"
 			>
-				<TextField
-					id="standard-select-numberOfMasters"
-					label="Count of masters"
-					size='small'
-					select
-					value={numberOfMasters}
-					disabled={countersDisabled}
-					onChange={handlenumberOfMasters}
-					helperText="Select count of masters"
-					variant='outlined'
-					margin="dense"
-					className={classes.margin}
-				>
-					{selectedVMGroup
-						? (selectedVMGroup.vms.map((vm, i) => {
-							i = i - numberOfWorkers + 1;
-							if(i > 0) {
-								return (
-									<MenuItem key={i} value={i}>
-										{i}
-									</MenuItem>
-								)
-							}
-							else{
-								return null;
-							}
-						}))
-						: null
+				<div>
+					<TextField
+						id="standard-select-numberOfMasters"
+						label="Number of masters"
+						size='small'
+						select
+						value={numberOfMasters}
+						disabled={countersDisabled}
+						onChange={handlenumberOfMasters}
+						helperText="Select number of masters"
+						variant='outlined'
+						margin="dense"
+						className={classes.margin}
+					>
+						{selectedVMGroup
+							? (selectedVMGroup.vms.map((vm, i) => {
+								i = i - numberOfWorkers + 1;
+								if(i > 0) {
+									return (
+										<MenuItem key={i} value={i}>
+											{i}
+										</MenuItem>
+									)
+								}
+								else{
+									return null;
+								}
+							}))
+							: null
+						}
 					}
-				}
-				</TextField>
-				<TextField
-					id="standard-select-numberOfWorkers"
-					label="Count of workers"
-					size='small'
-					select
-					value={numberOfWorkers}
-					disabled={countersDisabled}
-					onChange={handlesetNumberOfWorkers}
-					helperText="Select count of workers"
-					variant='outlined'
-					margin="dense"
-					className={classes.margin}
-				>
-					{selectedVMGroup
-						? (selectedVMGroup.vms.map((vm, i) => {
-							i = i - numberOfMasters;
-							if(i >= 0) {
-								return (
-									<MenuItem key={i} value={i}>
-										{i}
-									</MenuItem>
-								)
-							}
-							else {
-								return null;
-							}
-						}))
-						: <MenuItem>No</MenuItem>
+					</TextField>
+					<TextField
+						id="standard-select-numberOfWorkers"
+						label="Number of workers"
+						size='small'
+						select
+						value={numberOfWorkers}
+						disabled={countersDisabled}
+						onChange={handlesetNumberOfWorkers}
+						helperText="Select number of workers"
+						variant='outlined'
+						margin="dense"
+						className={classes.margin}
+					>
+						{selectedVMGroup
+							? (selectedVMGroup.vms.map((vm, i) => {
+								i = i - numberOfMasters;
+								if(i >= 0) {
+									return (
+										<MenuItem key={i} value={i}>
+											{i}
+										</MenuItem>
+									)
+								}
+								else {
+									return null;
+								}
+							}))
+							: <MenuItem>No</MenuItem>
+						}
 					}
-				}
-				</TextField>
+					</TextField>
+				</ div>
+				<div>
+					<Link to="/clusters" className={classes.links}>
+						<Button variant="contained" color="primary" className={classes.margin}>
+							Cancel
+						</Button>
+					</Link>
+					<Link to="/clusters" className={classes.links}>
+						<Button variant="contained" color="primary" className={classes.margin} onClick={createCluster}>
+							Create
+						</Button>
+					</Link>
+				</div>
 			</Grid>
-			<Grid
-				container
-				direction="row"
-				justify="flex-end"
-				alignItems="center"
-			>
-				<Link to="/clusters" className={classes.links}>
-					<Button variant="contained" color="primary" className={classes.margin}>
-						Cancel
-					</Button>
-				</Link>
-				<Link to="/clusters" className={classes.links}>
-					<Button variant="contained" color="primary" className={classes.margin} onClick={createCluster}>
-						Create
-					</Button>
-				</Link>
-			</Grid>
-
 		</Container>
 	)
 }
