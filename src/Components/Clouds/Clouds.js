@@ -9,10 +9,6 @@ import { serverURL } from '../Dashboard';
 import CreateCloud from './CreateCloud';
 
 const useStyles = makeStyles(theme => ({
-	margin: {
-	  marginRight: theme.spacing(1),
-	  marginTop: theme.spacing(1),
-	},
 	links: {
 		color: 'black',
 		textDecoration: 'none'
@@ -86,9 +82,6 @@ export function Clouds () {
 						clouds={clouds}
 						dispatch={dispatch}
 					/>
-				</Route>
-				<Route path={`${path}/*`}>
-					<div>1</div>
 				</Route>
 			</Switch>
 		</Container>

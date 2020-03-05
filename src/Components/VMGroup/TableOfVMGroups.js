@@ -43,7 +43,7 @@ export function TableOfVMGroup (props) {
 			props.refreshVMGroupData()
 		}, 4000);
 		return () => clearInterval(interval);
-	  }, []);
+	  }, [props]);
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>
