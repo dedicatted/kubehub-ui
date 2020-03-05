@@ -8,12 +8,12 @@ export const clouds = (state = [], action) => {
 					api_endpoint: action.api_endpoint,
 					password: action.password
 				}
-			]
+			];
 		case 'SHOW_CLOUDS':
-			return action.cloudsInBD
+			return action.cloudsInBD;
 		case 'DELETE_CLOUD':
-			state.splice(action.index,1)
-			return state
+			state.splice(action.index,1);
+			return state;
 		case 'EDIT_CLOUD':
 			state[action.index] = {
 				id: state[action.index].id,
@@ -21,7 +21,7 @@ export const clouds = (state = [], action) => {
 				name:action.name,
 				api_endpoint: state[action.index].api_endpoint,
 				password: state[action.index].password
-			}
+			};
 			return state;
 		default:
 			return state;

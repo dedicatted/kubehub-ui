@@ -1,13 +1,25 @@
 import React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, TextField, MenuItem, Button, makeStyles } from '@material-ui/core';
+import { TextField, MenuItem, Button, makeStyles, Container, Typography, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { getCloudId } from '../../../Actions/CloudActions';
-import { addVMGroup } from '../../../Actions/VMGroupActions';
+import { getCloudId } from '../../Actions/CloudActions';
 import { serverURL } from '../Dashboard';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	dialogWidth: {
 		width: '552px'
+	},
+	margin: {
+		marginRight: theme.spacing(1),
+		marginTop: theme.spacing(1),
+	},
+	lable: {
+		fontWeight: "bold",
+		textTransform: "uppercase"
+	},
+	links: {
+		color: "black",
+		textDecoration: "none"
 	}
 
 }));
@@ -21,9 +33,6 @@ export function CreateVMGroup (props) {
 	const [templateVMID, setTemplateVMID] = React.useState();
 	const cloudId = useSelector(state => state.cloudId);
 
-	const handleCreateVmGroupWindowClose = () => {
-		props.setCreateVmGroupWindowOpen(false);
-	};
 	const handleCP_typeChange = event => {
 		setCP_type(event.target.value);
 		for (let i = 0; i < props.clouds.length; i++) {
@@ -61,17 +70,24 @@ export function CreateVMGroup (props) {
 				name: name
 			})
 		})
-		.then(response => response)
-		.then(data => data.json())
-		.then(data => props.dispatch(addVMGroup(data.data)))
-		.then(data => props.refreshVMGroupData())
-		props.setCreateVmGroupWindowOpen(false);
+		.then(props.refreshVMGroupData()) // !! After sending the request
+		.then(response => {
+			props.refreshVMGroupData();
+			console.log(response);
+
+		}) // !! After receiving a response
 	};
 
 	return (
-		<Dialog open={props.createVmGroupWindowOpen} onClose={handleCreateVmGroupWindowClose} aria-labelledby="form-dialog-title">
-			<DialogTitle id="form-dialog-title">Create virtual machine group</DialogTitle>
-			<DialogContent className={classes.dialogWidth}>
+		<Container maxWidth="xl">
+			<Typography
+				gutterBottom
+				component="h1"
+				align="center"
+				className={classes.lable}
+			>
+				Create virtual machine group
+			</Typography>
 				<TextField
 					id="standard-select-CP_type"
 					select
@@ -80,6 +96,8 @@ export function CreateVMGroup (props) {
 					onChange={handleCP_typeChange}
 					helperText="Please select your cloud"
 					fullWidth
+					variant="outlined"
+					size="small"
 				>
 				{props.clouds.map(cloud => (
 					<MenuItem key={cloud.id} value={cloud.cp_type}>
@@ -94,6 +112,8 @@ export function CreateVMGroup (props) {
 						id="name"
 						label="Name"
 						fullWidth
+						variant="outlined"
+						size="small"
 					/>
 
 					<TextField
@@ -103,6 +123,8 @@ export function CreateVMGroup (props) {
 						fullWidth
 						value={numberOfNodes}
 						onChange={handleNumberOfNodes}
+						variant="outlined"
+						size="small"
 					/>
 					<TextField
 						margin="dense"
@@ -112,6 +134,8 @@ export function CreateVMGroup (props) {
 						onChange={handleTemplate}
 						select
 						fullWidth
+						variant="outlined"
+						size="small"
 					>
 					{props.templates.map(template => (
 						<MenuItem key={template.id} value={template.name}>
@@ -119,15 +143,23 @@ export function CreateVMGroup (props) {
 						</MenuItem>
 					))}
 					</TextField>
-				</DialogContent>
-			<DialogActions>
-				<Button onClick={handleCreateVmGroupWindowClose} color="primary">
-					Cancel
-				</Button>
-				<Button color="primary" onClick={createVM_group}>
-					Create
-				</Button>
-			</DialogActions>
-		</Dialog>
+				<Grid
+					container
+					direction="row"
+					justify="flex-end"
+					alignItems="center"
+				>
+					<Link to="/vm_group" className={classes.links}>
+					<Button variant="contained" color="primary" className={classes.margin}>
+						Cancel
+					</Button>
+					</Link>
+					<Link to="/vm_group" className={classes.links}>
+						<Button variant="contained" onClick={createVM_group} color="primary" className={classes.margin}>
+							Create
+						</Button>
+					</Link>
+				</Grid>
+		</Container>
 	);
 };

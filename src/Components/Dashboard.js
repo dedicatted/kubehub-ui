@@ -4,7 +4,7 @@ import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Div
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems } from './listItems';
-import { Routes } from '../../Routes';
+import { Routes } from '../Routes';
 
 
 const drawerWidth = 220;
@@ -130,7 +130,7 @@ export 	function Dashboard() {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Container maxWidth="lg" className={classes.container}>
+				<Container maxWidth="xl" disableGutters={true} className={classes.container}>
 					{Routes}
 				</Container>
 			</main>
