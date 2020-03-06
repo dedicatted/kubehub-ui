@@ -74,7 +74,7 @@ export function CreateCluster (props) {
 				fullWidth
 				variant='outlined'
 				/>
-				<TextField
+			<TextField
 				id="standard-select-versionOfKubernetes"
 				label="Version"
 				size='small'
