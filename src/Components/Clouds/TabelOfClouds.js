@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, makeStyles  } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { deleteCloud } from '../../Actions/CloudActions';
 import { serverURL } from '../Dashboard';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { showVMGroup } from '../../Actions/VMGroupActions';
 
 const useStyles = makeStyles(theme => ({
 	DeleteIcon: {
@@ -20,7 +22,25 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export function TableOfClouds (props) {
+	let isVMGroupUse = false;
+	const VMGroup = useSelector(state => state.vm_group);
 	const classes = useStyles();
+	const refreshVMGroupData = () => {
+		fetch(`${serverURL}/api/proxmox/vm/group/list`)
+		.then(response => response.json())
+		.then(data => data.vm_group_list)
+		.then(data => props.dispatch(showVMGroup(data)))
+	};
+	const checkVMGroup = (cloudProviderId) => {
+		if (VMGroup.length) {
+			for (let i = 0; i < VMGroup.length; i++) {
+				VMGroup[i].vms[0].cloud_provider === cloudProviderId
+					? isVMGroupUse = true
+					: isVMGroupUse = false
+			}
+		}
+		return isVMGroupUse;
+	}
 	let {url} = useRouteMatch();
 	const deleteCloudData = (index) => {
 		for(let i = 0; i <= props.clouds.length; i++) {
@@ -35,6 +55,7 @@ export function TableOfClouds (props) {
 			}
 		}
 	};
+	useEffect(refreshVMGroupData, []);
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">
@@ -54,7 +75,7 @@ export function TableOfClouds (props) {
 								<TableCell align="center">{cloud.api_endpoint}</TableCell>
 								<TableCell align="center">{cloud.cp_type}</TableCell>
 								<TableCell align="center">
-									<IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
+									<IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)} onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
 										<DeleteIcon />
 									</IconButton>
 									<Link to={`${url}/edit_cloud`}>
