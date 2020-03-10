@@ -55,7 +55,7 @@ export function TableOfVMGroup (props) {
 							<TableCell align="center">Number of nodes</TableCell>
 							<TableCell align="center">Cloud provider</TableCell>
 							<TableCell align="center">Status</TableCell>
-							<TableCell align="center">Actions</TableCell>
+							<TableCell align="center"></TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>

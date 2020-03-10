@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, makeStyles  } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, makeStyles, Tooltip  } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { deleteCloud } from '../../Actions/CloudActions';
@@ -55,7 +55,7 @@ export function TableOfClouds (props) {
 			}
 		}
 	};
-	useEffect(refreshVMGroupData, []);
+	useEffect(refreshVMGroupData, [])
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">
@@ -64,7 +64,7 @@ export function TableOfClouds (props) {
 						<TableCell>Name</TableCell>
 						<TableCell align="center">API-Endpoint</TableCell>
 						<TableCell align="center">CP-Type</TableCell>
-						<TableCell align="center">Actions</TableCell>
+						<TableCell align="center"></TableCell>
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -75,9 +75,18 @@ export function TableOfClouds (props) {
 								<TableCell align="center">{cloud.api_endpoint}</TableCell>
 								<TableCell align="center">{cloud.cp_type}</TableCell>
 								<TableCell align="center">
-									<IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)} onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
-										<DeleteIcon />
-									</IconButton>
+									{!isVMGroupUse
+										? ( <Tooltip title='You cannot delete this cloud provider, because you have groups of virtual machines that are based on this cloud provider'>
+												<span>
+													<IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)} onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
+														<DeleteIcon />
+													</IconButton>
+												</span>
+											</Tooltip> )
+										: ( <IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)} onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
+												<DeleteIcon />
+											</IconButton> )
+									}
 									<Link to={`${url}/edit_cloud`}>
 										<IconButton onClick={() => {props.handleEditWindowOpen(cloud.id)}} className={classes.editIcon}>
 											<EditIcon />
