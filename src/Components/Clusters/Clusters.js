@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button, makeStyles, Container } from '@material-ui/core';
 import { CreateCluster } from './CreateCluster';
 import { serverURL } from '../Dashboard';
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
 import { TableOfClusters } from './TableOfClusters';
+import { showClusters } from '../../Actions/ClusterActions';
 
 const useStyle = makeStyles({
 	links: {
@@ -26,6 +27,13 @@ export function Clusters () {
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)));
 	};
+	const refreshClustersData = useCallback(() => {
+		fetch(`${serverURL}/cluster/list`)
+		.then(response => response.json())
+		.then(data => data.kubernetes_cluster_list)
+		.then(data => dispatch(showClusters(data)))
+		.then(data => console.log(data))
+	}, [dispatch])
 	return(
 		<Container maxWidth="xl">
 			<Switch>
@@ -33,6 +41,8 @@ export function Clusters () {
 					<Container max-widht='xl'>
 						<CreateCluster
 							refreshVMGroupData={refreshVMGroupData}
+							clusters={clusters}
+							refreshClustersData={refreshClustersData}
 						/>
 					</Container>
 				</Route>
@@ -43,6 +53,7 @@ export function Clusters () {
 					<TableOfClusters
 						clusters={clusters}
 						refreshVMGroupData={refreshVMGroupData}
+						refreshClustersData={refreshClustersData}
 					/>
 				</Route>
 			</Switch>

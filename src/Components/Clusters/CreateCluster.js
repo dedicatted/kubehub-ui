@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
 	links: {
 		color: 'black',
 		textDecoration: 'none'
+	},
+	disabledLink: {
+		pointerEvents: 'none'
 	}
   }));
 
@@ -33,12 +36,15 @@ export function CreateCluster (props) {
 	const [selectedVMGroup, setSelectedVMGroup] = useState('');
 	const [numberOfMasters, setNumberOfMasters] = useState('');
 	const [numberOfWorkers, setNumberOfWorkers] = useState('');
-	const [countersDisabled, setCountersDisabled] = useState(true);
+	const [errorOfSelectedVMGroup, setErrorOfSelectedVMGroup] = useState(false);
+
 	const handleClusterNameChange = event => setClusterName(event.target.value);
 	const handleVersionOfKubesprayChange = event => setVersionOfKubernetes(event.target.value);
 	const handleVMGroupChange = event => {
 		setSelectedVMGroup(event.target.value);
-		setCountersDisabled(false);
+		props.clusters.find(cluster => event.target.value.id === cluster.vm_group_id)
+			? setErrorOfSelectedVMGroup(true)
+			: setErrorOfSelectedVMGroup(false);
 	};
 	const handlenumberOfMasters = event => setNumberOfMasters(event.target.value);
 	const handlesetNumberOfWorkers = event => setNumberOfWorkers(event.target.value);
@@ -53,6 +59,8 @@ export function CreateCluster (props) {
 		})
 	}
 	useEffect(props.refreshVMGroupData, []);
+	useEffect(props.refreshClustersData, []);
+	
 	return (
 		<Container maxWidth='xl' aria-labelledby="form-dialog-title">
 			<Typography
@@ -99,10 +107,11 @@ export function CreateCluster (props) {
 				select
 				value={selectedVMGroup}
 				onChange={handleVMGroupChange}
-				helperText="Select a virtual machines group"
+				helperText={errorOfSelectedVMGroup ? ("A cluster with this group already exists. ") : ("Select a virtual machines group")}
 				fullWidth
 				variant='outlined'
 				margin="dense"
+				error={errorOfSelectedVMGroup}
 			>
 				{VMGroup.map(VMGroupItem => (
 					<MenuItem key={VMGroupItem.id} value={VMGroupItem}>
@@ -123,7 +132,7 @@ export function CreateCluster (props) {
 						size='small'
 						select
 						value={numberOfMasters}
-						disabled={countersDisabled}
+						disabled={errorOfSelectedVMGroup}
 						onChange={handlenumberOfMasters}
 						helperText="Select number of masters"
 						variant='outlined'
@@ -154,7 +163,7 @@ export function CreateCluster (props) {
 						size='small'
 						select
 						value={numberOfWorkers}
-						disabled={countersDisabled}
+						disabled={errorOfSelectedVMGroup}
 						onChange={handlesetNumberOfWorkers}
 						helperText="Select number of workers"
 						variant='outlined'
@@ -163,7 +172,7 @@ export function CreateCluster (props) {
 					>
 						{selectedVMGroup
 							? (selectedVMGroup.vms.map((vm, i) => {
-								i = i - numberOfMasters;
+								i = i - numberOfMasters + 1;
 								if(i >= 0) {
 									return (
 										<MenuItem key={i} value={i}>
@@ -186,8 +195,8 @@ export function CreateCluster (props) {
 							Cancel
 						</Button>
 					</Link>
-					<Link to="/clusters" className={classes.links}>
-						<Button variant="contained" color="primary" className={classes.margin} onClick={createCluster}>
+					<Link to="/clusters" className={errorOfSelectedVMGroup ? [classes.links, classes.disabledLink].join(' ') : classes.links} >
+						<Button  variant="contained" disabled={errorOfSelectedVMGroup} color="primary" className={classes.margin} onClick={createCluster}>
 							Create
 						</Button>
 					</Link>
