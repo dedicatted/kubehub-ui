@@ -7,7 +7,7 @@ import { serverURL } from '../Dashboard';
 import { Link, useRouteMatch } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
-	DeleteIcon: {
+	deleteIcon: {
 		'&:hover' : {
 			color: '#f44336'
 		}
@@ -54,7 +54,7 @@ export function TableOfClouds (props) {
 								<TableCell align="center">{cloud.api_endpoint}</TableCell>
 								<TableCell align="center">{cloud.cp_type}</TableCell>
 								<TableCell align="center">
-									<IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
+									<IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}} className={classes.deleteIcon}>
 										<DeleteIcon />
 									</IconButton>
 									<Link to={`${url}/edit_cloud`}>

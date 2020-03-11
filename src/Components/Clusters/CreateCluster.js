@@ -42,25 +42,25 @@ export function CreateCluster (props) {
 	const handleVersionOfKubesprayChange = event => setVersionOfKubernetes(event.target.value);
 	const handleVMGroupChange = event => {
 		setSelectedVMGroup(event.target.value);
-		props.clusters.find(cluster => event.target.value.id === cluster.vm_group_id)
+		props.clusters.find(cluster => event.target.value.id === cluster.vm_group)
 			? setErrorOfSelectedVMGroup(true)
 			: setErrorOfSelectedVMGroup(false);
 	};
 	const handlenumberOfMasters = event => setNumberOfMasters(event.target.value);
 	const handlesetNumberOfWorkers = event => setNumberOfWorkers(event.target.value);
 	const createCluster = () => {
-		fetch(`${serverURL}/cluster/create`, {
+		fetch(`${serverURL}/cluster/add`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name: clusterName,
 				k8s_version: versionOfKubernetes,
-				vm_group_id: selectedVMGroup.id
+				vm_group: selectedVMGroup.id
 			})
 		})
 	}
 	useEffect(props.refreshVMGroupData, []);
 	useEffect(props.refreshClustersData, []);
-	
+
 	return (
 		<Container maxWidth='xl' aria-labelledby="form-dialog-title">
 			<Typography
