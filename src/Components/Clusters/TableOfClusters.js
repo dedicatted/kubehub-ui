@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, makeStyles, CircularProgress } from '@material-ui/core';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, makeStyles, CircularProgress, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -21,6 +21,9 @@ const useStyles = makeStyles(tehme => ({
 		'&:hover' : {
 			color: '#607d8b'
 		}
+	},
+	removingCircularProgress: {
+		color: '#f44336'
 	}
 }));
 
@@ -30,6 +33,16 @@ export function TableOfClusters (props) {
 
 	const deleteCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/cluster/remove`, {
+			method: "POST",
+			body: JSON.stringify({
+				k8s_cluster_id: k8s_cluster_id
+			})
+		})
+		.then(response => response.json())
+		.then(data => console.log(data));
+	}
+	const reloadCluster = (k8s_cluster_id) => {
+		fetch(`${serverURL}/kubespray/deploy/restart`, {
 			method: "POST",
 			body: JSON.stringify({
 				k8s_cluster_id: k8s_cluster_id
@@ -73,21 +86,29 @@ export function TableOfClusters (props) {
 								<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
 								<TableCell align="center">{
 									cluster.status === "removing"
-										? <CircularProgress />
-										: cluster.status === "ready_to_deploy"
-											? "ready to deploy"
-											: cluster.status
+										? <CircularProgress className={classes.removingCircularProgress}/>
+										: cluster.status === "deploying"
+											? <CircularProgress />
+											: cluster.status ==="running"
+												? "Running"
+												: cluster.status
 								}</TableCell>
 								<TableCell align="center">
-									<IconButton className={classes.reloadIcon}>
-										<ReplayIcon />
-									</IconButton>
-									<IconButton onClick={() => {deleteCluster(cluster.id)}} className={classes.deleteIcon}>
-										<DeleteIcon />
-									</IconButton>
-									<IconButton className={classes.infoIcon}>
-										<InfoIcon />
-									</IconButton>
+									<Tooltip title="Restart deploy">
+										<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.reloadIcon}>
+											<ReplayIcon />
+										</IconButton>
+									</Tooltip>
+									<Tooltip title="Delete cluster">
+										<IconButton onClick={() => {deleteCluster(cluster.id)}} className={classes.deleteIcon}>
+											<DeleteIcon />
+										</IconButton>
+									</Tooltip>
+									<Tooltip title="Show logs">
+										<IconButton className={classes.infoIcon}>
+											<InfoIcon />
+										</IconButton>
+									</Tooltip>
 								</TableCell>
 							</TableRow>
 						)
