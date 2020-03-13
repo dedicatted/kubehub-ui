@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, makeStyles, CircularProgress, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { serverURL } from '../Dashboard';
+import { Link, useRouteMatch } from 'react-router-dom';
+import { clusterLog, clearClusterLog } from '../../Actions/ClusterActions';
 
 const useStyles = makeStyles(tehme => ({
 	deleteIcon: {
@@ -30,6 +32,9 @@ const useStyles = makeStyles(tehme => ({
 export function TableOfClusters (props) {
 	const classes = useStyles();
 	const VMGroups = useSelector(state => state.vm_group);
+	let {url} = useRouteMatch();
+
+
 
 	const deleteCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/cluster/remove`, {
@@ -51,6 +56,29 @@ export function TableOfClusters (props) {
 		.then(response => response.json())
 		.then(data => console.log(data));
 	}
+	const showLogs = (cluster,lineNumber) => {
+			fetch(`${serverURL}/kubespray/deploy/read/log`,{
+				method: 'POST',
+				body: JSON.stringify({
+					kubespray_deploy_id: cluster.kubespray_deployments[cluster.kubespray_deployments.length - 1].id,
+					last_line: lineNumber
+				})
+			})
+			.then(response => response.json())
+			.then(data => {
+				if(data.readed_lines !== ""){
+					let temporaryLog = "";
+					for (let i = 0; i < data.readed_lines.length; i++) {
+						temporaryLog += data.readed_lines[i] + '\n';
+					}
+					props.dispatch(clusterLog(temporaryLog))
+				}
+				if(cluster.status === "deploying") {
+					setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
+				}
+			})
+	}
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			props.refreshClustersData();
@@ -64,7 +92,6 @@ export function TableOfClusters (props) {
 		}, 100);
 		props.refreshVMGroupData();
 	},[])
-
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">
@@ -105,9 +132,14 @@ export function TableOfClusters (props) {
 										</IconButton>
 									</Tooltip>
 									<Tooltip title="Show logs">
-										<IconButton className={classes.infoIcon}>
-											<InfoIcon />
-										</IconButton>
+										<Link to={`${url}/cluster_log`}>
+											<IconButton className={classes.infoIcon} onClick={() => {
+												props.dispatch(clearClusterLog());
+												showLogs(cluster, 0);
+											}}>
+												<InfoIcon />
+											</IconButton>
+										</Link>
 									</Tooltip>
 								</TableCell>
 							</TableRow>

@@ -21,6 +21,11 @@ const useStyles = makeStyles(tehme => ({
 			color: '#f44336'
 		}
 	},
+	infoIcon: {
+		'&:hover' : {
+			color: '#607d8b'
+		}
+	},
 	removingCircularProgress: {
 		color: '#f44336'
 	}
@@ -43,6 +48,7 @@ export function TableOfVMGroup (props) {
 		}, 4000);
 		return () => clearInterval(interval);
 	  }, [props]);
+
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>
@@ -54,7 +60,7 @@ export function TableOfVMGroup (props) {
 							<TableCell align="center">Number of nodes</TableCell>
 							<TableCell align="center">Cloud provider</TableCell>
 							<TableCell align="center">Status</TableCell>
-							<TableCell align="center">Actions</TableCell>
+							<TableCell align="center"></TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -108,7 +114,7 @@ export function TableOfVMGroup (props) {
 										>
 											<DeleteIcon />
 										</IconButton>
-										<IconButton>
+										<IconButton className={classes.infoIcon}>
 											<InfoIcon />
 										</IconButton>
 									</TableCell>

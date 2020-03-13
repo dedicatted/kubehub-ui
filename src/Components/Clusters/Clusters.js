@@ -7,6 +7,7 @@ import { showVMGroup } from '../../Actions/VMGroupActions';
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
 import { TableOfClusters } from './TableOfClusters';
 import { showClusters } from '../../Actions/ClusterActions';
+import { ClusterLogs } from './ClusterLogs';
 
 const useStyle = makeStyles({
 	links: {
@@ -15,7 +16,7 @@ const useStyle = makeStyles({
 	}
 })
 
-export function Clusters () {
+export function Clusters ()	 {
 	const classes = useStyle();
 	let { path, url } = useRouteMatch();
 	const dispatch = useDispatch();
@@ -46,7 +47,7 @@ export function Clusters () {
 						/>
 					</Container>
 				</Route>
-				<Route path={path}>
+				<Route exact path={path}>
 					<Link to={`${url}/create_cluster`} className={classes.links}>
 						<Button variant="contained" color='primary'>Create cluster</Button>
 					</Link>
@@ -54,7 +55,11 @@ export function Clusters () {
 						clusters={clusters}
 						refreshVMGroupData={refreshVMGroupData}
 						refreshClustersData={refreshClustersData}
+						dispatch={dispatch}
 					/>
+				</Route>
+				<Route path={`${path}/cluster_log`}>
+					<ClusterLogs />
 				</Route>
 			</Switch>
 		</Container>
