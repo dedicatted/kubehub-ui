@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Typography, Container, makeStyles, Box } from '@material-ui/core';
+import { Typography, Container, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles({

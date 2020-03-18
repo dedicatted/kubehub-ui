@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, makeStyles, CircularProgress, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -34,8 +34,6 @@ export function TableOfClusters (props) {
 	const VMGroups = useSelector(state => state.vm_group);
 	let {url} = useRouteMatch();
 
-
-
 	const deleteCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/cluster/remove`, {
 			method: "POST",
@@ -57,26 +55,26 @@ export function TableOfClusters (props) {
 		.then(data => console.log(data));
 	}
 	const showLogs = (cluster,lineNumber) => {
-			fetch(`${serverURL}/kubespray/deploy/read/log`,{
-				method: 'POST',
-				body: JSON.stringify({
-					kubespray_deploy_id: cluster.kubespray_deployments[cluster.kubespray_deployments.length - 1].id,
-					last_line: lineNumber
-				})
+		fetch(`${serverURL}/kubespray/deploy/get/log`,{
+			method: 'POST',
+			body: JSON.stringify({
+				kubespray_deploy_id: cluster.kubespray_deployments[cluster.kubespray_deployments.length - 1].id,
+				last_line: lineNumber
 			})
-			.then(response => response.json())
-			.then(data => {
-				if(data.readed_lines !== ""){
-					let temporaryLog = "";
-					for (let i = 0; i < data.readed_lines.length; i++) {
-						temporaryLog += data.readed_lines[i] + '\n';
-					}
-					props.dispatch(clusterLog(temporaryLog))
+		})
+		.then(response => response.json())
+		.then(data => {
+			if(data.readed_lines !== ""){
+				let temporaryLog = "";
+				for (let i = 0; i < data.readed_lines.length; i++) {
+					temporaryLog += data.readed_lines[i] + '\n';
 				}
-				if(cluster.status === "deploying") {
-					setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
-				}
-			})
+				props.dispatch(clusterLog(temporaryLog))
+			}
+			if(cluster.status === "deploying") {
+				setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
+			}
+		})
 	}
 
 	useEffect(() => {
@@ -92,6 +90,7 @@ export function TableOfClusters (props) {
 		}, 100);
 		props.refreshVMGroupData();
 	},[])
+	
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">

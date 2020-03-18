@@ -30,21 +30,23 @@ export function CreateCluster (props) {
 	]
 
 	const classes = useStyles();
-	const VMGroup = useSelector(state => state.vm_group);
+	const VMGroups = useSelector(state => state.vm_group);
+	const clusters = useSelector(state => state.clusters);
 	const [clusterName, setClusterName] = useState('');
 	const [versionOfKubernetes, setVersionOfKubernetes] = useState('');
 	const [selectedVMGroup, setSelectedVMGroup] = useState('');
 	const [numberOfMasters, setNumberOfMasters] = useState('');
 	const [numberOfWorkers, setNumberOfWorkers] = useState('');
-	const [errorOfSelectedVMGroup, setErrorOfSelectedVMGroup] = useState(false);
+	const [errorOfSelectedVMGroup, setErrorOfSelectedVMGroup] = useState(true);
+	const [availableVMGroups,setAvailableVMGroups] = useState([]);
 
 	const handleClusterNameChange = event => setClusterName(event.target.value);
 	const handleVersionOfKubesprayChange = event => setVersionOfKubernetes(event.target.value);
 	const handleVMGroupChange = event => {
 		setSelectedVMGroup(event.target.value);
-		props.clusters.find(cluster => event.target.value.id === cluster.vm_group)
-			? setErrorOfSelectedVMGroup(true)
-			: setErrorOfSelectedVMGroup(false);
+		event.target.value
+			? setErrorOfSelectedVMGroup(false)
+			: setErrorOfSelectedVMGroup(true);
 	};
 	const handlenumberOfMasters = event => setNumberOfMasters(event.target.value);
 	const handlesetNumberOfWorkers = event => setNumberOfWorkers(event.target.value);
@@ -57,9 +59,23 @@ export function CreateCluster (props) {
 				vm_group: selectedVMGroup.id
 			})
 		})
+		.then(response => response.json())
+		.then(data => console.log(data))
 	}
 	useEffect(props.refreshVMGroupData, []);
 	useEffect(props.refreshClustersData, []);
+	useEffect(() => {
+		setAvailableVMGroups([]);
+		let arrOfClustersVMGroupId = [];
+		for(let i = 0; i < clusters.length; i++) {
+			arrOfClustersVMGroupId.push(clusters[i].vm_group);
+		}
+		for(let j = 0; j < VMGroups.length; j++) {
+			if(!arrOfClustersVMGroupId.includes(VMGroups[j].id)) {
+				setAvailableVMGroups(oldArray => [...oldArray, VMGroups[j]])
+			}
+		}
+	}, [clusters, VMGroups])
 
 	return (
 		<Container maxWidth='xl' aria-labelledby="form-dialog-title">
@@ -107,13 +123,12 @@ export function CreateCluster (props) {
 				select
 				value={selectedVMGroup}
 				onChange={handleVMGroupChange}
-				helperText={errorOfSelectedVMGroup ? ("A cluster with this group already exists. ") : ("Select a virtual machines group")}
+				helperText={("Select a virtual machines group")}
 				fullWidth
 				variant='outlined'
 				margin="dense"
-				error={errorOfSelectedVMGroup}
 			>
-				{VMGroup.map(VMGroupItem => (
+				{availableVMGroups.map(VMGroupItem => (
 					<MenuItem key={VMGroupItem.id} value={VMGroupItem}>
 						{VMGroupItem.name}
 					</MenuItem>
