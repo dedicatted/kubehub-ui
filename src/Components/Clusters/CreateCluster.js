@@ -71,8 +71,8 @@ export function CreateCluster (props) {
 			arrOfClustersVMGroupId.push(clusters[i].vm_group);
 		}
 		for(let j = 0; j < VMGroups.length; j++) {
-			if(!arrOfClustersVMGroupId.includes(VMGroups[j].id)) {
-				setAvailableVMGroups(oldArray => [...oldArray, VMGroups[j]])
+			if(!(arrOfClustersVMGroupId.includes(VMGroups[j].id)) && VMGroups[j].status === "running") {
+				setAvailableVMGroups(oldArray => [...oldArray, VMGroups[j]]);
 			}
 		}
 	}, [clusters, VMGroups])
