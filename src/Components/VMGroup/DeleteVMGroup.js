@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, TextField, DialogContent, DialogActions, Button, makeStyles, Grid } from '@material-ui/core';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 
 const useStyles = makeStyles(theme => ({
 	nameTextField: {
@@ -12,7 +12,7 @@ export default function DeleteVMGroup (props) {
 	const classes = useStyles();
 	const [nameOfVMGroup, setNameOfVMGroup] = useState('');
 	const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
-	
+
 	const handledeleteVMGroupWindowClose = () => props.setDeleteVMGroupWindow(false);
 	const handleNameOfVMGroupChange = event => {
 		setNameOfVMGroup(event.target.value);

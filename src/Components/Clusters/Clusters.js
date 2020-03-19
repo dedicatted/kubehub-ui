@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Button, makeStyles, Container } from '@material-ui/core';
 import { CreateCluster } from './CreateCluster';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';

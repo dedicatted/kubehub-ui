@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 import CreateCloud from './CreateCloud';
 
 const useStyles = makeStyles(theme => ({
@@ -51,7 +51,7 @@ export function Clouds () {
 		.then(data => data.cloud_provider_list)
 		.then(data => dispatch(showClouds(data)))
 	};
-	
+
 	useEffect(refreshCloudData,[stateClouds]);
 
 	return (

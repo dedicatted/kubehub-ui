@@ -5,7 +5,7 @@ import { showClouds } from '../../Actions/CloudActions';
 import { showVMGroup, getTemplates } from '../../Actions/VMGroupActions';
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { CreateVMGroup } from './CreateVMGroup';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 import { Switch, Route, useRouteMatch, Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({

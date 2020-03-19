@@ -4,7 +4,7 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconB
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import ReplayIcon from '@material-ui/icons/Replay';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { clusterLog, clearClusterLog } from '../../Actions/ClusterActions';
 

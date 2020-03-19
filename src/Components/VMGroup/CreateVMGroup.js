@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField, MenuItem, Button, makeStyles, Container, Typography, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { getCloudId } from '../../Actions/CloudActions';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({

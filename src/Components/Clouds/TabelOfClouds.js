@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconB
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { deleteCloud } from '../../Actions/CloudActions';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
@@ -58,7 +58,7 @@ export function TableOfClouds (props) {
 	};
 
 	useEffect(refreshVMGroupData, [])
-	
+
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">

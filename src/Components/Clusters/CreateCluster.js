@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, MenuItem, Grid, Container, Typography, makeStyles } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 
 
 const useStyles = makeStyles(theme => ({
@@ -61,7 +61,7 @@ export function CreateCluster (props) {
 		})
 		.then(response => response.json())
 	}
-	
+
 	useEffect(props.refreshVMGroupData, []);
 	useEffect(props.refreshClustersData, []);
 	useEffect(() => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, TextField, Container, Typography, makeStyles, Grid  } from '@material-ui/core';
 import { editCloud } from '../../Actions/CloudActions';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../commonFunctions/serverLink';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export function EditCloud (props) {
 	const classes = useStyles();
-	
+
 	const editCloudData = () => {
 		props.dispatch(editCloud(props.editCP_type, props.editName, props.editCloudIndex));
 		fetch(`${serverURL}/api/cloud_providers/edit`,{
