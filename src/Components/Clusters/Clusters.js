@@ -33,8 +33,8 @@ export function Clusters ()	 {
 		.then(response => response.json())
 		.then(data => data.kubernetes_cluster_list)
 		.then(data => dispatch(showClusters(data)))
-		.then(data => console.log(data))
 	}, [dispatch])
+
 	return(
 		<Container maxWidth="xl">
 			<Switch>

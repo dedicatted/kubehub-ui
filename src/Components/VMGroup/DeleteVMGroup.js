@@ -12,9 +12,8 @@ export default function DeleteVMGroup (props) {
 	const classes = useStyles();
 	const [nameOfVMGroup, setNameOfVMGroup] = useState('');
 	const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
-	const handledeleteVMGroupWindowClose = () => {
-		props.setDeleteVMGroupWindow(false);
-	};
+	
+	const handledeleteVMGroupWindowClose = () => props.setDeleteVMGroupWindow(false);
 	const handleNameOfVMGroupChange = event => {
 		setNameOfVMGroup(event.target.value);
 		event.target.value === props.selectedVMGroup.name

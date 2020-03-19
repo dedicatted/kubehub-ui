@@ -26,18 +26,10 @@ export default function CreateCloud (props) {
 	const [api_endpoint, setApiEndpoint] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
-	const handleCP_typeChange = event => {
-		setCP_type(event.target.value);
-	};
-	const handleNameChange = event => {
-		setName(event.target.value);
-	};
-	const handleApiEndpointChange = event => {
-		setApiEndpoint(event.target.value);
-	};
-	const handlePasswordChange = event => {
-		setPassword(event.target.value);
-	};
+	const handleCP_typeChange = event => setCP_type(event.target.value);
+	const handleNameChange = event => setName(event.target.value);
+	const handleApiEndpointChange = event => setApiEndpoint(event.target.value);
+	const handlePasswordChange = event => setPassword(event.target.value);
 	const createCloud = () => {
 		fetch(`${serverURL}/api/cloud_providers/add`, {
 			method: "POST",
@@ -49,9 +41,7 @@ export default function CreateCloud (props) {
 			})
 		})
 		props.dispatch(addCloud(CP_type,name,api_endpoint,password));
-		setTimeout(() =>{
-			props.refreshCloudData();
-		},100);
+		setTimeout(props.refreshCloudData,100);
 	};
 
 	return (

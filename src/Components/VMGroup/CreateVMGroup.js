@@ -41,12 +41,8 @@ export function CreateVMGroup (props) {
 			}
 		}
 	};
-	const handleNameChange = event => {
-		setName(event.target.value);
-	};
-	const handleNumberOfNodes = event => {
-		setNumberOfNodes(event.target.value);
-	};
+	const handleNameChange = event => setName(event.target.value);
+	const handleNumberOfNodes = event => setNumberOfNodes(event.target.value);
 	const handleTemplate = event => {
 		setTemplate(event.target.value);
 		console.log(event.target.value);

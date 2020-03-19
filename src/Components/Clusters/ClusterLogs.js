@@ -20,6 +20,7 @@ export function ClusterLogs (props) {
 	});
 
 	useEffect(scrollToBottom, [clusterLog]);
+	
 	return (
 		<Container maxWidth="xl" className={classes.typographywidht}>
 			<Typography className={classes.logs} noWrap ref={logsEndRef}>{clusterLog}</Typography>

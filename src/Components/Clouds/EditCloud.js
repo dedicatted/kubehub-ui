@@ -21,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 export function EditCloud (props) {
 	const classes = useStyles();
+	
 	const editCloudData = () => {
 		props.dispatch(editCloud(props.editCP_type, props.editName, props.editCloudIndex));
 		fetch(`${serverURL}/api/cloud_providers/edit`,{
@@ -31,9 +32,7 @@ export function EditCloud (props) {
 			})
 		})
 	};
-	const handleEditNameChange = event => {
-		props.setEditName(event.target.value);
-	};
+	const handleEditNameChange = event => props.setEditName(event.target.value);
 
 	return(
 		<Container maxWidth='xl'>

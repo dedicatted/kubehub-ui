@@ -37,11 +37,13 @@ export function TableOfVMGroup (props) {
 	const [stateVMGroup] = useState(VMGroup);
 	const [selectedVMGroup, setSelectedVMGroup] = useState([]);
 	const [deleteVMGroupWindow, setDeleteVMGroupWindow] = useState(false);
-	useEffect(props.refreshVMGroupData, [stateVMGroup]);
+
 	const handleDeleteVMGroupWindowOpen = (vm_group) => {
 		setSelectedVMGroup(vm_group);
 		setDeleteVMGroupWindow(true);
 	};
+	
+	useEffect(props.refreshVMGroupData, [stateVMGroup]);
 	useEffect(() => {
 		const interval = setInterval(() => {
 			props.refreshVMGroupData();

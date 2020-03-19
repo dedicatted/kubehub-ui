@@ -23,9 +23,10 @@ const useStyles = makeStyles(theme => ({
 
 export function TableOfClouds (props) {
 	let isVMGroupUse = false;
-	// const [isVMGroupUse, setIsVMGroupUse] = useState(false);
+	let {url} = useRouteMatch();
 	const VMGroup = useSelector(state => state.vm_group);
 	const classes = useStyles();
+
 	const refreshVMGroupData = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)
 		.then(response => response.json())
@@ -42,7 +43,6 @@ export function TableOfClouds (props) {
 		}
 		return isVMGroupUse;
 	}
-	let {url} = useRouteMatch();
 	const deleteCloudData = (index) => {
 		for(let i = 0; i <= props.clouds.length; i++) {
 			if(props.clouds[i].id === index) {
@@ -56,7 +56,9 @@ export function TableOfClouds (props) {
 			}
 		}
 	};
+
 	useEffect(refreshVMGroupData, [])
+	
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">

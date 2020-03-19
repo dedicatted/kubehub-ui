@@ -42,8 +42,7 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(data => console.log(data));
-	}
+	};
 	const reloadCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/kubespray/deploy/restart`, {
 			method: "POST",
@@ -52,8 +51,7 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(data => console.log(data));
-	}
+	};
 	const showLogs = (cluster,lineNumber) => {
 		fetch(`${serverURL}/kubespray/deploy/get/log`,{
 			method: 'POST',
@@ -75,7 +73,7 @@ export function TableOfClusters (props) {
 				setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
 			}
 		})
-	}
+	};
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -89,8 +87,8 @@ export function TableOfClusters (props) {
 			props.refreshClustersData();
 		}, 100);
 		props.refreshVMGroupData();
-	},[])
-	
+	},[]);
+
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">

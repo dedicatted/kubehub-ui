@@ -60,8 +60,8 @@ export function CreateCluster (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(data => console.log(data))
 	}
+	
 	useEffect(props.refreshVMGroupData, []);
 	useEffect(props.refreshClustersData, []);
 	useEffect(() => {
