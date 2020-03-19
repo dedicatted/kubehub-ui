@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 import ComputerIcon from '@material-ui/icons/Computer';
+import StorageIcon from '@material-ui/icons/Storage';
 
 const useStyle = makeStyles({
 	links: {
@@ -38,6 +39,14 @@ export function MainListItems()	{
 						<ComputerIcon />
 					</ListItemIcon>
 					<ListItemText primary="VM group" />
+				</ListItem>
+			</Link>
+			<Link to={{pathname: '/clusters'}} className={classes.links}>
+				<ListItem button>
+					<ListItemIcon>
+						<StorageIcon />
+					</ListItemIcon>
+					<ListItemText primary="Cluster" />
 				</ListItem>
 			</Link>
 		</div>

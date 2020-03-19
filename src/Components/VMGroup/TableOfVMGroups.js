@@ -16,9 +16,14 @@ const useStyles = makeStyles(tehme => ({
 	tebaleTemplateWidth: {
 		width: '30%'
 	},
-	DeleteIcon: {
+	deleteIcon: {
 		'&:hover' : {
 			color: '#f44336'
+		}
+	},
+	infoIcon: {
+		'&:hover' : {
+			color: '#607d8b'
 		}
 	},
 	removingCircularProgress: {
@@ -32,7 +37,6 @@ export function TableOfVMGroup (props) {
 	const [stateVMGroup] = useState(VMGroup);
 	const [selectedVMGroup, setSelectedVMGroup] = useState([]);
 	const [deleteVMGroupWindow, setDeleteVMGroupWindow] = useState(false);
-	useEffect(props.refreshCloudData, [stateVMGroup]);
 	useEffect(props.refreshVMGroupData, [stateVMGroup]);
 	const handleDeleteVMGroupWindowOpen = (vm_group) => {
 		setSelectedVMGroup(vm_group);
@@ -40,10 +44,11 @@ export function TableOfVMGroup (props) {
 	};
 	useEffect(() => {
 		const interval = setInterval(() => {
-			props.refreshVMGroupData()
+			props.refreshVMGroupData();
 		}, 4000);
 		return () => clearInterval(interval);
 	  }, [props]);
+
 	return (
 		<div>
 			<TableContainer className={classes.tableMargin}>
@@ -55,7 +60,7 @@ export function TableOfVMGroup (props) {
 							<TableCell align="center">Number of nodes</TableCell>
 							<TableCell align="center">Cloud provider</TableCell>
 							<TableCell align="center">Status</TableCell>
-							<TableCell align="center">Actions</TableCell>
+							<TableCell align="center"></TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -66,7 +71,7 @@ export function TableOfVMGroup (props) {
 									<TableCell align="center" className={classes.tebaleTemplateWidth}>{
 										props.templates.map((template, i) => {
 											return(
-												VMGroupItem.vms[0].template_id === template.id
+												VMGroupItem.vms[0].template === template.id
 												? (
 													<Tooltip
 														interactive key={i}
@@ -82,7 +87,7 @@ export function TableOfVMGroup (props) {
 									<TableCell align="center">{VMGroupItem.vms.length}</TableCell>
 									<TableCell align="center">{
 										props.clouds.map((cloud, i) => {
-											return(cloud.id === VMGroupItem.vms[0].cloud_provider_id
+											return(cloud.id === VMGroupItem.vms[0].cloud_provider
 												? cloud.name
 												: null
 											)
@@ -103,13 +108,13 @@ export function TableOfVMGroup (props) {
 												? true
 												: false
 											}
-											className={classes.DeleteIcon}
+											className={classes.deleteIcon}
 											onClick={() => {handleDeleteVMGroupWindowOpen(VMGroupItem)}}
 											aria-label="delete"
 										>
 											<DeleteIcon />
 										</IconButton>
-										<IconButton>
+										<IconButton className={classes.infoIcon}>
 											<InfoIcon />
 										</IconButton>
 									</TableCell>

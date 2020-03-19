@@ -70,12 +70,8 @@ export function CreateVMGroup (props) {
 				name: name
 			})
 		})
-		.then(props.refreshVMGroupData()) // !! After sending the request
-		.then(response => {
-			props.refreshVMGroupData();
-			console.log(response);
-
-		}) // !! After receiving a response
+		.then(props.refreshVMGroupData()) // !! After receiving a response
+		setTimeout(props.refreshVMGroupData(),100) // !! After sending a request
 	};
 
 	return (
@@ -91,7 +87,7 @@ export function CreateVMGroup (props) {
 				<TextField
 					id="standard-select-CP_type"
 					select
-					label="Type of clouds"
+					label="Cloud"
 					value={CP_type}
 					onChange={handleCP_typeChange}
 					helperText="Please select your cloud"
@@ -115,7 +111,6 @@ export function CreateVMGroup (props) {
 						variant="outlined"
 						size="small"
 					/>
-
 					<TextField
 						margin="dense"
 						id="number_of_nodes"

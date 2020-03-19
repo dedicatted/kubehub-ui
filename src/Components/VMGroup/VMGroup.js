@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Container, makeStyles } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
@@ -37,14 +37,15 @@ export function VMGroup() {
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)))
-		refreshTempaltes();
 	};
 	const refreshTempaltes = () => {
 		fetch(`${serverURL}/api/proxmox/template/list`)
-		.then(response => response)
-		.then(data => data.json())
+		.then(response => response.json())
 		.then(data => dispatch(getTemplates(data.template_list)))
 	};
+
+	useEffect(refreshTempaltes, []);
+	useEffect(refreshCloudData, []);
 
 	return (
 		<Container maxWidth='xl'>
@@ -59,6 +60,7 @@ export function VMGroup() {
 						templates={templates}
 						clouds={clouds}
 						dispatch={dispatch}
+						refreshTempaltes={refreshTempaltes}
 					/>
 				</Route>
 				<Route path={`${path}/create_vm_group`}>
@@ -67,6 +69,7 @@ export function VMGroup() {
 						dispatch={dispatch}
 						templates={templates}
 						clouds={clouds}
+						refreshTempaltes={refreshTempaltes}
 					/>
 				</Route>
 			</Switch>
