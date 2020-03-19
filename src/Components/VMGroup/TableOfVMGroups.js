@@ -16,9 +16,14 @@ const useStyles = makeStyles(tehme => ({
 	tebaleTemplateWidth: {
 		width: '30%'
 	},
-	DeleteIcon: {
+	deleteIcon: {
 		'&:hover' : {
 			color: '#f44336'
+		}
+	},
+	infoIcon: {
+		'&:hover' : {
+			color: '#607d8b'
 		}
 	},
 	removingCircularProgress: {
@@ -32,7 +37,6 @@ export function TableOfVMGroup (props) {
 	const [stateVMGroup] = useState(VMGroup);
 	const [selectedVMGroup, setSelectedVMGroup] = useState([]);
 	const [deleteVMGroupWindow, setDeleteVMGroupWindow] = useState(false);
-	useEffect(props.refreshCloudData, [stateVMGroup]);
 	useEffect(props.refreshVMGroupData, [stateVMGroup]);
 	const handleDeleteVMGroupWindowOpen = (vm_group) => {
 		setSelectedVMGroup(vm_group);
@@ -40,7 +44,7 @@ export function TableOfVMGroup (props) {
 	};
 	useEffect(() => {
 		const interval = setInterval(() => {
-			props.refreshVMGroupData()
+			props.refreshVMGroupData();
 		}, 4000);
 		return () => clearInterval(interval);
 	  }, [props]);
@@ -104,13 +108,13 @@ export function TableOfVMGroup (props) {
 												? true
 												: false
 											}
-											className={classes.DeleteIcon}
+											className={classes.deleteIcon}
 											onClick={() => {handleDeleteVMGroupWindowOpen(VMGroupItem)}}
 											aria-label="delete"
 										>
 											<DeleteIcon />
 										</IconButton>
-										<IconButton>
+										<IconButton className={classes.infoIcon}>
 											<InfoIcon />
 										</IconButton>
 									</TableCell>

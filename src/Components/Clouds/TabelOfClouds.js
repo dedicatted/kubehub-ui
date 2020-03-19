@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
 
 const useStyles = makeStyles(theme => ({
-	DeleteIcon: {
+	deleteIcon: {
 		'&:hover' : {
 			color: '#f44336'
 		}
@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
 
 export function TableOfClouds (props) {
 	let isVMGroupUse = false;
+	// const [isVMGroupUse, setIsVMGroupUse] = useState(false);
 	const VMGroup = useSelector(state => state.vm_group);
 	const classes = useStyles();
 	const refreshVMGroupData = () => {

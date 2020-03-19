@@ -17,11 +17,9 @@ export default function DeleteVMGroup (props) {
 	};
 	const handleNameOfVMGroupChange = event => {
 		setNameOfVMGroup(event.target.value);
-		if (event.target.value === props.selectedVMGroup.name) {
-			setDeleteButtonDisabled(false);
-		} else {
-			setDeleteButtonDisabled(true);
-		}
+		event.target.value === props.selectedVMGroup.name
+			? setDeleteButtonDisabled(false)
+			: setDeleteButtonDisabled(true);
 	};
 	const onClickDeleteVMGroup = (selectedVMGroup) => {
 		fetch(`${serverURL}/api/proxmox/vm/group/remove`, {
@@ -30,11 +28,8 @@ export default function DeleteVMGroup (props) {
 				vm_group_id: selectedVMGroup.id
 			})
 		})
-		.then(props.refreshVMGroupData()) // !! After sending the request
-		.then(response => {
-			props.refreshVMGroupData();
-			console.log(response);
-		}) // !! After receiving a response
+		.then(props.refreshVMGroupData()) // !! After receiving a response
+		setTimeout(props.refreshVMGroupData(),100) // !! After sending a request
 		handledeleteVMGroupWindowClose();
 		setDeleteButtonDisabled(true);
 		setNameOfVMGroup('');

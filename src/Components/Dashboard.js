@@ -82,6 +82,11 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const serverURL = 'http://192.168.84.189:8080';
+export function clearFields() {
+	for(let i = 0; i < arguments.length; i++) {
+		arguments[i]('');
+	}
+}
 export 	function Dashboard() {
  	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
@@ -130,7 +135,7 @@ export 	function Dashboard() {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Container maxWidth="xl" disableGutters={true} className={classes.container}>
+				<Container maxWidth="xl" className={classes.container}>
 					{Routes}
 				</Container>
 			</main>
