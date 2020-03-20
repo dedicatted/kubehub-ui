@@ -5,6 +5,8 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import TemplateCard  from "./TemplateCard";
 import DeleteVMGroup from "./DeleteVMGroup";
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles(tehme => ({
 	tableMargin: {
@@ -28,6 +30,12 @@ const useStyles = makeStyles(tehme => ({
 	},
 	removingCircularProgress: {
 		color: '#f44336'
+	},
+	errorIcon: {
+		color: '#f44336'
+	},
+	successfulIcon: {
+		color: '#4caf50'
 	}
 }));
 
@@ -42,7 +50,7 @@ export function TableOfVMGroup (props) {
 		setSelectedVMGroup(vm_group);
 		setDeleteVMGroupWindow(true);
 	};
-	
+
 	useEffect(props.refreshVMGroupData, [stateVMGroup]);
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -101,7 +109,11 @@ export function TableOfVMGroup (props) {
 												? classes.removingCircularProgress
 												: null
 											} />
-											: VMGroupItem.status
+											: VMGroupItem.status ==="running"
+												? <CheckCircleOutlineIcon className={classes.successfulIcon} />
+												: VMGroupItem.status === "error"
+													? <ErrorOutlineIcon className={classes.errorIcon} />
+													: VMGroupItem.status
 										}
 									</TableCell>
 									<TableCell align="center">

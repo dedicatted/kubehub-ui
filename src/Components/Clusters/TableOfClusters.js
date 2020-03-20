@@ -7,6 +7,8 @@ import ReplayIcon from '@material-ui/icons/Replay';
 import { serverURL } from '../../commonFunctions/serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { clusterLog, clearClusterLog } from '../../Actions/ClusterActions';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 
 const useStyles = makeStyles(tehme => ({
 	deleteIcon: {
@@ -26,6 +28,12 @@ const useStyles = makeStyles(tehme => ({
 	},
 	removingCircularProgress: {
 		color: '#f44336'
+	},
+	errorIcon: {
+		color: '#f44336'
+	},
+	successfulIcon: {
+		color: '#4caf50'
 	}
 }));
 
@@ -114,8 +122,10 @@ export function TableOfClusters (props) {
 										: cluster.status === "deploying"
 											? <CircularProgress />
 											: cluster.status ==="running"
-												? "Running"
-												: cluster.status
+												? <CheckCircleOutlineIcon className={classes.successfulIcon} />
+												: cluster.status === "error"
+													? <ErrorOutlineIcon className={classes.errorIcon} />
+													: cluster.status
 								}</TableCell>
 								<TableCell align="center">
 									<Tooltip title="Restart deploy">
