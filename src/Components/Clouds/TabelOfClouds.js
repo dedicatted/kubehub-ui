@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, makeStyles, Tooltip  } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Tooltip  } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { deleteCloud } from '../../Actions/CloudActions';
@@ -7,19 +7,7 @@ import { serverURL } from '../../commonFunctions/serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
-
-const useStyles = makeStyles(theme => ({
-	deleteIcon: {
-		'&:hover' : {
-			color: '#f44336'
-		}
-	},
-	editIcon: {
-		'&:hover' : {
-			color: '#2196f3'
-		}
-	}
-}))
+import { useStyles } from "../../styles/style";
 
 export function TableOfClouds (props) {
 	let isVMGroupUse = false;

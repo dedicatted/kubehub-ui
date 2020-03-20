@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, makeStyles, CircularProgress, Tooltip } from '@material-ui/core';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, CircularProgress, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -9,33 +9,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { clusterLog, clearClusterLog } from '../../Actions/ClusterActions';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-
-const useStyles = makeStyles(tehme => ({
-	deleteIcon: {
-		'&:hover' : {
-			color: '#f44336'
-		}
-	},
-	reloadIcon: {
-		'&:hover' : {
-			color: '#4caf50'
-		}
-	},
-	infoIcon: {
-		'&:hover' : {
-			color: '#607d8b'
-		}
-	},
-	removingCircularProgress: {
-		color: '#f44336'
-	},
-	errorIcon: {
-		color: '#f44336'
-	},
-	successfulIcon: {
-		color: '#4caf50'
-	}
-}));
+import { useStyles } from "../../styles/style";
 
 export function TableOfClusters (props) {
 	const classes = useStyles();
@@ -122,14 +96,14 @@ export function TableOfClusters (props) {
 										: cluster.status === "deploying"
 											? <CircularProgress />
 											: cluster.status ==="running"
-												? <CheckCircleOutlineIcon className={classes.successfulIcon} />
+												? <CheckCircleOutlineIcon className={classes.successColor} />
 												: cluster.status === "error"
-													? <ErrorOutlineIcon className={classes.errorIcon} />
+													? <ErrorOutlineIcon className={classes.errorColor} />
 													: cluster.status
 								}</TableCell>
 								<TableCell align="center">
 									<Tooltip title="Restart deploy">
-										<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.reloadIcon}>
+										<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.startIcon}>
 											<ReplayIcon />
 										</IconButton>
 									</Tooltip>

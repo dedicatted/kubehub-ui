@@ -1,26 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, MenuItem, Grid, Container, Typography, makeStyles } from '@material-ui/core';
+import { TextField, Button, MenuItem, Grid, Container, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { serverURL } from '../../commonFunctions/serverLink';
-
-
-const useStyles = makeStyles(theme => ({
-	margin: {
-	  marginRight: theme.spacing(1),
-	},
-	lable: {
-		fontWeight: "bold",
-		textTransform: "uppercase"
-	},
-	links: {
-		color: 'black',
-		textDecoration: 'none'
-	},
-	disabledLink: {
-		pointerEvents: 'none'
-	}
-  }));
+import { useStyles } from "../../styles/style";
 
 export function CreateCluster (props) {
 	const testVersions = [

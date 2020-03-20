@@ -1,23 +1,9 @@
 import React from 'react';
-import { Button, TextField, Container, Typography, makeStyles, Grid  } from '@material-ui/core';
+import { Button, TextField, Container, Typography, Grid  } from '@material-ui/core';
 import { editCloud } from '../../Actions/CloudActions';
 import { serverURL } from '../../commonFunctions/serverLink';
 import { Link } from 'react-router-dom';
-
-const useStyles = makeStyles(theme => ({
-	margin: {
-	  marginRight: theme.spacing(1),
-	  marginTop: theme.spacing(1),
-	},
-	lable: {
-		fontWeight: "bold",
-		textTransform: "uppercase"
-	},
-	links: {
-		color: 'black',
-		textDecoration: 'none'
-	}
-}));
+import { useStyles } from "../../styles/style";
 
 export function EditCloud (props) {
 	const classes = useStyles();

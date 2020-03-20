@@ -1,28 +1,11 @@
 import React from 'react';
-import { TextField, MenuItem, Button, makeStyles, Container, Typography, Grid } from '@material-ui/core';
+import { TextField, MenuItem, Button, Container, Typography, Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { getCloudId } from '../../Actions/CloudActions';
 import { serverURL } from '../../commonFunctions/serverLink';
 import { Link } from 'react-router-dom';
+import { useStyles } from "../../styles/style";
 
-const useStyles = makeStyles(theme => ({
-	dialogWidth: {
-		width: '552px'
-	},
-	margin: {
-		marginRight: theme.spacing(1),
-		marginTop: theme.spacing(1),
-	},
-	lable: {
-		fontWeight: "bold",
-		textTransform: "uppercase"
-	},
-	links: {
-		color: "black",
-		textDecoration: "none"
-	}
-
-}));
 
 export function CreateVMGroup (props) {
 	const classes = useStyles();

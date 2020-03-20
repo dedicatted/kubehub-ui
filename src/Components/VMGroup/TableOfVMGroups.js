@@ -1,43 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { makeStyles, IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table, CircularProgress } from '@material-ui/core';
+import { IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table, CircularProgress } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import TemplateCard  from "./TemplateCard";
 import DeleteVMGroup from "./DeleteVMGroup";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { useStyles } from "../../styles/style";
 
-const useStyles = makeStyles(tehme => ({
-	tableMargin: {
-		marginBottom: '50px'
-	},
-	tableNameWidth: {
-		width: '17%'
-	},
-	tebaleTemplateWidth: {
-		width: '30%'
-	},
-	deleteIcon: {
-		'&:hover' : {
-			color: '#f44336'
-		}
-	},
-	infoIcon: {
-		'&:hover' : {
-			color: '#607d8b'
-		}
-	},
-	removingCircularProgress: {
-		color: '#f44336'
-	},
-	errorIcon: {
-		color: '#f44336'
-	},
-	successfulIcon: {
-		color: '#4caf50'
-	}
-}));
+// const useStyles = makeStyles(tehme => ({
+	// tableNameWidth: {
+	// 	width: '17%'
+	// },
+	// tebaleTemplateWidth: {
+	// 	width: '30%'
+	// },
+// }));
 
 export function TableOfVMGroup (props) {
 	const classes = useStyles();
@@ -106,13 +85,13 @@ export function TableOfVMGroup (props) {
 									<TableCell align="center">
 										{VMGroupItem.status === 'removing' || VMGroupItem.status === 'creating'
 											? <CircularProgress className={VMGroupItem.status === 'removing'
-												? classes.removingCircularProgress
+												? classes.errorColor
 												: null
 											} />
 											: VMGroupItem.status ==="running"
-												? <CheckCircleOutlineIcon className={classes.successfulIcon} />
+												? <CheckCircleOutlineIcon className={classes.successColor} />
 												: VMGroupItem.status === "error"
-													? <ErrorOutlineIcon className={classes.errorIcon} />
+													? <ErrorOutlineIcon className={classes.errorColor} />
 													: VMGroupItem.status
 										}
 									</TableCell>
