@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge, Container } from '@material-ui/core';
+import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems } from './listItems';
@@ -124,9 +124,7 @@ export 	function Dashboard() {
 			</Drawer>
 			<main className={classes.content}>
 				<div className={classes.appBarSpacer} />
-				<Container maxWidth="xl" className={classes.container}>
-					{Routes}
-				</Container>
+				{Routes}
 			</main>
 		</div>
  	);

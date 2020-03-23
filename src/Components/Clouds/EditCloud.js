@@ -21,7 +21,7 @@ export function EditCloud (props) {
 	const handleEditNameChange = event => props.setEditName(event.target.value);
 
 	return(
-		<Container maxWidth='xl'>
+		<Container maxWidth='xl' className={classes.container}>
 			<Typography
 				gutterBottom
 				component="h1"

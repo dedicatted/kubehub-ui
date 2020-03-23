@@ -61,11 +61,11 @@ export function CreateCluster (props) {
 	}, [clusters, VMGroups])
 
 	return (
-		<Container maxWidth='xl' aria-labelledby="form-dialog-title">
+		<Container maxWidth="xl" className={classes.container}>
 			<Typography
 				gutterBottom
 				component="h1"
-				align='center'
+				align="center"
 				fontWeight='fontWeightBold'
 				className={classes.lable}
 			>

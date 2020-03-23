@@ -54,7 +54,7 @@ export function CreateVMGroup (props) {
 	};
 
 	return (
-		<Container maxWidth="xl">
+		<Container maxWidth="xl" className={classes.container}>
 			<Typography
 				gutterBottom
 				component="h1"
