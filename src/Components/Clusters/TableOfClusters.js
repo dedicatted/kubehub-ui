@@ -47,7 +47,7 @@ export function TableOfClusters (props) {
 			if(data.readed_lines !== ""){
 				let temporaryLog = "";
 				for (let i = 0; i < data.readed_lines.length; i++) {
-					temporaryLog += data.readed_lines[i] + '\n';
+					temporaryLog += data.readed_lines[i];
 				}
 				props.dispatch(clusterLog(temporaryLog))
 			}

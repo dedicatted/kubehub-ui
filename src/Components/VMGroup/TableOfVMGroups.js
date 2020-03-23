@@ -9,15 +9,6 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { useStyles } from "../../styles/style";
 
-// const useStyles = makeStyles(tehme => ({
-	// tableNameWidth: {
-	// 	width: '17%'
-	// },
-	// tebaleTemplateWidth: {
-	// 	width: '30%'
-	// },
-// }));
-
 export function TableOfVMGroup (props) {
 	const classes = useStyles();
 	const VMGroup = useSelector(state => state.vm_group);
