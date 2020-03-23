@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud';
-import { serverURL } from '../../commonFunctions/serverLink';
+import { serverURL } from '../../serverLink';
 import CreateCloud from './CreateCloud';
 import { useStyles } from '../../styles/style';
 

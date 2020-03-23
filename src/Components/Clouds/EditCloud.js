@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, TextField, Container, Typography, Grid  } from '@material-ui/core';
 import { editCloud } from '../../Actions/CloudActions';
-import { serverURL } from '../../commonFunctions/serverLink';
+import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
 import { useStyles } from "../../styles/style";
 
