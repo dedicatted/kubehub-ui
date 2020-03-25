@@ -1,19 +1,13 @@
 import React, { useEffect } from 'react';
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
-import { Button, Container, makeStyles } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../serverLink';
 import CreateCloud from './CreateCloud';
-
-const useStyles = makeStyles(theme => ({
-	links: {
-		color: 'black',
-		textDecoration: 'none'
-	}
-}));
+import { useStyles } from '../../styles/style';
 
 
 const CP_types = [
@@ -36,6 +30,7 @@ export function Clouds () {
 	const [editName, setEditName] = React.useState('');
 	const [editCloudIndex, seteditCloudIndex] = React.useState(0);
 	const dispatch = useDispatch();
+
 	const handleEditWindowOpen = (index) => {
 		for(let i = 0; i < clouds.length; i++) {
 			if(clouds[i].id === index) {
@@ -50,6 +45,7 @@ export function Clouds () {
 		.then(data => data.cloud_provider_list)
 		.then(data => dispatch(showClouds(data)))
 	};
+
 	useEffect(refreshCloudData,[stateClouds]);
 
 	return (

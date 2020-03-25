@@ -1,23 +1,9 @@
 import React from "react";
-import { TextField, Button, MenuItem, Container, Typography, makeStyles, Grid } from "@material-ui/core";
-import { serverURL } from "../Dashboard";
+import { TextField, Button, MenuItem, Container, Typography, Grid } from "@material-ui/core";
+import { serverURL } from "../../serverLink";
 import { addCloud } from "../../Actions/CloudActions";
 import { Link } from "react-router-dom";
-
-const useStyles = makeStyles(theme => ({
-	margin: {
-	  marginRight: theme.spacing(1),
-	  marginTop: theme.spacing(1),
-	},
-	lable: {
-		fontWeight: "bold",
-		textTransform: "uppercase"
-	},
-	links: {
-		color: "black",
-		textDecoration: "none"
-	}
-}));
+import { useStyles } from "../../styles/style";
 
 export default function CreateCloud (props) {
 	const classes = useStyles();
@@ -26,18 +12,10 @@ export default function CreateCloud (props) {
 	const [api_endpoint, setApiEndpoint] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
-	const handleCP_typeChange = event => {
-		setCP_type(event.target.value);
-	};
-	const handleNameChange = event => {
-		setName(event.target.value);
-	};
-	const handleApiEndpointChange = event => {
-		setApiEndpoint(event.target.value);
-	};
-	const handlePasswordChange = event => {
-		setPassword(event.target.value);
-	};
+	const handleCP_typeChange = event => setCP_type(event.target.value);
+	const handleNameChange = event => setName(event.target.value);
+	const handleApiEndpointChange = event => setApiEndpoint(event.target.value);
+	const handlePasswordChange = event => setPassword(event.target.value);
 	const createCloud = () => {
 		fetch(`${serverURL}/api/cloud_providers/add`, {
 			method: "POST",
@@ -49,9 +27,7 @@ export default function CreateCloud (props) {
 			})
 		})
 		props.dispatch(addCloud(CP_type,name,api_endpoint,password));
-		setTimeout(() =>{
-			props.refreshCloudData();
-		},100);
+		setTimeout(props.refreshCloudData,100);
 	};
 
 	return (
