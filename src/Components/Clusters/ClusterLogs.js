@@ -6,7 +6,6 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { commonStyles } from '../../styles/style';
 import { useSelector } from 'react-redux';
 import { selectCluster } from '../../Actions/ClusterActions';
-import { animateScroll } from 'react-scroll';
 
 const useStyles = makeStyles(theme => ({
 	logs: {
@@ -49,7 +48,7 @@ export function ClusterLogs (props) {
 				block: "end"
 			});
 		}
-	}
+	};
 	const showLogs = (cluster,lineNumber) => {
 		fetch(`${serverURL}/kubespray/deploy/get/log`,{
 			method: 'POST',
@@ -84,7 +83,6 @@ export function ClusterLogs (props) {
 		}
 	}, [props])
 	useEffect(scrollToBottom, [clusterLog]);
-
 	return (
 		<div>
 			<AppBar position="static" className={classes.AppBar}>

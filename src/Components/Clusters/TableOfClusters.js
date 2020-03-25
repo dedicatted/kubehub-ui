@@ -24,6 +24,8 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
+		.then(props.refreshClustersData()) // !! After receiving a response
+		setTimeout(props.refreshClustersData(),100) // !! After sending a request
 	};
 	const reloadCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/kubespray/deploy/restart`, {
@@ -33,6 +35,8 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
+		.then(props.refreshClustersData()) // !! After receiving a response
+		setTimeout(props.refreshClustersData(),100) // !! After sending a request
 	};
 
 	useEffect(() => {
