@@ -33,15 +33,14 @@ export function ClusterLogs (props) {
 	const localStorageSelectedCluster = JSON.parse(localStorage.getItem("selectedCluster"));
 	const selectedCluster = useSelector(state => state.selectedCluster);
 
-	const scrollToBottom = () => logsEndRef.current.scrollIntoView(
-		localStorageSelectedCluster.status !== "running"  // ! If cluster is running, it will not scroll down
-			? {
+	const scrollToBottom = () => {
+		if (localStorageSelectedCluster.status === "deploying") {
+			logsEndRef.current.scrollIntoView({
 				behavior: "smooth",
 				block: "end"
-			}
-			: {}
-
-	);
+			});
+		}
+	}
 	const showLogs = (cluster,lineNumber) => {
 		fetch(`${serverURL}/kubespray/deploy/get/log`,{
 			method: 'POST',
