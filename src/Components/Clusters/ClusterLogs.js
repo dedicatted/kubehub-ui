@@ -6,6 +6,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { commonStyles } from '../../styles/style';
 import { useSelector } from 'react-redux';
 import { selectCluster } from '../../Actions/ClusterActions';
+import { animateScroll } from 'react-scroll';
 
 const useStyles = makeStyles(theme => ({
 	logs: {
@@ -36,10 +37,19 @@ const useStyles = makeStyles(theme => ({
 export function ClusterLogs (props) {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
+	const logsEndRef = React.createRef();
 	const [clusterLog, setClusterLog] = useState([]);
 	const localStorageSelectedCluster = JSON.parse(localStorage.getItem("selectedCluster"));
 	const selectedCluster = useSelector(state => state.selectedCluster);
 
+	const scrollToBottom = () => {
+		if (localStorageSelectedCluster.status === "deploying") {
+			logsEndRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "end"
+			});
+		}
+	}
 	const showLogs = (cluster,lineNumber) => {
 		fetch(`${serverURL}/kubespray/deploy/get/log`,{
 			method: 'POST',
@@ -73,6 +83,7 @@ export function ClusterLogs (props) {
 			setClusterLog([]);
 		}
 	}, [props])
+	useEffect(scrollToBottom, [clusterLog]);
 
 	return (
 		<div>
@@ -90,8 +101,8 @@ export function ClusterLogs (props) {
 					<Typography variant="h6" className={classes.title}>{selectedCluster.name}</Typography>
 				</Toolbar>
 			</AppBar>
-			<Container maxWidth="xl" className={classes.containerStyle}>
-				<div className={classes.allLog}>
+			<Container maxWidth="xl" id="scrollToBottom" className={classes.containerStyle}>
+				<div className={classes.allLog} ref={logsEndRef}>
 					{clusterLog.map((log, i) => (
 						<div>
 							<Typography className={classes.logs}>
