@@ -12,8 +12,6 @@ const useStyles = makeStyles(theme => ({
 		fontSize: "12px",
 		whiteSpace: "pre-wrap",
 		color: "#b3b3b1",
-		marginTop: theme.spacing(2),
-		marginBottom: theme.spacing(2)
 	},
 	title: {
 		flexGrow: 1,
@@ -21,26 +19,27 @@ const useStyles = makeStyles(theme => ({
 	},
 	AppBar: {
 		backgroundColor: "#1a1918",
+	},
+	allLog: {
+		marginTop: theme.spacing(2),
 		marginBottom: theme.spacing(2)
 	},
+	stringNumber: {
+		marginRight: "2%",
+		textAlign: "right",
+		width: "1%",
+		display: "inline-block",
+		fontWeight: "lighter"
+	}
 }))
 
 export function ClusterLogs (props) {
-	const logsEndRef = React.createRef();
 	const classes = useStyles();
 	const commonClasses = commonStyles();
-	const [clusterLog, setClusterLog] = useState("");
+	const [clusterLog, setClusterLog] = useState([]);
 	const localStorageSelectedCluster = JSON.parse(localStorage.getItem("selectedCluster"));
 	const selectedCluster = useSelector(state => state.selectedCluster);
 
-	const scrollToBottom = () => {
-		if (localStorageSelectedCluster.status === "deploying") {
-			logsEndRef.current.scrollIntoView({
-				behavior: "smooth",
-				block: "end"
-			});
-		}
-	}
 	const showLogs = (cluster,lineNumber) => {
 		fetch(`${serverURL}/kubespray/deploy/get/log`,{
 			method: 'POST',
@@ -51,28 +50,27 @@ export function ClusterLogs (props) {
 		})
 		.then(response => response.json())
 		.then(data => {
-			console.log(data.readed_lines)
 			if(data.readed_lines !== ""){
-				let temporaryLog = "";
+				let temporaryLog = [];
 				for (let i = 0; i < data.readed_lines.length; i++) {
-					temporaryLog += data.readed_lines[i];
+					temporaryLog.push(data.readed_lines[i])
 				}
-				setClusterLog(prevState => prevState += temporaryLog);
+				setClusterLog(prevState => prevState.concat(temporaryLog));
 			}
 			if(cluster.status === "deploying") {
 				setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
 			}
 		})
 	};
+
 	useEffect(() => {
 		props.dispatch(selectCluster(localStorageSelectedCluster))
 		showLogs(localStorageSelectedCluster, 0)
 	}, []);
-	useEffect(scrollToBottom, [clusterLog]);
 	useEffect(() => {
 		return () => {
 			props.dispatch(selectCluster({}));
-			setClusterLog("");
+			setClusterLog([]);
 		}
 	}, [props])
 
@@ -93,7 +91,16 @@ export function ClusterLogs (props) {
 				</Toolbar>
 			</AppBar>
 			<Container maxWidth="xl" className={classes.containerStyle}>
-				<Typography className={classes.logs} ref={logsEndRef}>{clusterLog}</Typography>
+				<div className={classes.allLog}>
+					{clusterLog.map((log, i) => (
+						<div>
+							<Typography className={classes.logs}>
+								<span className={classes.stringNumber}>{++i}</span>
+								{log}
+							</Typography>
+						</div>
+					))}
+				</div>
 			</Container>
 		</div>
 	)
