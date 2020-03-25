@@ -1,31 +1,20 @@
 import React, { useEffect } from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, makeStyles, Tooltip  } from '@material-ui/core';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, IconButton, Tooltip  } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { deleteCloud } from '../../Actions/CloudActions';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
-
-const useStyles = makeStyles(theme => ({
-	deleteIcon: {
-		'&:hover' : {
-			color: '#f44336'
-		}
-	},
-	editIcon: {
-		'&:hover' : {
-			color: '#2196f3'
-		}
-	}
-}))
+import { useStyles } from "../../styles/style";
 
 export function TableOfClouds (props) {
 	let isVMGroupUse = false;
-	// const [isVMGroupUse, setIsVMGroupUse] = useState(false);
+	let {url} = useRouteMatch();
 	const VMGroup = useSelector(state => state.vm_group);
 	const classes = useStyles();
+
 	const refreshVMGroupData = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)
 		.then(response => response.json())
@@ -42,7 +31,6 @@ export function TableOfClouds (props) {
 		}
 		return isVMGroupUse;
 	}
-	let {url} = useRouteMatch();
 	const deleteCloudData = (index) => {
 		for(let i = 0; i <= props.clouds.length; i++) {
 			if(props.clouds[i].id === index) {
@@ -56,7 +44,9 @@ export function TableOfClouds (props) {
 			}
 		}
 	};
+
 	useEffect(refreshVMGroupData, [])
+
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">

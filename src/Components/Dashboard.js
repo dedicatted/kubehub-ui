@@ -16,13 +16,6 @@ const useStyles = makeStyles(theme => ({
  	toolbar: {
  	 	paddingRight: 24, // keep right padding when drawer closed
  	},
- 	toolbarIcon: {
- 	 	display: 'flex',
- 	 	alignItems: 'center',
- 	 	justifyContent: 'flex-end',
- 	 	padding: '0 8px',
- 	 	...theme.mixins.toolbar,
- 	},
  	appBar: {
  	 	zIndex: theme.zIndex.drawer + 1,
  	 	transition: theme.transitions.create(['width', 'margin'], {
@@ -76,12 +69,8 @@ const useStyles = makeStyles(theme => ({
  	 	overflow: 'auto',
  	 	flexDirection: 'column',
  	},
- 	fixedHeight: {
- 	 	height: 240,
- 	},
 }));
 
-export const serverURL = 'http://192.168.84.189:8080';
 export function clearFields() {
 	for(let i = 0; i < arguments.length; i++) {
 		arguments[i]('');

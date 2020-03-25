@@ -1,23 +1,17 @@
 import React, { useCallback } from 'react';
-import { Button, makeStyles, Container } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { CreateCluster } from './CreateCluster';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../serverLink';
 import { useDispatch, useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
 import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
 import { TableOfClusters } from './TableOfClusters';
 import { showClusters } from '../../Actions/ClusterActions';
 import { ClusterLogs } from './ClusterLogs';
-
-const useStyle = makeStyles({
-	links: {
-		color: 'black',
-		textDecoration: 'none'
-	}
-})
+import { useStyles } from '../../styles/style';
 
 export function Clusters ()	 {
-	const classes = useStyle();
+	const classes = useStyles();
 	let { path, url } = useRouteMatch();
 	const dispatch = useDispatch();
 	const clusters = useSelector(state => state.clusters)
@@ -33,8 +27,8 @@ export function Clusters ()	 {
 		.then(response => response.json())
 		.then(data => data.kubernetes_cluster_list)
 		.then(data => dispatch(showClusters(data)))
-		.then(data => console.log(data))
 	}, [dispatch])
+
 	return(
 		<Container maxWidth="xl">
 			<Switch>

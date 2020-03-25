@@ -1,33 +1,15 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, makeStyles, CircularProgress, Tooltip } from '@material-ui/core';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, CircularProgress, Tooltip } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import ReplayIcon from '@material-ui/icons/Replay';
-import { serverURL } from '../Dashboard';
+import { serverURL } from '../../serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { clusterLog, clearClusterLog } from '../../Actions/ClusterActions';
-
-const useStyles = makeStyles(tehme => ({
-	deleteIcon: {
-		'&:hover' : {
-			color: '#f44336'
-		}
-	},
-	reloadIcon: {
-		'&:hover' : {
-			color: '#4caf50'
-		}
-	},
-	infoIcon: {
-		'&:hover' : {
-			color: '#607d8b'
-		}
-	},
-	removingCircularProgress: {
-		color: '#f44336'
-	}
-}));
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import { useStyles } from "../../styles/style";
 
 export function TableOfClusters (props) {
 	const classes = useStyles();
@@ -42,8 +24,7 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(data => console.log(data));
-	}
+	};
 	const reloadCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/kubespray/deploy/restart`, {
 			method: "POST",
@@ -52,8 +33,7 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(data => console.log(data));
-	}
+	};
 	const showLogs = (cluster,lineNumber) => {
 		fetch(`${serverURL}/kubespray/deploy/get/log`,{
 			method: 'POST',
@@ -67,7 +47,7 @@ export function TableOfClusters (props) {
 			if(data.readed_lines !== ""){
 				let temporaryLog = "";
 				for (let i = 0; i < data.readed_lines.length; i++) {
-					temporaryLog += data.readed_lines[i] + '\n';
+					temporaryLog += data.readed_lines[i];
 				}
 				props.dispatch(clusterLog(temporaryLog))
 			}
@@ -75,7 +55,7 @@ export function TableOfClusters (props) {
 				setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
 			}
 		})
-	}
+	};
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -89,8 +69,8 @@ export function TableOfClusters (props) {
 			props.refreshClustersData();
 		}, 100);
 		props.refreshVMGroupData();
-	},[])
-	
+	},[]);
+
 	return (
 		<TableContainer>
 			<Table aria-label="simple table">
@@ -116,12 +96,14 @@ export function TableOfClusters (props) {
 										: cluster.status === "deploying"
 											? <CircularProgress />
 											: cluster.status ==="running"
-												? "Running"
-												: cluster.status
+												? <CheckCircleOutlineIcon className={classes.successColor} />
+												: cluster.status === "error"
+													? <ErrorOutlineIcon className={classes.errorColor} />
+													: cluster.status
 								}</TableCell>
 								<TableCell align="center">
 									<Tooltip title="Restart deploy">
-										<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.reloadIcon}>
+										<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.startIcon}>
 											<ReplayIcon />
 										</IconButton>
 									</Tooltip>
