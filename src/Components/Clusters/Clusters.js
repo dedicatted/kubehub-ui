@@ -44,7 +44,9 @@ export function Clusters ()	 {
 				/>
 			</Route>
 			<Route path={`${path}/cluster_log`}>
-				<ClusterLogs />
+				<ClusterLogs
+					dispatch={dispatch}
+				/>
 			</Route>
 		</Switch>
 	)

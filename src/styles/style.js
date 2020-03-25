@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core";
 
-export const useStyles = makeStyles(theme => ({
+export const commonStyles = makeStyles(theme => ({
 	links: {
 		color: 'black',
 		textDecoration: 'none'

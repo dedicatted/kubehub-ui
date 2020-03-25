@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Dialog, DialogTitle, TextField, DialogContent, DialogActions, Button, Grid } from '@material-ui/core';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { serverURL } from '../../serverLink';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
 
 export default function DeleteVMGroup (props) {
-	const classes = useStyles();
+	const classes = commonStyles();
 	const [nameOfVMGroup, setNameOfVMGroup] = useState('');
 	const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
 

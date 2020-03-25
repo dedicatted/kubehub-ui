@@ -3,10 +3,10 @@ import { Button, TextField, Container, Typography, Grid  } from '@material-ui/co
 import { editCloud } from '../../Actions/CloudActions';
 import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
 
 export function EditCloud (props) {
-	const classes = useStyles();
+	const classes = commonStyles();
 
 	const editCloudData = () => {
 		props.dispatch(editCloud(props.editCP_type, props.editName, props.editCloudIndex));

@@ -7,13 +7,13 @@ import { serverURL } from '../../serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
 
 export function TableOfClouds (props) {
 	let isVMGroupUse = false;
 	let {url} = useRouteMatch();
 	const VMGroup = useSelector(state => state.vm_group);
-	const classes = useStyles();
+	const classes = commonStyles();
 
 	const refreshVMGroupData = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)

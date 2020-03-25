@@ -6,13 +6,13 @@ import InfoIcon from '@material-ui/icons/Info';
 import ReplayIcon from '@material-ui/icons/Replay';
 import { serverURL } from '../../serverLink';
 import { Link, useRouteMatch } from 'react-router-dom';
-import { clusterLog, clearClusterLog } from '../../Actions/ClusterActions';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
+
 
 export function TableOfClusters (props) {
-	const classes = useStyles();
+	const classes = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	let {url} = useRouteMatch();
 
@@ -33,28 +33,6 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-	};
-	const showLogs = (cluster,lineNumber) => {
-		fetch(`${serverURL}/kubespray/deploy/get/log`,{
-			// method: 'POST',
-			// body: JSON.stringify({
-			// 	kubespray_deploy_id: cluster.kubespray_deployments[cluster.kubespray_deployments.length - 1].id,
-			// 	last_line: lineNumber
-			// })
-		})
-		.then(response => response.json())
-		.then(data => {
-			if(data.readed_lines !== ""){
-				let temporaryLog = "";
-				for (let i = 0; i < data.readed_lines.length; i++) {
-					temporaryLog += data.readed_lines[i];
-				}
-				props.dispatch(clusterLog(temporaryLog))
-			}
-			if(cluster.status === "deploying") {
-				setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
-			}
-		})
 	};
 
 	useEffect(() => {
@@ -96,7 +74,7 @@ export function TableOfClusters (props) {
 									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
 									<TableCell align="center">{
 										cluster.status === "removing"
-											? <CircularProgress className={classes.removingCircularProgress}/>
+											? <CircularProgress className={classes.errorColor}/>
 											: cluster.status === "deploying"
 												? <CircularProgress />
 												: cluster.status ==="running"
@@ -119,8 +97,7 @@ export function TableOfClusters (props) {
 										<Tooltip title="Show logs">
 											<Link to={`${url}/cluster_log`}>
 												<IconButton className={classes.infoIcon} onClick={() => {
-													props.dispatch(clearClusterLog());
-													showLogs(cluster, 0);
+													localStorage.setItem("selectedCluster", JSON.stringify(cluster));
 												}}>
 													<InfoIcon />
 												</IconButton>

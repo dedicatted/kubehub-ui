@@ -7,11 +7,11 @@ import TemplateCard  from "./TemplateCard";
 import DeleteVMGroup from "./DeleteVMGroup";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
 import { Link, useRouteMatch } from 'react-router-dom';
 
 export function TableOfVMGroup (props) {
-	const classes = useStyles();
+	const classes = commonStyles();
 	const VMGroup = useSelector(state => state.vm_group);
 	const [stateVMGroup] = useState(VMGroup);
 	const [selectedVMGroup, setSelectedVMGroup] = useState([]);
