@@ -10,6 +10,7 @@ import { clusterLog, clearClusterLog } from '../../Actions/ClusterActions';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { useStyles } from "../../styles/style";
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 export function TableOfClusters (props) {
 	const classes = useStyles();
@@ -102,6 +103,11 @@ export function TableOfClusters (props) {
 													: cluster.status
 								}</TableCell>
 								<TableCell align="center">
+									<Tooltip title="Get config file">
+										<IconButton>
+											<GetAppIcon />
+										</IconButton>
+									</Tooltip>
 									<Tooltip title="Restart deploy">
 										<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.startIcon}>
 											<ReplayIcon />
