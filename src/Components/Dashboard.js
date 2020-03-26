@@ -1,10 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge, Container } from '@material-ui/core';
+import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems } from './listItems';
 import { Routes } from '../Routes';
+import { useSelector } from 'react-redux';
 
 
 const drawerWidth = 220;
@@ -58,7 +59,10 @@ const useStyles = makeStyles(theme => ({
  	 	flexGrow: 1,
  	 	height: '100vh',
  	 	overflow: 'auto',
- 	},
+	},
+	logBackgroundColor: {
+		backgroundColor: "#1a1918"
+	},
  	container: {
  	 	paddingTop: theme.spacing(4),
  	 	paddingBottom: theme.spacing(4),
@@ -79,7 +83,7 @@ export function clearFields() {
 export 	function Dashboard() {
  	const classes = useStyles();
 	const [open, setOpen] = React.useState(false);
-
+	const selectedCluster = useSelector(state => state.selectedCluster);
  	const handleDrawerOpenClose = () => {
  	 	setOpen(!open);
 	 };
@@ -122,11 +126,12 @@ export 	function Dashboard() {
 				</List>
 				<Divider />
 			</Drawer>
-			<main className={classes.content}>
+			<main className={Object.keys(selectedCluster).length !== 0
+				? [classes.content, classes.logBackgroundColor].join(' ')
+				: classes.content
+			}>
 				<div className={classes.appBarSpacer} />
-				<Container maxWidth="xl" className={classes.container}>
-					{Routes}
-				</Container>
+				{Routes}
 			</main>
 		</div>
  	);

@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table, CircularProgress } from '@material-ui/core';
+import { IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table, CircularProgress, Container, Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import TemplateCard  from "./TemplateCard";
 import DeleteVMGroup from "./DeleteVMGroup";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
+import { Link, useRouteMatch } from 'react-router-dom';
 
 export function TableOfVMGroup (props) {
-	const classes = useStyles();
+	const classes = commonStyles();
 	const VMGroup = useSelector(state => state.vm_group);
 	const [stateVMGroup] = useState(VMGroup);
 	const [selectedVMGroup, setSelectedVMGroup] = useState([]);
 	const [deleteVMGroupWindow, setDeleteVMGroupWindow] = useState(false);
+	let { url } = useRouteMatch();
 
 	const handleDeleteVMGroupWindowOpen = (vm_group) => {
 		setSelectedVMGroup(vm_group);
@@ -30,7 +32,10 @@ export function TableOfVMGroup (props) {
 	  }, [props]);
 
 	return (
-		<div>
+		<Container maxWidth="xl" className={classes.container}>
+			<Link to={`${url}/create_vm_group`} className={classes.links}>
+				<Button variant="contained" color='primary' onClick={() => {props.refreshCloudData()}}>Create VM group</Button>
+			</Link>
 			<TableContainer className={classes.tableMargin}>
 				<Table aria-label="simple table">
 					<TableHead>
@@ -115,6 +120,6 @@ export function TableOfVMGroup (props) {
 				refreshVMGroupData={props.refreshVMGroupData}
 				VMGroup={VMGroup}
 			/>
-		</div>
+		</Container>
 	);
 };

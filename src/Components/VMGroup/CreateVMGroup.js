@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { getCloudId } from '../../Actions/CloudActions';
 import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
 
 
 export function CreateVMGroup (props) {
-	const classes = useStyles();
+	const classes = commonStyles();
 	const [name, setName] = React.useState('');
 	const [CP_type, setCP_type] = React.useState('');
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
@@ -54,7 +54,7 @@ export function CreateVMGroup (props) {
 	};
 
 	return (
-		<Container maxWidth="xl">
+		<Container maxWidth="xl" className={classes.container}>
 			<Typography
 				gutterBottom
 				component="h1"

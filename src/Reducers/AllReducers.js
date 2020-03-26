@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { clouds, cloudId } from './CloudReducer';
 import { vm_group, templates } from './VMGroupReducer';
-import { clusters, clusterLog } from './ClusterReducer';
+import { clusters, selectedCluster } from './ClusterReducer';
 
 export  const allReducers = combineReducers({
 	clouds,
@@ -9,5 +9,5 @@ export  const allReducers = combineReducers({
 	cloudId,
 	templates,
 	clusters,
-	clusterLog
+	selectedCluster
 })

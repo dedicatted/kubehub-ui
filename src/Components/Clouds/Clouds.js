@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
-import { useRouteMatch, Link, Switch, Route } from 'react-router-dom';
-import { Button, Container } from '@material-ui/core';
+import { useRouteMatch, Switch, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud';
 import { serverURL } from '../../serverLink';
 import CreateCloud from './CreateCloud';
-import { useStyles } from '../../styles/style';
 
 
 const CP_types = [
@@ -23,8 +21,7 @@ const CP_types = [
 ];
 
 export function Clouds () {
-	const classes = useStyles();
-	let {path, url} = useRouteMatch();
+	let { path } = useRouteMatch();
 	const clouds = useSelector(state => state.clouds);
 	const [stateClouds] =React.useState(clouds);
 	const [editName, setEditName] = React.useState('');
@@ -49,37 +46,32 @@ export function Clouds () {
 	useEffect(refreshCloudData,[stateClouds]);
 
 	return (
-		<Container maxWidth='xl'>
-			<Switch>
-				<Route exact path={path}>
-					<Link to={`${url}/create_cloud`} className={classes.links}>
-						<Button variant="contained" color="primary" >Add cloud</Button>
-					</Link>
-					<TableOfClouds
-						handleEditWindowOpen={handleEditWindowOpen}
-						refreshCloudData={refreshCloudData}
-						dispatch={dispatch}
-						clouds={clouds}
-					/>
-				</Route>
-				<Route path={`${path}/create_cloud`}>
-					<CreateCloud
-						refreshCloudData={refreshCloudData}
-						CP_types={CP_types}
-						dispatch={dispatch}
-					/>
-				</Route>
-				<Route path={`${path}/edit_cloud`}>
-					<EditCloud
-						CP_types={CP_types}
-						editName={editName}
-						editCloudIndex={editCloudIndex}
-						setEditName={setEditName}
-						clouds={clouds}
-						dispatch={dispatch}
-					/>
-				</Route>
-			</Switch>
-		</Container>
+		<Switch>
+			<Route exact path={path}>
+				<TableOfClouds
+					handleEditWindowOpen={handleEditWindowOpen}
+					refreshCloudData={refreshCloudData}
+					dispatch={dispatch}
+					clouds={clouds}
+				/>
+			</Route>
+			<Route path={`${path}/create_cloud`}>
+				<CreateCloud
+					refreshCloudData={refreshCloudData}
+					CP_types={CP_types}
+					dispatch={dispatch}
+				/>
+			</Route>
+			<Route path={`${path}/edit_cloud`}>
+				<EditCloud
+					CP_types={CP_types}
+					editName={editName}
+					editCloudIndex={editCloudIndex}
+					setEditName={setEditName}
+					clouds={clouds}
+					dispatch={dispatch}
+				/>
+			</Route>
+		</Switch>
 	);
 };
