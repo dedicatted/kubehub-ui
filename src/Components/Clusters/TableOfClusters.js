@@ -9,7 +9,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { commonStyles } from "../../styles/style";
-
+import GetAppIcon from '@material-ui/icons/GetApp';
 
 export function TableOfClusters (props) {
 	const classes = commonStyles();
@@ -38,6 +38,24 @@ export function TableOfClusters (props) {
 		.then(props.refreshClustersData()) // !! After receiving a response
 		setTimeout(props.refreshClustersData(),100) // !! After sending a request
 	};
+	const getConfig = (cluster) => {
+		fetch(`${serverURL}/cluster/get/config`, {
+			method: "POST",
+			body: JSON.stringify({
+				kubernetes_cluster_id: cluster.id
+			})
+		})
+		.then(response => response.blob())
+        .then(blob => {
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = "filename";
+            document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+            a.click();
+            a.remove();  //afterwards we remove the element again
+        });
+	}
 
 	useEffect(() => {
 		const interval = setInterval(() => {
@@ -91,6 +109,11 @@ export function TableOfClusters (props) {
 										<Tooltip title="Restart deploy">
 											<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.startIcon}>
 												<ReplayIcon />
+											</IconButton>
+										</Tooltip>
+										<Tooltip title="Get config">
+											<IconButton onClick={() => {getConfig(cluster)}} className={classes.orangeColor}>
+												<GetAppIcon />
 											</IconButton>
 										</Tooltip>
 										<Tooltip title="Delete cluster">
