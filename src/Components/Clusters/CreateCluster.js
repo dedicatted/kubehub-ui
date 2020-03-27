@@ -3,7 +3,7 @@ import { TextField, Button, MenuItem, Grid, Container, Typography } from '@mater
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { serverURL } from '../../serverLink';
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
 
 export function CreateCluster (props) {
 	const testVersions = [
@@ -12,7 +12,7 @@ export function CreateCluster (props) {
 		{value: 'v.3'}
 	]
 
-	const classes = useStyles();
+	const classes = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	const clusters = useSelector(state => state.clusters);
 	const [clusterName, setClusterName] = useState('');
@@ -61,11 +61,11 @@ export function CreateCluster (props) {
 	}, [clusters, VMGroups])
 
 	return (
-		<Container maxWidth='xl' aria-labelledby="form-dialog-title">
+		<Container maxWidth="xl" className={classes.container}>
 			<Typography
 				gutterBottom
 				component="h1"
-				align='center'
+				align="center"
 				fontWeight='fontWeightBold'
 				className={classes.lable}
 			>

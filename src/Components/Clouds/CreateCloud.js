@@ -3,10 +3,10 @@ import { TextField, Button, MenuItem, Container, Typography, Grid } from "@mater
 import { serverURL } from "../../serverLink";
 import { addCloud } from "../../Actions/CloudActions";
 import { Link } from "react-router-dom";
-import { useStyles } from "../../styles/style";
+import { commonStyles } from "../../styles/style";
 
 export default function CreateCloud (props) {
-	const classes = useStyles();
+	const classes = commonStyles();
 	const [CP_type, setCP_type] = React.useState("AWS");
 	const [name, setName] = React.useState("");
 	const [api_endpoint, setApiEndpoint] = React.useState("");
@@ -31,7 +31,7 @@ export default function CreateCloud (props) {
 	};
 
 	return (
-		<Container maxWidth="xl">
+		<Container maxWidth="xl" className={classes.container}>
 			<Typography
 				gutterBottom
 				component="h1"
