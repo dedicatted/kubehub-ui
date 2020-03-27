@@ -1,6 +1,5 @@
 const SHOW_CLUSTERS = "SHOW_CLUSTERS";
-const CLUSTER_LOG = "CLUSTER_LOG";
-const CLEAR_CLUSTER_LOG = "CLEAR_CLUSTER_LOG";
+const SELECT_CLUSTER = "SELECT_CLUSTER";
 
 export const showClusters = (clusters) => {
 	return {
@@ -9,15 +8,9 @@ export const showClusters = (clusters) => {
 	}
 }
 
-export const clusterLog = (clusterLog) => {
+export const selectCluster = (cluster) => {
 	return {
-		type: CLUSTER_LOG,
-		clusterLog: clusterLog
-	}
-}
-
-export const clearClusterLog = () => {
-	return {
-		type: CLEAR_CLUSTER_LOG,
+		type: SELECT_CLUSTER,
+		cluster: cluster
 	}
 }

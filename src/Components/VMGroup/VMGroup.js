@@ -1,21 +1,18 @@
 import React, { useEffect } from 'react';
-import { Button, Container } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { showVMGroup, getTemplates } from '../../Actions/VMGroupActions';
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { CreateVMGroup } from './CreateVMGroup';
 import { serverURL } from '../../serverLink';
-import { Switch, Route, useRouteMatch, Link } from 'react-router-dom';
-import { useStyles } from "../../styles/style";
+import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 
 export function VMGroup() {
-	const classes = useStyles();
 	const dispatch = useDispatch();
 	const templates = useSelector(state => state.templates);
 	const clouds = useSelector(state => state.clouds);
-	let {path, url} = useRouteMatch();
+	let { path } = useRouteMatch();
 
 	const refreshCloudData = () => {
 		fetch(`${serverURL}/api/cloud_providers/list`)
@@ -43,31 +40,26 @@ export function VMGroup() {
 	useEffect(refreshCloudData, []);
 
 	return (
-		<Container maxWidth='xl'>
-			<Switch>
-				<Route exact path={path}>
-					<Link to={`${url}/create_vm_group`} className={classes.links}>
-						<Button variant="contained" color='primary' onClick={() => {refreshCloudData()}}>Create VM group</Button>
-					</Link>
-					<TableOfVMGroup
-						refreshVMGroupData={refreshVMGroupData}
-						refreshCloudData={refreshCloudData}
-						templates={templates}
-						clouds={clouds}
-						dispatch={dispatch}
-						refreshTempaltes={refreshTempaltes}
-					/>
-				</Route>
-				<Route path={`${path}/create_vm_group`}>
-					<CreateVMGroup
-						refreshVMGroupData={refreshVMGroupData}
-						dispatch={dispatch}
-						templates={templates}
-						clouds={clouds}
-						refreshTempaltes={refreshTempaltes}
-					/>
-				</Route>
-			</Switch>
-		</Container>
+		<Switch>
+			<Route exact path={path}>
+				<TableOfVMGroup
+					refreshVMGroupData={refreshVMGroupData}
+					refreshCloudData={refreshCloudData}
+					templates={templates}
+					clouds={clouds}
+					dispatch={dispatch}
+					refreshTempaltes={refreshTempaltes}
+				/>
+			</Route>
+			<Route path={`${path}/create_vm_group`}>
+				<CreateVMGroup
+					refreshVMGroupData={refreshVMGroupData}
+					dispatch={dispatch}
+					templates={templates}
+					clouds={clouds}
+					refreshTempaltes={refreshTempaltes}
+				/>
+			</Route>
+		</Switch>
 	);
 };
