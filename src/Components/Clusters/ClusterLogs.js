@@ -83,6 +83,7 @@ export function ClusterLogs (props) {
 		}
 	}, [props])
 	useEffect(scrollToBottom, [clusterLog]);
+
 	return (
 		<div>
 			<AppBar position="static" className={classes.AppBar}>

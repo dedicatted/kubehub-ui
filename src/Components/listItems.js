@@ -15,7 +15,6 @@ const useStyle = makeStyles({
 
 export function MainListItems()	{
 	const classes = useStyle();
-
 	return(
 		<div>
 			<Link to='/' className={classes.links}>
