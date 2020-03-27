@@ -103,7 +103,7 @@ export function ClusterLogs (props) {
 			<Container maxWidth="xl" id="scrollToBottom" className={classes.containerStyle}>
 				<div className={classes.allLog} ref={logsEndRef}>
 					{clusterLog.map((log, i) => (
-						<div>
+						<div key={i}>
 							<Typography className={classes.logs}>
 								<span className={classes.stringNumber}>{++i}</span>
 								{log}

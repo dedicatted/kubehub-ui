@@ -50,7 +50,7 @@ export function TableOfClusters (props) {
             var url = window.URL.createObjectURL(blob);
             var a = document.createElement('a');
             a.href = url;
-            a.download = "filename";
+            a.download = `${cluster.name}_config.txt`;
             document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
             a.click();
             a.remove();  //afterwards we remove the element again
@@ -112,7 +112,7 @@ export function TableOfClusters (props) {
 											</IconButton>
 										</Tooltip>
 										<Tooltip title="Get config">
-											<IconButton onClick={() => {getConfig(cluster)}} className={classes.orangeColor}>
+											<IconButton onClick={() => {getConfig(cluster)}} className={classes.orangeColor} download>
 												<GetAppIcon />
 											</IconButton>
 										</Tooltip>
