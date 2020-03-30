@@ -9,9 +9,9 @@ export function CreateCluster (props) {
 	const classes = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	const clusters = useSelector(state => state.clusters);
-	const [kubernetesVersions, setKubernetesVersions] = useState([])
+	const [kubernetesVersions, setKubernetesVersions] = useState([]);
 	const [clusterName, setClusterName] = useState('');
-	const [versionOfKubernetes, setVersionOfKubernetes] = useState('');
+	const [kubernetesVersionId, setkubernetesVersionId] = useState('');
 	const [selectedVMGroup, setSelectedVMGroup] = useState('');
 	const [numberOfMasters, setNumberOfMasters] = useState('');
 	const [numberOfWorkers, setNumberOfWorkers] = useState('');
@@ -19,7 +19,7 @@ export function CreateCluster (props) {
 	const [availableVMGroups,setAvailableVMGroups] = useState([]);
 
 	const handleClusterNameChange = event => setClusterName(event.target.value);
-	const handleVersionOfKubesprayChange = event => setVersionOfKubernetes(event.target.value);
+	const handleVersionOfKubesprayChange = event => setkubernetesVersionId(event.target.value);
 	const handleVMGroupChange = event => {
 		setSelectedVMGroup(event.target.value);
 		event.target.value
@@ -33,7 +33,7 @@ export function CreateCluster (props) {
 			method: 'POST',
 			body: JSON.stringify({
 				name: clusterName,
-				k8s_version: versionOfKubernetes,
+				kubernetes_version_id: kubernetesVersionId,
 				vm_group: selectedVMGroup.id
 			})
 		})
@@ -46,6 +46,7 @@ export function CreateCluster (props) {
 		.then(kubernetes_version_list => setKubernetesVersions(kubernetes_version_list))
 		.then(console.log(getKubernetesVersions))
 	}
+
 	useEffect(getKubernetesVersions, []);
 	useEffect(props.refreshVMGroupData, []);
 	useEffect(props.refreshClustersData, []);
@@ -84,11 +85,11 @@ export function CreateCluster (props) {
 				variant='outlined'
 				/>
 			<TextField
-				id="standard-select-versionOfKubernetes"
+				id="standard-select-kubernetesVersionId"
 				label="Version"
 				size='small'
 				select
-				value={versionOfKubernetes}
+				value={kubernetesVersionId}
 				onChange={handleVersionOfKubesprayChange}
 				helperText="Version of kubernetes"
 				fullWidth
@@ -96,7 +97,7 @@ export function CreateCluster (props) {
 				margin="dense"
 			>
 				{kubernetesVersions.map((version, i) => (
-					<MenuItem key={i} value={version.version}>
+					<MenuItem key={i} value={version.id}>
 						{version.version}
 					</MenuItem>
 				))}
