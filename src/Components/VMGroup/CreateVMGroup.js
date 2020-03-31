@@ -1,7 +1,5 @@
 import React from 'react';
 import { TextField, MenuItem, Button, Container, Typography, Grid } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { getCloudId } from '../../Actions/CloudActions';
 import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style";
@@ -10,39 +8,28 @@ import { commonStyles } from "../../styles/style";
 export function CreateVMGroup (props) {
 	const classes = commonStyles();
 	const [name, setName] = React.useState('');
-	const [CP_type, setCP_type] = React.useState('');
+	const [CPTypeId, setCPTypeId] = React.useState('');
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
 	const [template, setTemplate] = React.useState('');
 	const [templateVMID, setTemplateVMID] = React.useState();
-	const cloudId = useSelector(state => state.cloudId);
 
-	const handleCP_typeChange = event => {
-		setCP_type(event.target.value);
-		for (let i = 0; i < props.clouds.length; i++) {
-			if(props.clouds[i].cp_type === event.target.value) {
-				props.dispatch(getCloudId(props.clouds,i));
-			}
-		}
-	};
+	const handleCPTypeChange = event => setCPTypeId(event.target.value);
 	const handleNameChange = event => setName(event.target.value);
 	const handleNumberOfNodes = event => setNumberOfNodes(event.target.value);
 	const handleTemplate = event => {
 		setTemplate(event.target.value);
-		console.log(event.target.value);
 		for (let i = 0; i <= props.templates.length; i++) {
-			console.log(props.templates[i]);
 			if (props.templates[i].name === event.target.value) {
 				setTemplateVMID(props.templates[i].id);
 				break;
 			}
 		}
-		console.log(templateVMID);
 	};
 	const createVM_group = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/add`, {
 			method: 'POST',
 			body: JSON.stringify({
-				cloud_provider_id: cloudId,
+				cloud_provider_id: CPTypeId,
 				template_id: templateVMID,
 				number_of_nodes: numberOfNodes,
 				node: 'pve-01',
@@ -67,56 +54,56 @@ export function CreateVMGroup (props) {
 					id="standard-select-CP_type"
 					select
 					label="Cloud"
-					value={CP_type}
-					onChange={handleCP_typeChange}
+					value={CPTypeId}
+					onChange={handleCPTypeChange}
 					helperText="Please select your cloud"
 					fullWidth
 					variant="outlined"
 					size="small"
 				>
-				{props.clouds.map(cloud => (
-					<MenuItem key={cloud.id} value={cloud.cp_type}>
-						{cloud.cp_type}
-					</MenuItem>
-				))}
+					{props.clouds.map(cloud => (
+						<MenuItem key={cloud.id} value={cloud.id}>
+							{cloud.cp_type}
+						</MenuItem>
+					))}
 				</TextField>
-					<TextField
-						value={name}
-						onChange={handleNameChange}
-						margin="dense"
-						id="name"
-						label="Name"
-						fullWidth
-						variant="outlined"
-						size="small"
-					/>
-					<TextField
-						margin="dense"
-						id="number_of_nodes"
-						label="Number of nodes"
-						fullWidth
-						value={numberOfNodes}
-						onChange={handleNumberOfNodes}
-						variant="outlined"
-						size="small"
-					/>
-					<TextField
-						margin="dense"
-						id="template"
-						label="Template"
-						value={template}
-						onChange={handleTemplate}
-						select
-						fullWidth
-						variant="outlined"
-						size="small"
-					>
+				<TextField
+					value={name}
+					onChange={handleNameChange}
+					margin="dense"
+					id="name"
+					label="Name"
+					fullWidth
+					variant="outlined"
+					size="small"
+				/>
+				<TextField
+					margin="dense"
+					id="number_of_nodes"
+					label="Number of nodes"
+					fullWidth
+					value={numberOfNodes}
+					onChange={handleNumberOfNodes}
+					variant="outlined"
+					size="small"
+				/>
+				<TextField
+					margin="dense"
+					id="template"
+					label="Template"
+					value={template}
+					onChange={handleTemplate}
+					select
+					fullWidth
+					variant="outlined"
+					size="small"
+				>
 					{props.templates.map(template => (
 						<MenuItem key={template.id} value={template.name}>
 							{template.name}
 						</MenuItem>
 					))}
-					</TextField>
+				</TextField>
 				<Grid
 					container
 					direction="row"
@@ -124,9 +111,9 @@ export function CreateVMGroup (props) {
 					alignItems="center"
 				>
 					<Link to="/vm_group" className={classes.links}>
-					<Button variant="contained" color="primary" className={classes.margin}>
-						Cancel
-					</Button>
+						<Button variant="contained" color="primary" className={classes.margin}>
+							Cancel
+						</Button>
 					</Link>
 					<Link to="/vm_group" className={classes.links}>
 						<Button variant="contained" onClick={createVM_group} color="primary" className={classes.margin}>
