@@ -10,17 +10,17 @@ export function CreateVMGroup (props) {
 	const [name, setName] = React.useState('');
 	const [CPTypeId, setCPTypeId] = React.useState('');
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
-	const [template, setTemplate] = React.useState('');
-	const [templateVMID, setTemplateVMID] = React.useState();
+	const [VMType, setVMType] = React.useState('');
+	const [VMTypeVMID, setVMTypeVMID] = React.useState();
 
 	const handleCPTypeChange = event => setCPTypeId(event.target.value);
 	const handleNameChange = event => setName(event.target.value);
 	const handleNumberOfNodes = event => setNumberOfNodes(event.target.value);
-	const handleTemplate = event => {
-		setTemplate(event.target.value);
-		for (let i = 0; i <= props.templates.length; i++) {
-			if (props.templates[i].name === event.target.value) {
-				setTemplateVMID(props.templates[i].id);
+	const handleVMType = event => {
+		setVMType(event.target.value);
+		for (let i = 0; i <= props.VMType.length; i++) {
+			if (props.VMType[i].name === event.target.value) {
+				setVMTypeVMID(props.VMType[i].id);
 				break;
 			}
 		}
@@ -30,7 +30,7 @@ export function CreateVMGroup (props) {
 			method: 'POST',
 			body: JSON.stringify({
 				cloud_provider_id: CPTypeId,
-				template_id: templateVMID,
+				template_id: VMTypeVMID,
 				number_of_nodes: numberOfNodes,
 				node: 'pve-01',
 				name: name
@@ -89,18 +89,18 @@ export function CreateVMGroup (props) {
 				/>
 				<TextField
 					margin="dense"
-					id="template"
-					label="Template"
-					value={template}
-					onChange={handleTemplate}
+					id="VMType"
+					label="VM type"
+					value={VMType}
+					onChange={handleVMType}
 					select
 					fullWidth
 					variant="outlined"
 					size="small"
 				>
-					{props.templates.map(template => (
-						<MenuItem key={template.id} value={template.name}>
-							{template.name}
+					{props.VMTypes.map(VMType => (
+						<MenuItem key={VMType.id} value={VMType.name}>
+							{VMType.name}
 						</MenuItem>
 					))}
 				</TextField>

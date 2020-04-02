@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table, CircularProgress, Container, Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
-import TemplateCard  from "./TemplateCard";
+import VMTypeCard  from "../VMTypes/VMTypeCard";
 import DeleteVMGroup from "./DeleteVMGroup";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
@@ -41,7 +41,7 @@ export function TableOfVMGroup (props) {
 					<TableHead>
 						<TableRow>
 							<TableCell>Name</TableCell>
-							<TableCell align="center">Template</TableCell>
+							<TableCell align="center">VM type</TableCell>
 							<TableCell align="center">Number of nodes</TableCell>
 							<TableCell align="center">Cloud provider</TableCell>
 							<TableCell align="center">Status</TableCell>
@@ -54,15 +54,15 @@ export function TableOfVMGroup (props) {
 								<TableRow key={VMGroupItem.id}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMGroupItem.name}</TableCell>
 									<TableCell align="center" className={classes.tebaleTemplateWidth}>{
-										props.templates.map((template, i) => {
+										props.VMTypes.map((VMType, i) => {
 											return(
-												VMGroupItem.vms[0].template === template.id
+												VMGroupItem.vms[0].template === VMType.id
 												? (
 													<Tooltip
 														interactive key={i}
-														title={<TemplateCard template={template} />}
+														title={<VMTypeCard VMType={VMType} />}
 													>
-														<div>{template.name}</div>
+														<div>{VMType.name}</div>
 													</Tooltip>
 												)
 												: null
