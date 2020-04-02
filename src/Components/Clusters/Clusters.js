@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { CreateCluster } from './CreateCluster';
 import { serverURL } from '../../serverLink';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { useRouteMatch, Switch, Route } from 'react-router-dom';
 import { TableOfClusters } from './TableOfClusters';
 import { showClusters } from '../../Actions/ClusterActions';
 import { ClusterLogs } from './ClusterLogs';
+import { addKubernetesVersions } from '../../Actions/KubernetesVersionActions';
 
 export function Clusters ()	 {
 	let { path } = useRouteMatch();
@@ -25,6 +26,14 @@ export function Clusters ()	 {
 		.then(data => data.kubernetes_cluster_list)
 		.then(data => dispatch(showClusters(data)))
 	}, [dispatch])
+	const getKubernetesVersions = () => {
+		fetch(`${serverURL}/kubernetes/version/list`)
+		.then(response => response.json())
+		.then(data => data.kubernetes_version_list)
+		.then(kubernetes_version_list => dispatch(addKubernetesVersions(kubernetes_version_list)))
+	}
+
+	useEffect(getKubernetesVersions, []);
 
 	return(
 		<Switch>

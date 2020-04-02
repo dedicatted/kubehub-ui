@@ -9,7 +9,7 @@ export function CreateCluster (props) {
 	const classes = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	const clusters = useSelector(state => state.clusters);
-	const [kubernetesVersions, setKubernetesVersions] = useState([]);
+	const kubernetesVersions = useSelector(state => state.kubernetesVersions);
 	const [clusterName, setClusterName] = useState('');
 	const [kubernetesVersionId, setkubernetesVersionId] = useState('');
 	const [selectedVMGroup, setSelectedVMGroup] = useState('');
@@ -39,15 +39,7 @@ export function CreateCluster (props) {
 		})
 		.then(response => response.json())
 	}
-	const getKubernetesVersions = () => {
-		fetch(`${serverURL}/kubernetes/version/list`)
-		.then(response => response.json())
-		.then(data => data.kubernetes_version_list)
-		.then(kubernetes_version_list => setKubernetesVersions(kubernetes_version_list))
-		.then(console.log(getKubernetesVersions))
-	}
 
-	useEffect(getKubernetesVersions, []);
 	useEffect(props.refreshVMGroupData, []);
 	useEffect(props.refreshClustersData, []);
 	useEffect(() => {
