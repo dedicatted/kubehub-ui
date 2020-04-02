@@ -57,6 +57,7 @@ export function TableOfClusters (props) {
         });
 	}
 
+	useEffect(() => props.getKubernetesVersions(), []);
 	useEffect(() => {
 		const interval = setInterval(() => {
 			props.refreshClustersData();
@@ -92,7 +93,7 @@ export function TableOfClusters (props) {
 							return (
 								<TableRow key={i}>
 									<TableCell component="th" scope="row">{cluster.name}</TableCell>
-									<TableCell align="center">{cluster.k8s_version}</TableCell>
+									<TableCell align="center">{props.kubernetesVersions.find(k8sVersion => k8sVersion.id === cluster.kubernetes_version_id).version}</TableCell>
 									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
 									<TableCell align="center">{
 										cluster.status === "removing"
