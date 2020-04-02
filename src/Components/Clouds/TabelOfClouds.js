@@ -10,7 +10,6 @@ import { showVMGroup } from '../../Actions/VMGroupActions';
 import { commonStyles } from "../../styles/style";
 
 export function TableOfClouds (props) {
-	let isVMGroupUse = false;
 	let {url} = useRouteMatch();
 	const VMGroup = useSelector(state => state.vm_group);
 	const classes = commonStyles();
@@ -22,11 +21,15 @@ export function TableOfClouds (props) {
 		.then(data => props.dispatch(showVMGroup(data)))
 	};
 	const checkVMGroup = (cloudProviderId) => {
+		let isVMGroupUse;
 		if (VMGroup.length) {
 			for (let i = 0; i < VMGroup.length; i++) {
-				VMGroup[i].vms[0].cloud_provider === cloudProviderId
-					? isVMGroupUse = true
-					: isVMGroupUse = false
+				if (VMGroup[i].vms[0].cloud_provider === cloudProviderId) {
+					isVMGroupUse = true;
+					break;
+				} else {
+					isVMGroupUse = false;
+				}
 			}
 		}
 		return isVMGroupUse;
@@ -70,15 +73,15 @@ export function TableOfClouds (props) {
 									<TableCell align="center">{cloud.api_endpoint}</TableCell>
 									<TableCell align="center">{cloud.cp_type}</TableCell>
 									<TableCell align="center">
-										{!isVMGroupUse
+										{checkVMGroup(cloud.id)
 											? ( <Tooltip title='You cannot delete this cloud provider, because you have groups of virtual machines that are based on this cloud provider'>
 													<span>
-														<IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)} onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
+														<IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)}>
 															<DeleteIcon />
 														</IconButton>
 													</span>
 												</Tooltip> )
-											: ( <IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)} onClick={() => {deleteCloudData(cloud.id)}} className={classes.DeleteIcon}>
+											: ( <IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}} className={classes.deleteIcon}>
 													<DeleteIcon />
 												</IconButton> )
 										}
