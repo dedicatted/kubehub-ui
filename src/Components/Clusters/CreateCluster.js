@@ -9,6 +9,7 @@ export function CreateCluster (props) {
 	const classes = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	const clusters = useSelector(state => state.clusters);
+	const kubernetesVersions = useSelector(state => state.kubernetesVersions);
 	const [clusterName, setClusterName] = useState('');
 	const [kubernetesVersionId, setkubernetesVersionId] = useState('');
 	const [selectedVMGroup, setSelectedVMGroup] = useState('');
@@ -39,7 +40,6 @@ export function CreateCluster (props) {
 		.then(response => response.json())
 	}
 
-	useEffect(props.getKubernetesVersions, []);
 	useEffect(props.refreshVMGroupData, []);
 	useEffect(props.refreshClustersData, []);
 	useEffect(() => {
@@ -88,7 +88,7 @@ export function CreateCluster (props) {
 				variant='outlined'
 				margin="dense"
 			>
-				{props.kubernetesVersions.map((version, i) => (
+				{kubernetesVersions.map((version, i) => (
 					<MenuItem key={i} value={version.id}>
 						{version.version}
 					</MenuItem>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { CreateCluster } from './CreateCluster';
 import { serverURL } from '../../serverLink';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,12 +7,12 @@ import { useRouteMatch, Switch, Route } from 'react-router-dom';
 import { TableOfClusters } from './TableOfClusters';
 import { showClusters } from '../../Actions/ClusterActions';
 import { ClusterLogs } from './ClusterLogs';
+import { addKubernetesVersions } from '../../Actions/KubernetesVersionActions';
 
 export function Clusters ()	 {
 	let { path } = useRouteMatch();
 	const dispatch = useDispatch();
 	const clusters = useSelector(state => state.clusters)
-	const [kubernetesVersions, setKubernetesVersions] = useState([]);
 
 	const refreshVMGroupData = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)
@@ -30,8 +30,10 @@ export function Clusters ()	 {
 		fetch(`${serverURL}/kubernetes/version/list`)
 		.then(response => response.json())
 		.then(data => data.kubernetes_version_list)
-		.then(kubernetes_version_list => setKubernetesVersions(kubernetes_version_list))
+		.then(kubernetes_version_list => dispatch(addKubernetesVersions(kubernetes_version_list)))
 	}
+
+	useEffect(getKubernetesVersions, []);
 
 	return(
 		<Switch>
@@ -40,8 +42,6 @@ export function Clusters ()	 {
 					refreshVMGroupData={refreshVMGroupData}
 					clusters={clusters}
 					refreshClustersData={refreshClustersData}
-					getKubernetesVersions={getKubernetesVersions}
-					kubernetesVersions={kubernetesVersions}
 				/>
 			</Route>
 			<Route exact path={path}>
@@ -50,8 +50,6 @@ export function Clusters ()	 {
 					refreshVMGroupData={refreshVMGroupData}
 					refreshClustersData={refreshClustersData}
 					dispatch={dispatch}
-					getKubernetesVersions={getKubernetesVersions}
-					kubernetesVersions={kubernetesVersions}
 				/>
 			</Route>
 			<Route path={`${path}/cluster_log`}>

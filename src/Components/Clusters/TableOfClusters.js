@@ -14,6 +14,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 export function TableOfClusters (props) {
 	const classes = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
+	const kubernetesVersions = useSelector(state => state.kubernetesVersions);
 	let {url} = useRouteMatch();
 
 	const deleteCluster = (k8s_cluster_id) => {
@@ -51,13 +52,12 @@ export function TableOfClusters (props) {
             var a = document.createElement('a');
             a.href = url;
             a.download = `${cluster.name}_config.txt`;
-            document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+            document.body.appendChild(a); // we need to append the element to the dom
             a.click();
             a.remove();  //afterwards we remove the element again
         });
 	}
 
-	useEffect(() => props.getKubernetesVersions(), []);
 	useEffect(() => {
 		const interval = setInterval(() => {
 			props.refreshClustersData();
@@ -93,7 +93,7 @@ export function TableOfClusters (props) {
 							return (
 								<TableRow key={i}>
 									<TableCell component="th" scope="row">{cluster.name}</TableCell>
-									<TableCell align="center">{props.kubernetesVersions.find(k8sVersion => k8sVersion.id === cluster.kubernetes_version_id).version}</TableCell>
+									<TableCell align="center">{kubernetesVersions.find(kubernetes_version => kubernetes_version.id === cluster.kubernetes_version_id).version}</TableCell>
 									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
 									<TableCell align="center">{
 										cluster.status === "removing"
