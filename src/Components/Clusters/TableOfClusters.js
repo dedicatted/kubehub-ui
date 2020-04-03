@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, CircularProgress, Tooltip, Container, Button } from '@material-ui/core';
+import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, IconButton, CircularProgress, Tooltip, Container, Button, Checkbox } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -10,13 +10,19 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { commonStyles } from "../../styles/style";
 import GetAppIcon from '@material-ui/icons/GetApp';
+import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 export function TableOfClusters (props) {
 	const classes = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	const kubernetesVersions = useSelector(state => state.kubernetesVersions);
 	let {url} = useRouteMatch();
+	const [arrayOfDeletedClusters, setArrayOfDeletedClusters] = useState([]);
+	const [showCheckbox, setShowCheckbox] = useState(false);
 
+	const showCheckboxFunc = () => {
+		setShowCheckbox(!showCheckbox);
+	}
 	const deleteCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/cluster/remove`, {
 			method: "POST",
@@ -77,10 +83,22 @@ export function TableOfClusters (props) {
 			<Link to={`${url}/create_cluster`} className={classes.links}>
 				<Button variant="contained" color='primary'>Create cluster</Button>
 			</Link>
+			<Button
+				color='primary'
+				startIcon={<DeleteOutlineIcon />}
+				onClick={showCheckboxFunc}
+			>
+				Delete
+			</Button>
+
 			<TableContainer>
 				<Table aria-label="simple table">
 					<TableHead>
 						<TableRow>
+							{showCheckbox
+								? (<TableCell></TableCell>)
+								: null
+							}
 							<TableCell>Name</TableCell>
 							<TableCell align="center">Version</TableCell>
 							<TableCell align="center">VM Group</TableCell>
@@ -92,6 +110,16 @@ export function TableOfClusters (props) {
 						{props.clusters.map((cluster, i) => {
 							return (
 								<TableRow key={i}>
+									{showCheckbox
+										? (<TableCell>
+												<Checkbox
+													value={cluster.id}
+													color="primary"
+												/>
+											</TableCell>
+										)
+										: null
+									}
 									<TableCell component="th" scope="row">{cluster.name}</TableCell>
 									<TableCell align="center">{kubernetesVersions.find(kubernetes_version => kubernetes_version.id === cluster.kubernetes_version_id).version}</TableCell>
 									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
