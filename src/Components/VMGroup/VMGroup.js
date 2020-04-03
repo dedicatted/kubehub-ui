@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
-import { showVMGroup, getTemplates } from '../../Actions/VMGroupActions';
+import { showVMGroup } from '../../Actions/VMGroupActions';
+import { getVMTypes } from '../../Actions/VMTypesActions';
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { CreateVMGroup } from './CreateVMGroup';
 import { serverURL } from '../../serverLink';
@@ -10,7 +11,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 export function VMGroup() {
 	const dispatch = useDispatch();
-	const templates = useSelector(state => state.templates);
+	const VMTypes = useSelector(state => state.VMTypes);
 	const clouds = useSelector(state => state.clouds);
 	let { path } = useRouteMatch();
 
@@ -30,13 +31,13 @@ export function VMGroup() {
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)))
 	};
-	const refreshTempaltes = () => {
+	const refreshVMTypes = () => {
 		fetch(`${serverURL}/api/proxmox/template/list`)
 		.then(response => response.json())
-		.then(data => dispatch(getTemplates(data.template_list)))
+		.then(data => dispatch(getVMTypes(data.template_list)))
 	};
 
-	useEffect(refreshTempaltes, []);
+	useEffect(refreshVMTypes, []);
 	useEffect(refreshCloudData, []);
 
 	return (
@@ -45,19 +46,17 @@ export function VMGroup() {
 				<TableOfVMGroup
 					refreshVMGroupData={refreshVMGroupData}
 					refreshCloudData={refreshCloudData}
-					templates={templates}
+					VMTypes={VMTypes}
 					clouds={clouds}
 					dispatch={dispatch}
-					refreshTempaltes={refreshTempaltes}
 				/>
 			</Route>
 			<Route path={`${path}/create_vm_group`}>
 				<CreateVMGroup
 					refreshVMGroupData={refreshVMGroupData}
 					dispatch={dispatch}
-					templates={templates}
+					VMTypes={VMTypes}
 					clouds={clouds}
-					refreshTempaltes={refreshTempaltes}
 				/>
 			</Route>
 		</Switch>
