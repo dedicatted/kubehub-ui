@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 import { IconButton, Tooltip, TableHead, TableRow, TableContainer, TableCell, TableBody, Table, CircularProgress, Container, Button } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import InfoIcon from '@material-ui/icons/Info';
-import TemplateCard  from "./TemplateCard";
+import VMTypeCard  from "../VMTypes/VMTypeCard";
 import DeleteVMGroup from "./DeleteVMGroup";
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { commonStyles } from "../../styles/style";
 import { Link, useRouteMatch } from 'react-router-dom';
+import AddIcon from '@material-ui/icons/Add';
 
 export function TableOfVMGroup (props) {
 	const classes = commonStyles();
@@ -34,17 +35,23 @@ export function TableOfVMGroup (props) {
 	return (
 		<Container maxWidth="xl" className={classes.container}>
 			<Link to={`${url}/create_vm_group`} className={classes.links}>
-				<Button variant="contained" color='primary' onClick={() => {props.refreshCloudData()}}>Create VM group</Button>
+				<Button
+					color='primary'
+					onClick={() => {props.refreshCloudData()}}
+					startIcon={<AddIcon />}
+				>
+					Create VM group
+				</Button>
 			</Link>
 			<TableContainer className={classes.tableMargin}>
 				<Table aria-label="simple table">
 					<TableHead>
 						<TableRow>
 							<TableCell>Name</TableCell>
-							<TableCell align="center">Template</TableCell>
+							<TableCell align="center">Status</TableCell>
+							<TableCell align="center">VM type</TableCell>
 							<TableCell align="center">Number of nodes</TableCell>
 							<TableCell align="center">Cloud provider</TableCell>
-							<TableCell align="center">Status</TableCell>
 							<TableCell align="center"></TableCell>
 						</TableRow>
 					</TableHead>
@@ -53,16 +60,29 @@ export function TableOfVMGroup (props) {
 							return (
 								<TableRow key={VMGroupItem.id}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMGroupItem.name}</TableCell>
+									<TableCell align="center">
+										{VMGroupItem.status === 'removing' || VMGroupItem.status === 'creating'
+											? <CircularProgress className={VMGroupItem.status === 'removing'
+												? classes.errorColor
+												: null
+											} />
+											: VMGroupItem.status ==="running"
+												? <CheckCircleOutlineIcon className={classes.successColor} />
+												: VMGroupItem.status === "error"
+													? <ErrorOutlineIcon className={classes.errorColor} />
+													: VMGroupItem.status
+										}
+									</TableCell>
 									<TableCell align="center" className={classes.tebaleTemplateWidth}>{
-										props.templates.map((template, i) => {
+										props.VMTypes.map((VMType, i) => {
 											return(
-												VMGroupItem.vms[0].template === template.id
+												VMGroupItem.vms[0].template === VMType.id
 												? (
 													<Tooltip
 														interactive key={i}
-														title={<TemplateCard template={template} />}
+														title={<VMTypeCard VMType={VMType} />}
 													>
-														<div>{template.name}</div>
+														<div>{VMType.name}</div>
 													</Tooltip>
 												)
 												: null
@@ -78,19 +98,6 @@ export function TableOfVMGroup (props) {
 											)
 										})
 									}</TableCell>
-									<TableCell align="center">
-										{VMGroupItem.status === 'removing' || VMGroupItem.status === 'creating'
-											? <CircularProgress className={VMGroupItem.status === 'removing'
-												? classes.errorColor
-												: null
-											} />
-											: VMGroupItem.status ==="running"
-												? <CheckCircleOutlineIcon className={classes.successColor} />
-												: VMGroupItem.status === "error"
-													? <ErrorOutlineIcon className={classes.errorColor} />
-													: VMGroupItem.status
-										}
-									</TableCell>
 									<TableCell align="center">
 										<IconButton
 											disabled={VMGroupItem.status === 'removing' || VMGroupItem.status === 'creating'

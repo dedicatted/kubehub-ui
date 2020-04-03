@@ -5,6 +5,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 import ComputerIcon from '@material-ui/icons/Computer';
 import StorageIcon from '@material-ui/icons/Storage';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 const useStyle = makeStyles({
 	links: {
@@ -47,6 +48,14 @@ export function MainListItems()	{
 						<StorageIcon />
 					</ListItemIcon>
 					<ListItemText primary="Cluster" />
+				</ListItem>
+			</Link>
+			<Link to={{pathname: '/vm_types'}} className={classes.links}>
+				<ListItem button>
+					<ListItemIcon>
+						<AssignmentIcon />
+					</ListItemIcon>
+					<ListItemText primary="VM types" />
 				</ListItem>
 			</Link>
 		</div>
