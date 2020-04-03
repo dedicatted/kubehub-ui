@@ -18,9 +18,9 @@ export function CreateVMGroup (props) {
 	const handleNumberOfNodes = event => setNumberOfNodes(event.target.value);
 	const handleVMType = event => {
 		setVMType(event.target.value);
-		for (let i = 0; i <= props.VMType.length; i++) {
-			if (props.VMType[i].name === event.target.value) {
-				setVMTypeVMID(props.VMType[i].id);
+		for (let i = 0; i <= props.VMTypes.length; i++) {
+			if (props.VMTypes[i].name === event.target.value) {
+				setVMTypeVMID(props.VMTypes[i].id);
 				break;
 			}
 		}

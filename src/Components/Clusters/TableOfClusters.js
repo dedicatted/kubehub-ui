@@ -10,6 +10,7 @@ import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { commonStyles } from "../../styles/style";
 import GetAppIcon from '@material-ui/icons/GetApp';
+import AddIcon from '@material-ui/icons/Add';
 
 export function TableOfClusters (props) {
 	const classes = commonStyles();
@@ -75,16 +76,21 @@ export function TableOfClusters (props) {
 	return (
 		<Container maxWidth="xl" className={classes.container}>
 			<Link to={`${url}/create_cluster`} className={classes.links}>
-				<Button variant="contained" color='primary'>Create cluster</Button>
+				<Button
+					color='primary'
+					startIcon={<AddIcon />}
+				>
+					Create cluster
+				</Button>
 			</Link>
 			<TableContainer>
 				<Table aria-label="simple table">
 					<TableHead>
 						<TableRow>
 							<TableCell>Name</TableCell>
+							<TableCell align="center">Status</TableCell>
 							<TableCell align="center">Version</TableCell>
 							<TableCell align="center">VM Group</TableCell>
-							<TableCell align="center">Status</TableCell>
 							<TableCell align="center"></TableCell>
 						</TableRow>
 					</TableHead>
@@ -93,8 +99,6 @@ export function TableOfClusters (props) {
 							return (
 								<TableRow key={i}>
 									<TableCell component="th" scope="row">{cluster.name}</TableCell>
-									<TableCell align="center">{kubernetesVersions.find(kubernetes_version => kubernetes_version.id === cluster.kubernetes_version_id).version}</TableCell>
-									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
 									<TableCell align="center">{
 										cluster.status === "removing"
 											? <CircularProgress className={classes.errorColor}/>
@@ -106,6 +110,9 @@ export function TableOfClusters (props) {
 														? <ErrorOutlineIcon className={classes.errorColor} />
 														: cluster.status
 									}</TableCell>
+									<TableCell align="center">{kubernetesVersions.find(kubernetes_version => kubernetes_version.id === cluster.kubernetes_version_id).version}</TableCell>
+									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
+
 									<TableCell align="center">
 										<Tooltip title="Restart deploy">
 											<IconButton onClick={() => {reloadCluster(cluster.id)}} className={classes.startIcon}>

@@ -8,6 +8,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
 import { commonStyles } from "../../styles/style";
+import AddIcon from '@material-ui/icons/Add';
 
 export function TableOfClouds (props) {
 	let {url} = useRouteMatch();
@@ -53,7 +54,12 @@ export function TableOfClouds (props) {
 	return (
 		<Container maxWidth="xl" className={classes.container}>
 			<Link to={`${url}/create_cloud`} className={classes.links}>
-				<Button variant="contained" color="primary" >Add cloud</Button>
+				<Button
+					color="primary"
+					startIcon={<AddIcon />}
+				>
+					Add cloud
+				</Button>
 			</Link>
 			<TableContainer>
 				<Table aria-label="simple table">
