@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import { TableOfVMTypes } from './TableOfVMTypes';
-import { CreateVMTypes } from './CreateVMType';
+import { CreateVMType } from './CreateVMType';
 import { serverURL } from '../../serverLink';
 import { getVMTypes } from '../../Actions/VMTypesActions';
 
@@ -26,7 +26,7 @@ export function VMTypes() {
 				/>
 			</Route>
 			<Route path={`${path}/create_vm_type`}>
-				<CreateVMTypes />
+				<CreateVMType />
 			</Route>
 		</Switch>
 	);
