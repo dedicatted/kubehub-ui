@@ -6,13 +6,13 @@ import { Link } from "react-router-dom";
 import { commonStyles } from "../../styles/style";
 
 export default function CreateCloud (props) {
-	const classes = commonStyles();
-	const [CP_type, setCP_type] = React.useState("AWS");
+	const commonClasses = commonStyles();
+	const [CPType, setCPType] = React.useState("");
 	const [name, setName] = React.useState("");
-	const [api_endpoint, setApiEndpoint] = React.useState("");
+	const [apiEndpoint, setApiEndpoint] = React.useState("");
 	const [password, setPassword] = React.useState("");
 
-	const handleCP_typeChange = event => setCP_type(event.target.value);
+	const handleCPTypeChange = event => setCPType(event.target.value);
 	const handleNameChange = event => setName(event.target.value);
 	const handleApiEndpointChange = event => setApiEndpoint(event.target.value);
 	const handlePasswordChange = event => setPassword(event.target.value);
@@ -20,23 +20,23 @@ export default function CreateCloud (props) {
 		fetch(`${serverURL}/api/cloud_providers/add`, {
 			method: "POST",
 			body: JSON.stringify({
-				cp_type: CP_type,
+				cp_type: CPType,
 				name: name,
-				api_endpoint: api_endpoint,
+				api_endpoint: apiEndpoint,
 				password: password
 			})
 		})
-		props.dispatch(addCloud(CP_type,name,api_endpoint,password));
-		setTimeout(props.refreshCloudData,100);
+		props.dispatch(addCloud(CPType,name,apiEndpoint,password));
+		setTimeout(props.getClouds,100);
 	};
 
 	return (
-		<Container maxWidth="xl" className={classes.container}>
+		<Container maxWidth="xl" className={commonClasses.container}>
 			<Typography
 				gutterBottom
 				component="h1"
 				align="center"
-				className={classes.lable}
+				className={commonClasses.lable}
 			>
 				Create cloud
 			</Typography>
@@ -44,8 +44,8 @@ export default function CreateCloud (props) {
 				id="standard-select-CP_type"
 				select
 				label="Type of clouds"
-				value={CP_type}
-				onChange={handleCP_typeChange}
+				value={CPType}
+				onChange={handleCPTypeChange}
 				helperText="Please select your cloud"
 				fullWidth
 				variant="outlined"
@@ -71,7 +71,7 @@ export default function CreateCloud (props) {
 				margin="dense"
 				id="api-endpoint"
 				label="API-Endpoint"
-				value={api_endpoint}
+				value={apiEndpoint}
 				onChange={handleApiEndpointChange}
 				type="url"
 				fullWidth
@@ -95,13 +95,13 @@ export default function CreateCloud (props) {
 				justify="flex-end"
 				alignItems="center"
 			>
-				<Link to="/clouds" className={classes.links}>
-					<Button variant="contained" color="primary" className={classes.margin}>
+				<Link to="/clouds" className={commonClasses.links}>
+					<Button variant="contained" color="primary" className={commonClasses.margin}>
 						Cancel
 					</Button>
 				</Link>
-				<Link to="/clouds" className={classes.links}>
-					<Button variant="contained" onClick={createCloud} color="primary" className={classes.margin}>
+				<Link to="/clouds" className={commonClasses.links}>
+					<Button variant="contained" onClick={createCloud} color="primary" className={commonClasses.margin}>
 						Create
 					</Button>
 				</Link>

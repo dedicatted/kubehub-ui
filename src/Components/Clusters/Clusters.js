@@ -14,13 +14,13 @@ export function Clusters ()	 {
 	const dispatch = useDispatch();
 	const clusters = useSelector(state => state.clusters)
 
-	const refreshVMGroupData = () => {
+	const getVMGroups = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)));
 	};
-	const refreshClustersData = useCallback(() => {
+	const getClusters = useCallback(() => {
 		fetch(`${serverURL}/cluster/list`)
 		.then(response => response.json())
 		.then(data => data.kubernetes_cluster_list)
@@ -39,16 +39,16 @@ export function Clusters ()	 {
 		<Switch>
 			<Route path={`${path}/create_cluster`}>
 				<CreateCluster
-					refreshVMGroupData={refreshVMGroupData}
+					getVMGroups={getVMGroups}
 					clusters={clusters}
-					refreshClustersData={refreshClustersData}
+					getClusters={getClusters}
 				/>
 			</Route>
 			<Route exact path={path}>
 				<TableOfClusters
 					clusters={clusters}
-					refreshVMGroupData={refreshVMGroupData}
-					refreshClustersData={refreshClustersData}
+					getVMGroups={getVMGroups}
+					getClusters={getClusters}
 					dispatch={dispatch}
 				/>
 			</Route>
