@@ -57,8 +57,8 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(props.refreshClustersData()) // !! After receiving a response
-		setTimeout(props.refreshClustersData(),100) // !! After sending a request
+		.then(props.getClusters()) // !! After receiving a response
+		setTimeout(props.getClusters(),100) // !! After sending a request
 	};
 	const reloadCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/kubespray/deploy/restart`, {
@@ -68,8 +68,8 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(props.refreshClustersData()) // !! After receiving a response
-		setTimeout(props.refreshClustersData(),100) // !! After sending a request
+		.then(props.getClusters()) // !! After receiving a response
+		setTimeout(props.getClusters(),100) // !! After sending a request
 	};
 
 	const getConfig = (cluster) => {
@@ -93,16 +93,16 @@ export function TableOfClusters (props) {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			props.refreshClustersData();
+			props.getClusters();
 		}, 4000);
 		return () => clearInterval(interval);
-	}, [props.refreshClustersData,props]);
+	}, [props.getClusters,props]);
 
 	useEffect(() => {
 		setTimeout(() => {
-			props.refreshClustersData();
+			props.getClusters();
 		}, 100);
-		props.refreshVMGroupData();
+		props.getVMGroups();
 	},[]);
 
 	return (
