@@ -31,6 +31,7 @@ export function TableOfClusters (props) {
 	const classes = useStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	const kubernetesVersions = useSelector(state => state.kubernetesVersions);
+	const clusters = useSelector(state => state.clusters)
 	let {url} = useRouteMatch();
 	const [arrayOfDeletedClusters, setArrayOfDeletedClusters] = useState([]);
 	const [DeleteMenu, setDeleteMenu] = useState(false);
@@ -140,7 +141,7 @@ export function TableOfClusters (props) {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{props.clusters.map((cluster, i) => {
+						{clusters.map((cluster, i) => {
 							return (
 								<TableRow key={i}>
 									{DeleteMenu

@@ -46,7 +46,6 @@ export function Clusters ()	 {
 			</Route>
 			<Route exact path={path}>
 				<TableOfClusters
-					clusters={clusters}
 					refreshVMGroupData={refreshVMGroupData}
 					refreshClustersData={refreshClustersData}
 					dispatch={dispatch}
