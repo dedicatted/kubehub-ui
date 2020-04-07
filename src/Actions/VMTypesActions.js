@@ -1,8 +1,8 @@
-const GET_VMTYPES = "GET_VMTYPES";
+const ADD_VMTYPES = "ADD_VMTYPES";
 
-export const getVMTypes = (VMTypes) => {
+export const addVMTypes = (VMTypes) => {
 	return {
-		type: GET_VMTYPES,
+		type: ADD_VMTYPES,
 		VMTypes: VMTypes
 	}
 }

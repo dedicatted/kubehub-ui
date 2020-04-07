@@ -5,7 +5,7 @@ import { serverURL } from '../../serverLink';
 import { commonStyles } from "../../styles/style";
 
 export default function DeleteVMGroup (props) {
-	const classes = commonStyles();
+	const commonClasses = commonStyles();
 	const [nameOfVMGroup, setNameOfVMGroup] = useState('');
 	const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(true);
 
@@ -16,15 +16,15 @@ export default function DeleteVMGroup (props) {
 			? setDeleteButtonDisabled(false)
 			: setDeleteButtonDisabled(true);
 	};
-	const onClickDeleteVMGroup = (selectedVMGroup) => {
+	const DeleteVMGroup = (selectedVMGroup) => {
 		fetch(`${serverURL}/api/proxmox/vm/group/remove`, {
 			method: 'POST',
 			body: JSON.stringify({
 				vm_group_id: selectedVMGroup.id
 			})
 		})
-		.then(props.refreshVMGroupData()) // !! After receiving a response
-		setTimeout(props.refreshVMGroupData(),100) // !! After sending a request
+		.then(props.getVMGroups()) // !! After receiving a response
+		setTimeout(props.getVMGroups(),100) // !! After sending a request
 		handledeleteVMGroupWindowClose();
 		setDeleteButtonDisabled(true);
 		setNameOfVMGroup('');
@@ -47,7 +47,7 @@ export default function DeleteVMGroup (props) {
 						value={nameOfVMGroup}
 						onChange={handleNameOfVMGroupChange}
 						helperText="Enter the name of the machine group you want to delete"
-						className={classes.nameTextField}
+						className={commonClasses.nameTextField}
 					>
 					</TextField>
 					<CopyToClipboard text={props.selectedVMGroup.name}>
@@ -59,7 +59,7 @@ export default function DeleteVMGroup (props) {
 				<Button color="primary" onClick={handledeleteVMGroupWindowClose}>
 					Cancel
 				</Button>
-				<Button color="primary" disabled={deleteButtonDisabled} onClick={() => {onClickDeleteVMGroup(props.selectedVMGroup)}}>
+				<Button color="primary" disabled={deleteButtonDisabled} onClick={() => {DeleteVMGroup(props.selectedVMGroup)}}>
 					Delete
 				</Button>
 			</DialogActions>

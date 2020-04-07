@@ -15,7 +15,7 @@ export function TableOfClouds (props) {
 	const VMGroup = useSelector(state => state.vm_group);
 	const commonClasses = commonStyles();
 
-	const getVMGroupData = () => {
+	const getVMGroups = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
@@ -49,7 +49,7 @@ export function TableOfClouds (props) {
 		}
 	};
 
-	useEffect(getVMGroupData, [])
+	useEffect(getVMGroups, [])
 
 	return (
 		<Container maxWidth="xl" className={commonClasses.container}>

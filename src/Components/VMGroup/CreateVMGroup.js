@@ -6,47 +6,37 @@ import { commonStyles } from "../../styles/style";
 
 
 export function CreateVMGroup (props) {
-	const classes = commonStyles();
+	const commonClasses = commonStyles();
 	const [name, setName] = React.useState('');
 	const [CPTypeId, setCPTypeId] = React.useState('');
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
-	const [VMType, setVMType] = React.useState('');
-	const [VMTypeVMID, setVMTypeVMID] = React.useState();
+	const [VMTypeId, setVMTypeId] = React.useState();
 
 	const handleCPTypeChange = event => setCPTypeId(event.target.value);
 	const handleNameChange = event => setName(event.target.value);
 	const handleNumberOfNodes = event => setNumberOfNodes(event.target.value);
-	const handleVMType = event => {
-		setVMType(event.target.value);
-		for (let i = 0; i <= props.VMTypes.length; i++) {
-			if (props.VMTypes[i].name === event.target.value) {
-				setVMTypeVMID(props.VMTypes[i].id);
-				break;
-			}
-		}
-	};
-	const createVM_group = () => {
+	const handleVMType = event => setVMTypeId(event.target.value);
+	const createVMGroup = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/add`, {
 			method: 'POST',
 			body: JSON.stringify({
 				cloud_provider_id: CPTypeId,
-				template_id: VMTypeVMID,
+				template_id: VMTypeId,
 				number_of_nodes: numberOfNodes,
-				node: 'pve-01',
 				name: name
 			})
 		})
-		.then(props.refreshVMGroupData()) // !! After receiving a response
-		setTimeout(props.refreshVMGroupData(),100) // !! After sending a request
+		.then(props.getVMGroups()) // !! After receiving a response
+		setTimeout(props.getVMGroups(),100) // !! After sending a request
 	};
 
 	return (
-		<Container maxWidth="xl" className={classes.container}>
+		<Container maxWidth="xl" className={commonClasses.container}>
 			<Typography
 				gutterBottom
 				component="h1"
 				align="center"
-				className={classes.lable}
+				className={commonClasses.lable}
 			>
 				Create virtual machine group
 			</Typography>
@@ -91,7 +81,7 @@ export function CreateVMGroup (props) {
 					margin="dense"
 					id="VMType"
 					label="VM type"
-					value={VMType}
+					value={VMTypeId}
 					onChange={handleVMType}
 					select
 					fullWidth
@@ -99,7 +89,7 @@ export function CreateVMGroup (props) {
 					size="small"
 				>
 					{props.VMTypes.map(VMType => (
-						<MenuItem key={VMType.id} value={VMType.name}>
+						<MenuItem key={VMType.id} value={VMType.id}>
 							{VMType.name}
 						</MenuItem>
 					))}
@@ -110,13 +100,13 @@ export function CreateVMGroup (props) {
 					justify="flex-end"
 					alignItems="center"
 				>
-					<Link to="/vm_group" className={classes.links}>
-						<Button variant="contained" color="primary" className={classes.margin}>
+					<Link to="/vm_group" className={commonClasses.links}>
+						<Button variant="contained" color="primary" className={commonClasses.margin}>
 							Cancel
 						</Button>
 					</Link>
-					<Link to="/vm_group" className={classes.links}>
-						<Button variant="contained" onClick={createVM_group} color="primary" className={classes.margin}>
+					<Link to="/vm_group" className={commonClasses.links}>
+						<Button variant="contained" onClick={createVMGroup} color="primary" className={commonClasses.margin}>
 							Create
 						</Button>
 					</Link>

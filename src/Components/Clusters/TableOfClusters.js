@@ -155,17 +155,13 @@ export function TableOfClusters (props) {
 										: null
 									}
 									<TableCell component="th" scope="row">{cluster.name}</TableCell>
-									<TableCell align="center">{
-										cluster.status === "removing"
-											? <CircularProgress className={commonClasses.errorColor}/>
-											: cluster.status === "deploying"
-												? <CircularProgress />
-												: cluster.status ==="running"
-													? <CheckCircleOutlineIcon className={commonClasses.successColor} />
-													: cluster.status === "error"
-														? <ErrorOutlineIcon className={commonClasses.errorColor} />
-														: cluster.status
-									}</TableCell>
+									<TableCell align="center">{{
+										"removing": <CircularProgress className={commonClasses.errorColor} />,
+										"deploying": <CircularProgress />,
+										"running" : <CheckCircleOutlineIcon className={commonClasses.successColor} />,
+										"error" : <ErrorOutlineIcon className={commonClasses.errorColor} />,
+										}[cluster.status] || cluster.status}
+									</TableCell>
 									<TableCell align="center">{kubernetesVersions.find(kubernetes_version => kubernetes_version.id === cluster.kubernetes_version_id).version}</TableCell>
 									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
 

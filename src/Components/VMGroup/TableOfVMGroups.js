@@ -13,8 +13,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 export function TableOfVMGroup (props) {
 	const classes = commonStyles();
-	const VMGroup = useSelector(state => state.vm_group);
-	const [stateVMGroup] = useState(VMGroup);
+	const VMGroups = useSelector(state => state.vm_group);
 	const [selectedVMGroup, setSelectedVMGroup] = useState([]);
 	const [deleteVMGroupWindow, setDeleteVMGroupWindow] = useState(false);
 	let { url } = useRouteMatch();
@@ -24,10 +23,10 @@ export function TableOfVMGroup (props) {
 		setDeleteVMGroupWindow(true);
 	};
 
-	useEffect(props.refreshVMGroupData, [stateVMGroup]);
+	useEffect(props.getVMGroups, []);
 	useEffect(() => {
 		const interval = setInterval(() => {
-			props.refreshVMGroupData();
+			props.getVMGroups();
 		}, 4000);
 		return () => clearInterval(interval);
 	  }, [props]);
@@ -37,7 +36,7 @@ export function TableOfVMGroup (props) {
 			<Link to={`${url}/create_vm_group`} className={classes.links}>
 				<Button
 					color='primary'
-					onClick={() => {props.refreshCloudData()}}
+					onClick={() => {props.getClouds()}}
 					startIcon={<AddIcon />}
 				>
 					Create VM group
@@ -56,22 +55,16 @@ export function TableOfVMGroup (props) {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{VMGroup.map((VMGroupItem, i) => {
+						{VMGroups.map((VMGroupItem, i) => {
 							return (
 								<TableRow key={VMGroupItem.id}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMGroupItem.name}</TableCell>
-									<TableCell align="center">
-										{VMGroupItem.status === 'removing' || VMGroupItem.status === 'creating'
-											? <CircularProgress className={VMGroupItem.status === 'removing'
-												? classes.errorColor
-												: null
-											} />
-											: VMGroupItem.status ==="running"
-												? <CheckCircleOutlineIcon className={classes.successColor} />
-												: VMGroupItem.status === "error"
-													? <ErrorOutlineIcon className={classes.errorColor} />
-													: VMGroupItem.status
-										}
+									<TableCell align="center">{{
+										"removing": <CircularProgress className={classes.errorColor} />,
+										"creating": <CircularProgress />,
+										"running" : <CheckCircleOutlineIcon className={classes.successColor} />,
+										"error" : <ErrorOutlineIcon className={classes.errorColor} />,
+										}[VMGroupItem.status] || VMGroupItem.status}
 									</TableCell>
 									<TableCell align="center" className={classes.tebaleTemplateWidth}>{
 										props.VMTypes.map((VMType, i) => {
@@ -124,8 +117,7 @@ export function TableOfVMGroup (props) {
 				deleteVMGroupWindow={deleteVMGroupWindow}
 				setDeleteVMGroupWindow={setDeleteVMGroupWindow}
 				selectedVMGroup={selectedVMGroup}
-				refreshVMGroupData={props.refreshVMGroupData}
-				VMGroup={VMGroup}
+				getVMGroups={props.getVMGroups}
 			/>
 		</Container>
 	);
