@@ -24,10 +24,9 @@ export const deleteCloud = (index) => {
 		index: index
 	}
 }
-export const editCloud = (cp_type, name,index) => {
+export const editCloud = (name,index) => {
 	return {
 		type: EDIT_CLOUD,
-		cp_type: cp_type,
 		name: name,
 		index:index
 	}

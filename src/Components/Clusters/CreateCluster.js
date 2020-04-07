@@ -6,7 +6,7 @@ import { serverURL } from '../../serverLink';
 import { commonStyles } from "../../styles/style";
 
 export function CreateCluster (props) {
-	const classes = commonStyles();
+	const commonClasses = commonStyles();
 	const VMGroups = useSelector(state => state.vm_group);
 	const clusters = useSelector(state => state.clusters);
 	const kubernetesVersions = useSelector(state => state.kubernetesVersions);
@@ -40,8 +40,8 @@ export function CreateCluster (props) {
 		.then(response => response.json())
 	}
 
-	useEffect(props.refreshVMGroupData, []);
-	useEffect(props.refreshClustersData, []);
+	useEffect(props.getVMGroups, []);
+	useEffect(props.getClusters, []);
 	useEffect(() => {
 		setAvailableVMGroups([]);
 		let arrOfClustersVMGroupId = [];
@@ -56,13 +56,13 @@ export function CreateCluster (props) {
 	}, [clusters, VMGroups])
 
 	return (
-		<Container maxWidth="xl" className={classes.container}>
+		<Container maxWidth="xl" className={commonClasses.container}>
 			<Typography
 				gutterBottom
 				component="h1"
 				align="center"
 				fontWeight='fontWeightBold'
-				className={classes.lable}
+				className={commonClasses.lable}
 			>
 				Create cluster
 			</Typography>
@@ -130,7 +130,7 @@ export function CreateCluster (props) {
 						helperText="Select number of masters"
 						variant='outlined'
 						margin="dense"
-						className={classes.margin}
+						className={commonClasses.margin}
 					>
 						{selectedVMGroup
 							? (selectedVMGroup.vms.map((vm, i) => {
@@ -161,7 +161,7 @@ export function CreateCluster (props) {
 						helperText="Select number of workers"
 						variant='outlined'
 						margin="dense"
-						className={classes.margin}
+						className={commonClasses.margin}
 					>
 						{selectedVMGroup
 							? (selectedVMGroup.vms.map((vm, i) => {
@@ -183,13 +183,13 @@ export function CreateCluster (props) {
 					</TextField>
 				</ div>
 				<div>
-					<Link to="/clusters" className={classes.links}>
-						<Button variant="contained" color="primary" className={classes.margin}>
+					<Link to="/clusters" className={commonClasses.links}>
+						<Button variant="contained" color="primary" className={commonClasses.margin}>
 							Cancel
 						</Button>
 					</Link>
-					<Link to="/clusters" className={errorOfSelectedVMGroup ? [classes.links, classes.disabledLink].join(' ') : classes.links} >
-						<Button  variant="contained" disabled={errorOfSelectedVMGroup} color="primary" className={classes.margin} onClick={createCluster}>
+					<Link to="/clusters" className={errorOfSelectedVMGroup ? [commonClasses.links, commonClasses.disabledLink].join(' ') : commonClasses.links} >
+						<Button  variant="contained" disabled={errorOfSelectedVMGroup} color="primary" className={commonClasses.margin} onClick={createCluster}>
 							Create
 						</Button>
 					</Link>

@@ -58,8 +58,8 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(props.refreshClustersData()) // !! After receiving a response
-		setTimeout(props.refreshClustersData(),100) // !! After sending a request
+		.then(props.getClusters()) // !! After receiving a response
+		setTimeout(props.getClusters(),100) // !! After sending a request
 	};
 	const reloadCluster = (k8s_cluster_id) => {
 		fetch(`${serverURL}/kubespray/deploy/restart`, {
@@ -69,8 +69,8 @@ export function TableOfClusters (props) {
 			})
 		})
 		.then(response => response.json())
-		.then(props.refreshClustersData()) // !! After receiving a response
-		setTimeout(props.refreshClustersData(),100) // !! After sending a request
+		.then(props.getClusters()) // !! After receiving a response
+		setTimeout(props.getClusters(),100) // !! After sending a request
 	};
 
 	const getConfig = (cluster) => {
@@ -94,16 +94,16 @@ export function TableOfClusters (props) {
 
 	useEffect(() => {
 		const interval = setInterval(() => {
-			props.refreshClustersData();
+			props.getClusters();
 		}, 4000);
 		return () => clearInterval(interval);
-	}, [props.refreshClustersData,props]);
+	}, [props.getClusters,props]);
 
 	useEffect(() => {
 		setTimeout(() => {
-			props.refreshClustersData();
+			props.getClusters();
 		}, 100);
-		props.refreshVMGroupData();
+		props.getVMGroups();
 	},[]);
 
 	return (
@@ -156,17 +156,13 @@ export function TableOfClusters (props) {
 										: null
 									}
 									<TableCell component="th" scope="row">{cluster.name}</TableCell>
-									<TableCell align="center">{
-										cluster.status === "removing"
-											? <CircularProgress className={commonClasses.errorColor}/>
-											: cluster.status === "deploying"
-												? <CircularProgress />
-												: cluster.status ==="running"
-													? <CheckCircleOutlineIcon className={commonClasses.successColor} />
-													: cluster.status === "error"
-														? <ErrorOutlineIcon className={commonClasses.errorColor} />
-														: cluster.status
-									}</TableCell>
+									<TableCell align="center">{{
+										"removing": <CircularProgress className={commonClasses.errorColor} />,
+										"deploying": <CircularProgress />,
+										"running" : <CheckCircleOutlineIcon className={commonClasses.successColor} />,
+										"error" : <ErrorOutlineIcon className={commonClasses.errorColor} />,
+										}[cluster.status] || cluster.status}
+									</TableCell>
 									<TableCell align="center">{kubernetesVersions.find(kubernetes_version => kubernetes_version.id === cluster.kubernetes_version_id).version}</TableCell>
 									<TableCell align="center">{VMGroups.find(VMGroup => VMGroup.id === cluster.vm_group).name}</TableCell>
 

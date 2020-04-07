@@ -23,41 +23,37 @@ const CP_types = [
 export function Clouds () {
 	let { path } = useRouteMatch();
 	const clouds = useSelector(state => state.clouds);
-	const [stateClouds] =React.useState(clouds);
-	const [editName, setEditName] = React.useState('');
-	const [editCloudIndex, seteditCloudIndex] = React.useState(0);
+	const [editableName, setEditableName] = React.useState('');
+	const [editableCloudIndex, setEditableCloudIndex] = React.useState(0);
 	const dispatch = useDispatch();
 
-	const handleEditWindowOpen = (index) => {
-		for(let i = 0; i < clouds.length; i++) {
-			if(clouds[i].id === index) {
-				setEditName(clouds[i].name);
-				seteditCloudIndex(i);
-			}
-		}
+	const setEditableData = (cloudProviderIndex) => {
+		let selectedCloud = clouds.find((cloud, i) => i === cloudProviderIndex);
+		setEditableName(selectedCloud.name);
+		setEditableCloudIndex(cloudProviderIndex)
 	};
-	const refreshCloudData = () => {
+	const getClouds = () => {
 		fetch(`${serverURL}/api/cloud_providers/list`)
 		.then(response => response.json())
 		.then(data => data.cloud_provider_list)
 		.then(data => dispatch(showClouds(data)))
 	};
 
-	useEffect(refreshCloudData,[stateClouds]);
+	useEffect(getClouds, []);
 
 	return (
 		<Switch>
 			<Route exact path={path}>
 				<TableOfClouds
-					handleEditWindowOpen={handleEditWindowOpen}
-					refreshCloudData={refreshCloudData}
+					setEditableData={setEditableData}
+					getClouds={getClouds}
 					dispatch={dispatch}
 					clouds={clouds}
 				/>
 			</Route>
 			<Route path={`${path}/create_cloud`}>
 				<CreateCloud
-					refreshCloudData={refreshCloudData}
+					getClouds={getClouds}
 					CP_types={CP_types}
 					dispatch={dispatch}
 				/>
@@ -65,9 +61,9 @@ export function Clouds () {
 			<Route path={`${path}/edit_cloud`}>
 				<EditCloud
 					CP_types={CP_types}
-					editName={editName}
-					editCloudIndex={editCloudIndex}
-					setEditName={setEditName}
+					editableName={editableName}
+					editableCloudIndex={editableCloudIndex}
+					setEditableName={setEditableName}
 					clouds={clouds}
 					dispatch={dispatch}
 				/>

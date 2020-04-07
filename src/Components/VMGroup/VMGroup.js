@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { showVMGroup } from '../../Actions/VMGroupActions';
-import { getVMTypes } from '../../Actions/VMTypesActions';
+import { addVMTypes } from '../../Actions/VMTypesActions';
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { CreateVMGroup } from './CreateVMGroup';
 import { serverURL } from '../../serverLink';
@@ -15,7 +15,7 @@ export function VMGroup() {
 	const clouds = useSelector(state => state.clouds);
 	let { path } = useRouteMatch();
 
-	const refreshCloudData = () => {
+	const getClouds = () => {
 		fetch(`${serverURL}/api/cloud_providers/list`)
 		.then(response => response.json())
 		.then(data => data.cloud_provider_list)
@@ -25,27 +25,27 @@ export function VMGroup() {
 			},100)
 		})
 	};
-	const refreshVMGroupData = () => {
+	const getVMGroups = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)))
 	};
-	const refreshVMTypes = () => {
+	const getVMTypes = () => {
 		fetch(`${serverURL}/api/proxmox/template/list`)
 		.then(response => response.json())
-		.then(data => dispatch(getVMTypes(data.template_list)))
+		.then(data => dispatch(addVMTypes(data.template_list)))
 	};
 
-	useEffect(refreshVMTypes, []);
-	useEffect(refreshCloudData, []);
+	useEffect(getVMTypes, []);
+	useEffect(getClouds, []);
 
 	return (
 		<Switch>
 			<Route exact path={path}>
 				<TableOfVMGroup
-					refreshVMGroupData={refreshVMGroupData}
-					refreshCloudData={refreshCloudData}
+					getVMGroups={getVMGroups}
+					getClouds={getClouds}
 					VMTypes={VMTypes}
 					clouds={clouds}
 					dispatch={dispatch}
@@ -53,7 +53,7 @@ export function VMGroup() {
 			</Route>
 			<Route path={`${path}/create_vm_group`}>
 				<CreateVMGroup
-					refreshVMGroupData={refreshVMGroupData}
+					getVMGroups={getVMGroups}
 					dispatch={dispatch}
 					VMTypes={VMTypes}
 					clouds={clouds}
