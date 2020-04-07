@@ -6,27 +6,27 @@ import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style";
 
 export function EditCloud (props) {
-	const classes = commonStyles();
+	const commonClasses = commonStyles();
 
-	const editCloudData = () => {
-		props.dispatch(editCloud(props.editCP_type, props.editName, props.editCloudIndex));
+	const submitEditedData = () => {
+		props.dispatch(editCloud(props.editableName, props.editableCloudIndex));
 		fetch(`${serverURL}/api/cloud_providers/edit`,{
 			method: 'POST',
 			body: JSON.stringify({
-				id: props.clouds[props.editCloudIndex].id,
-				name: props.editName
+				id: props.clouds[props.editableCloudIndex].id,
+				name: props.editableName
 			})
 		})
 	};
-	const handleEditNameChange = event => props.setEditName(event.target.value);
+	const handleEditableNameChange = event => props.setEditableName(event.target.value);
 
 	return(
-		<Container maxWidth='xl' className={classes.container}>
+		<Container maxWidth='xl' className={commonClasses.container}>
 			<Typography
 				gutterBottom
 				component="h1"
 				align='center'
-				className={classes.lable}
+				className={commonClasses.lable}
 			>
 				Edit cloud
 			</Typography>
@@ -35,8 +35,8 @@ export function EditCloud (props) {
 				id="name"
 				label="Name"
 				fullWidth
-				value={props.editName}
-				onChange={handleEditNameChange}
+				value={props.editableName}
+				onChange={handleEditableNameChange}
 				variant='outlined'
 				size='small'
 			/>
@@ -46,13 +46,13 @@ export function EditCloud (props) {
 				justify="flex-end"
 				alignItems="center"
 			>
-				<Link to='/clouds' className={classes.links}>
-					<Button variant="contained" color="primary" className={classes.margin}>
+				<Link to='/clouds' className={commonClasses.links}>
+					<Button variant="contained" color="primary" className={commonClasses.margin}>
 						Cancel
 					</Button>
 				</Link>
-				<Link to='/clouds' className={classes.links}>
-					<Button variant="contained" onClick={editCloudData} color="primary" className={classes.margin}>
+				<Link to='/clouds' className={commonClasses.links}>
+					<Button variant="contained" onClick={submitEditedData} color="primary" className={commonClasses.margin}>
 						Save
 					</Button>
 				</Link>
