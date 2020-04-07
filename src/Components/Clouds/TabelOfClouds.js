@@ -13,15 +13,15 @@ import AddIcon from '@material-ui/icons/Add';
 export function TableOfClouds (props) {
 	let {url} = useRouteMatch();
 	const VMGroup = useSelector(state => state.vm_group);
-	const classes = commonStyles();
+	const commonClasses = commonStyles();
 
-	const refreshVMGroupData = () => {
+	const getVMGroupData = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`)
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => props.dispatch(showVMGroup(data)))
 	};
-	const checkVMGroup = (cloudProviderId) => {
+	const checkActiveVMGroup = (cloudProviderId) => { // Checks if there are groups of virtual machines created on the selected cloud provider
 		let isVMGroupUse;
 		if (VMGroup.length) {
 			for (let i = 0; i < VMGroup.length; i++) {
@@ -43,17 +43,17 @@ export function TableOfClouds (props) {
 					body: JSON.stringify({id: index})
 				})
 				.then(() => props.dispatch(deleteCloud(i)))
-				.then(() => props.refreshCloudData())
+				.then(() => props.getClouds())
 				break;
 			}
 		}
 	};
 
-	useEffect(refreshVMGroupData, [])
+	useEffect(getVMGroupData, [])
 
 	return (
-		<Container maxWidth="xl" className={classes.container}>
-			<Link to={`${url}/create_cloud`} className={classes.links}>
+		<Container maxWidth="xl" className={commonClasses.container}>
+			<Link to={`${url}/create_cloud`} className={commonClasses.links}>
 				<Button
 					color="primary"
 					startIcon={<AddIcon />}
@@ -79,20 +79,20 @@ export function TableOfClouds (props) {
 									<TableCell align="center">{cloud.api_endpoint}</TableCell>
 									<TableCell align="center">{cloud.cp_type}</TableCell>
 									<TableCell align="center">
-										{checkVMGroup(cloud.id)
+										{checkActiveVMGroup(cloud.id)
 											? ( <Tooltip title='You cannot delete this cloud provider, because you have groups of virtual machines that are based on this cloud provider'>
 													<span>
-														<IconButton aria-label="delete" disabled={checkVMGroup(cloud.id)}>
+														<IconButton aria-label="delete" disabled={checkActiveVMGroup(cloud.id)}>
 															<DeleteIcon />
 														</IconButton>
 													</span>
 												</Tooltip> )
-											: ( <IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}} className={classes.deleteIcon}>
+											: ( <IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}} className={commonClasses.deleteIcon}>
 													<DeleteIcon />
 												</IconButton> )
 										}
 										<Link to={`${url}/edit_cloud`}>
-											<IconButton onClick={() => {props.handleEditWindowOpen(cloud.id)}} className={classes.editIcon}>
+											<IconButton onClick={() => {props.setEditableData(i)}} className={commonClasses.editIcon}>
 												<EditIcon />
 											</IconButton>
 										</Link>
