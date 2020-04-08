@@ -53,7 +53,7 @@ export function CreateVMGroup (props) {
 				>
 					{props.clouds.map(cloud => (
 						<MenuItem key={cloud.id} value={cloud.id}>
-							{cloud.cp_type}
+							{cloud.name}
 						</MenuItem>
 					))}
 				</TextField>
