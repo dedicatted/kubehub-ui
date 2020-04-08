@@ -1,9 +1,10 @@
 import React from 'react';
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from "@material-ui/core"
+import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container } from "@material-ui/core"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Auth from "../auth";
 import Copyright from './Copyright';
+import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -23,10 +24,15 @@ const useStyles = makeStyles((theme) => ({
 	submit: {
 		margin: theme.spacing(3, 0, 2),
 	},
+	link: {
+		textDecoration: 'none',
+		color: "blue"
+	},
 }));
 
 export default function SignIn(props) {
 	const classes = useStyles();
+	const history = useHistory();
 
 	return (
 		<Container component="main" maxWidth="xs">
@@ -66,14 +72,13 @@ export default function SignIn(props) {
 						label="Remember me"
 					/>
 					<Button
-						// type="submit"
 						fullWidth
 						variant="contained"
 						color="primary"
 						className={classes.submit}
 						onClick={() => {
 							Auth.login(() => {
-								props.history.push("/");
+								history.push("/");
 							});
 						}}
 					>
@@ -81,12 +86,12 @@ export default function SignIn(props) {
 					</Button>
 					<Grid container>
 						<Grid item xs>
-							<Link href="#" variant="body2">
+							<Link variant="body2" className={classes.link}>
 								Forgot password?
 							</Link>
 						</Grid>
 						<Grid item>
-							<Link href="#" variant="body2">
+							<Link to="/sign_up" variant="body2" className={classes.link}>
 								{"Don't have an account? Sign Up"}
 							</Link>
 						</Grid>

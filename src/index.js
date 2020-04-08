@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
 import './index.css';
 import { Dashboard } from './Components/Dashboard';
 import * as serviceWorker from './serviceWorker';
 import { allReducers } from './Reducers/AllReducers'
 import SignIn from './Components/SignIn';
-import { ProtectedRoute } from './protected.route';
+import Auth from "./auth"
+import SignUp from './Components/SignUp';
 
 const store = createStore(
 	allReducers,
@@ -19,9 +20,12 @@ ReactDOM.render(
 	<Provider store={store}>
 		<Router>
 			<Switch>
-				<Route path={"/sign_in"} component={SignIn} />
-				<ProtectedRoute path="/" component={Dashboard} />
+				<Route exact path="/sign_in" component={() => Auth.isAuthenticated ? <SignIn /> : <Redirect to="/" />} />
+				<Route exact path="/" component={() => Auth.isAuthenticated ? <Dashboard /> : <Redirect to="/sign_in" />} />
+				<Route exact path="/sign_up" component={SignUp} />
+				<Route path="*" component={Dashboard} />
 			</Switch>
+			<Redirect to={Auth.isAuthenticated ? "/sign_in" : "/"}/>
 		</Router>
 	</Provider>,
 	document.getElementById('root')
