@@ -6,6 +6,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems } from './listItems';
 import { Routes } from '../Routes';
 import { useSelector } from 'react-redux';
+import { UserCard } from './UserManagement/UserCard';
 
 
 const drawerWidth = 220;
@@ -105,6 +106,7 @@ export 	function Dashboard() {
 					<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
 						Dedicatted
 					</Typography>
+					<UserCard />
 					<IconButton color="inherit">
 						<Badge badgeContent={4} color="secondary">
 							<NotificationsIcon />
