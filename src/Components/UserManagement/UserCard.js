@@ -23,14 +23,15 @@ const useStyles = makeStyles(theme => ({
 const user = {
 	name: "Artem",
 	secondName: "Lakhurov",
-	avatarSrc: "../../../IMG_1414.jpg"
+	password: "11111111",
 }
 
 export function UserCard() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
+
 	return (
-		<Link className={commonClasses.links}>
+		<Link to={`/user`} className={commonClasses.links}>
 			<Container component="span" className={classes.root}>
 				<Typography component="h2" variant="body1" color="primary" className={classes.userName}>{`${user.name} ${user.secondName}`}</Typography>
 				<Avatar alt={`${user.name} ${user.secondName}`} src={user.avatarSrc} />
