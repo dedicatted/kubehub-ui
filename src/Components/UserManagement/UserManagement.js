@@ -4,6 +4,7 @@ import { UserData } from './UserData';
 import { PasswordPage } from './PasswordPage';
 import { EmailPage } from './EmailPage';
 import { UserNamePage } from './UserNamePage';
+import { PhotoPage } from './PhotoPage';
 
 export function UserManagement() {
 	let { path } = useRouteMatch();
@@ -20,7 +21,7 @@ export function UserManagement() {
 				<UserNamePage />
 			</Route>
 			<Route path={`${path}/photo`}>
-
+				<PhotoPage />
 			</Route>
 			<Route path={`${path}/email`}>
 				<EmailPage />
