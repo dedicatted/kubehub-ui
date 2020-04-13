@@ -1,18 +1,11 @@
 import React from 'react';
-import { AppBar, Toolbar, IconButton, Typography, makeStyles, Container, Card, Box } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { IconButton, Typography, makeStyles, Container, Card, Box } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import EditIcon from '@material-ui/icons/Edit';
 import EditName from './EditName';
+import { UserAppBar } from './UserAppBar';
 
 const useStyles = makeStyles(theme => ({
-	appBar: {
-		backgroundColor: 'white'
-	},
-	backIcon: {
-		marginRight: theme.spacing(1)
-	},
 	item: {
 		display: 'flex',
 		justifyContent: 'space-between',
@@ -48,17 +41,8 @@ export function UserNamePage() {
 	};
 
 	return(
-		<React.Fragment>
-			<AppBar position='static' className={classes.appBar}>
-				<Toolbar>
-					<Link to="/user">
-						<IconButton className={classes.backIcon}>
-							<ArrowBackIcon color='primary' />
-						</IconButton>
-					</Link>
-					<Typography color='primary' variant='h6' >Name</Typography>
-				</Toolbar>
-			</AppBar>
+		<>
+			<UserAppBar title='Name' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<Card className={classes.card}>
 					<Box className={classes.item}>
@@ -74,6 +58,6 @@ export function UserNamePage() {
 				handleClose={handleClose}
 				user={user}
 			/>
-		</React.Fragment>
+		</>
 	)
 }

@@ -1,25 +1,15 @@
 import React, { useState } from 'react';
-import { Container, AppBar, IconButton, makeStyles, Typography, Toolbar, TextField, Grid, InputAdornment } from '@material-ui/core';
+import { Container, IconButton, TextField, Grid, InputAdornment } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import { Link } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-
-const useStyles = makeStyles(theme => ({
-	appBar: {
-		backgroundColor: 'white'
-	},
-	backIcon: {
-		marginRight: theme.spacing(1)
-	}
-}))
+import { UserAppBar } from './UserAppBar';
 
 export function PasswordPage() {
 	const commonClasses = commonStyles();
-	const classes = useStyles();
 	const [currentPassword, setCurrentPassword] = useState('');
 	const [newPassword, setNewPassword] = useState('');
 	const [confirmNewPassword, setConfirmNewPassword] = useState('');
@@ -48,17 +38,8 @@ export function PasswordPage() {
 
 
 	return(
-		<React.Fragment>
-			<AppBar position='static' className={classes.appBar}>
-				<Toolbar>
-					<Link to="/user">
-						<IconButton className={classes.backIcon}>
-							<ArrowBackIcon color='primary' />
-						</IconButton>
-					</Link>
-					<Typography color='primary' variant='h6' >Change password</Typography>
-				</Toolbar>
-			</AppBar>
+		<>
+			<UserAppBar title='Change password' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<TextField
 					value={currentPassword}
@@ -148,6 +129,6 @@ export function PasswordPage() {
 					</IconButton>
 				</Link>
 			</Grid>
-		</React.Fragment>
+		</>
 	)
 }

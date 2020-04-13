@@ -1,16 +1,9 @@
 import React from 'react';
-import { AppBar, Toolbar, IconButton, makeStyles, Typography, Container, Card, Box } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { makeStyles, Typography, Container, Card, Box } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
+import { UserAppBar } from './UserAppBar';
 
 const useStyles = makeStyles(theme => ({
-	appBar: {
-		backgroundColor: 'white'
-	},
-	backIcon: {
-		marginRight: theme.spacing(1)
-	},
 	description: {
 		color: '#5f6368',
 		fontSize: 'small',
@@ -37,22 +30,14 @@ const user = {
 	password: "lakhurov@gmail.com",
 	email: 'lakhurov@gmail.com'
 }
+
 export function EmailPage() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
 
 	return(
 		<React.Fragment>
-			<AppBar position='static' className={classes.appBar}>
-				<Toolbar>
-					<Link to="/user">
-						<IconButton className={classes.backIcon}>
-							<ArrowBackIcon color='primary' />
-						</IconButton>
-					</Link>
-					<Typography color='primary' variant='h6' >E-mail address</Typography>
-				</Toolbar>
-			</AppBar>
+			<UserAppBar title='E-mail address' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 					<Card className={classes.card}>
 						<Box className={classes.item}>
