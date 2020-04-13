@@ -3,10 +3,10 @@ import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import { UserData } from './UserData';
 import { PasswordPage } from './PasswordPage';
 import { EmailPage } from './EmailPage';
+import { UserNamePage } from './UserNamePage';
 
 export function UserManagement() {
 	let { path } = useRouteMatch();
-
 
 	return (
 		<Switch>
@@ -17,7 +17,7 @@ export function UserManagement() {
 				<UserData />
 			</Route>
 			<Route path={`${path}/name`}>
-
+				<UserNamePage />
 			</Route>
 			<Route path={`${path}/photo`}>
 
