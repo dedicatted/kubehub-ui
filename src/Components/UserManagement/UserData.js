@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Typography, makeStyles, Card, Box, Avatar, Divider } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -51,23 +51,23 @@ export function UserData() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
 	let { url } = useRouteMatch();
-
+	const history = useHistory();
 	return (
 		<Container maxWidth='xl' className={commonClasses.container}>
 			<Container component='div' className={classes.root}>
 				<Typography component='h1' variant ='h4' align='center'>Personal data</Typography>
 				<Typography component='p' align='center' className={classes.description}>Basic information (e.g. name and photo)</Typography>
 			</Container>
-			<Card className={classes.card} maxWidth='lg'>
+			<Card className={classes.card}>
 				<Typography component='h5' variant='h5' className={classes.profile}>Profile</Typography>
-				<Link to={`${url}/edit_photo`}className={commonClasses.links}>
+				<Link to={`${url}/photo`} className={commonClasses.links}>
 					<Box component='div' style={{justifyContent: 'space-between'}} className={classes.item}>
 						<Typography className={classes.description}>Photo</Typography>
 						<Avatar className={classes.avatarLarge}>A</Avatar>
 					</Box>
 				</Link>
 				<Divider />
-				<Link to={`${url}/edit_name`} className={commonClasses.links}>
+				<Link to={`${url}/name`} className={commonClasses.links}>
 					<Box component='div' className={classes.item}>
 						<Typography className={classes.description}>Name</Typography>
 						<Typography className={classes.textPadding}>{`${user.name} ${user.secondName}`}</Typography>
@@ -75,7 +75,7 @@ export function UserData() {
 					</Box>
 				</Link>
 				<Divider />
-				<Link to={`${url}/edit_email`}className={commonClasses.links}>
+				<Link to={`${url}/email`} className={commonClasses.links}>
 					<Box component='div' className={classes.item}>
 						<Typography className={classes.description}>Email</Typography>
 						<Typography className={classes.textPadding}>{user.email}</Typography>
@@ -83,7 +83,7 @@ export function UserData() {
 					</Box>
 				</Link>
 				<Divider />
-				<Link to={`${url}/edit_password`} className={commonClasses.links}>
+				<Link to={`${url}/password`} className={commonClasses.links}>
 					<Box component='div' className={classes.item}>
 						<Typography className={classes.description}>Password</Typography>
 						<Typography className={classes.textPadding}>{'*'.repeat(user.password.length)}</Typography>
