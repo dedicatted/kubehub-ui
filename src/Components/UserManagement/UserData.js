@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Typography, makeStyles, Card, Box, Avatar, Divider } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import { Link, useRouteMatch, useHistory } from 'react-router-dom';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -25,7 +25,6 @@ const useStyles = makeStyles(theme => ({
 		'&:hover' : {
 			backgroundColor: '#f5f5f5',
 		}
-
 	},
 	avatarLarge: {
 		width: theme.spacing(6),
@@ -51,7 +50,6 @@ export function UserData() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
 	let { url } = useRouteMatch();
-	const history = useHistory();
 	return (
 		<Container maxWidth='xl' className={commonClasses.container}>
 			<Container component='div' className={classes.root}>

@@ -2,9 +2,11 @@ import React from 'react';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import { UserData } from './UserData';
 import { PasswordPage } from './PasswordPage';
+import { EmailPage } from './EmailPage';
 
 export function UserManagement() {
 	let { path } = useRouteMatch();
+
 
 	return (
 		<Switch>
@@ -15,13 +17,13 @@ export function UserManagement() {
 				<UserData />
 			</Route>
 			<Route path={`${path}/name`}>
-				{/* <PasswordPage /> */}
+
 			</Route>
 			<Route path={`${path}/photo`}>
-				{/* <PasswordPage /> */}
+
 			</Route>
 			<Route path={`${path}/email`}>
-				{/* <PasswordPage /> */}
+				<EmailPage />
 			</Route>
 		</Switch>
 	)
