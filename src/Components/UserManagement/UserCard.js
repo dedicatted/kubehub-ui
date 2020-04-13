@@ -1,7 +1,8 @@
 import React from 'react';
-import {  makeStyles, Typography, Avatar, Container } from '@material-ui/core';
+import {  makeStyles, Typography, Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style"
+import { UserAvatar } from './UserAvatar';
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: "flex",
@@ -34,7 +35,7 @@ export function UserCard() {
 		<Link to={`/user`} className={commonClasses.links}>
 			<Container component="span" className={classes.root}>
 				<Typography component="h2" variant="body1" color="primary" className={classes.userName}>{`${user.name} ${user.secondName}`}</Typography>
-				<Avatar alt={`${user.name} ${user.secondName}`} src={user.avatarSrc} />
+				<UserAvatar />
 			</Container>
 		</Link>
 	)

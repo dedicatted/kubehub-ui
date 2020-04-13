@@ -1,8 +1,9 @@
 import React from 'react';
-import { Container, Typography, makeStyles, Card, Box, Avatar, Divider } from '@material-ui/core';
+import { Container, Typography, makeStyles, Card, Box, Divider } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { UserAvatar } from './UserAvatar';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -61,7 +62,7 @@ export function UserData() {
 				<Link to={`${url}/photo`} className={commonClasses.links}>
 					<Box component='div' style={{justifyContent: 'space-between'}} className={classes.item}>
 						<Typography className={classes.description}>Photo</Typography>
-						<Avatar className={classes.avatarLarge}>A</Avatar>
+						<UserAvatar className={classes.avatarLarge} />
 					</Box>
 				</Link>
 				<Divider />
