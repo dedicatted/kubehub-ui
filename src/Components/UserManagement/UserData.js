@@ -4,6 +4,7 @@ import { commonStyles } from '../../styles/style';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { UserAvatar } from './UserAvatar';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -39,17 +40,11 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-// Need to delete
-const user = {
-	name: "Artem",
-	secondName: "Lakhurov",
-	password: "lakhurov@gmail.com",
-	email: 'lakhurov@gmail.com'
-}
 
 export function UserData() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
+	const user = useSelector(state => state.currentUser);
 	let { url } = useRouteMatch();
 	return (
 		<Container maxWidth='xl' className={commonClasses.container}>
@@ -69,7 +64,7 @@ export function UserData() {
 				<Link to={`${url}/name`} className={commonClasses.links}>
 					<Box component='div' className={classes.item}>
 						<Typography className={classes.description}>Name</Typography>
-						<Typography className={classes.textPadding}>{`${user.name} ${user.secondName}`}</Typography>
+						<Typography className={classes.textPadding}>{`${user.name} ${user.surname}`}</Typography>
 						<ArrowForwardIosIcon className={classes.description} />
 					</Box>
 				</Link>

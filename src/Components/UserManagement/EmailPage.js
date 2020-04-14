@@ -2,12 +2,13 @@ import React from 'react';
 import { makeStyles, Typography, Container, Card, Box } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import { UserAppBar } from './UserAppBar';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
 	description: {
 		color: '#5f6368',
 		fontSize: 'small',
-		paddingTop: theme.spacing(1)
+		paddingTop: theme.spacing(1),
 	},
 	item: {
 		display: 'flex',
@@ -24,16 +25,11 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-const user = {
-	name: "Artem",
-	secondName: "Lakhurov",
-	password: "lakhurov@gmail.com",
-	email: 'lakhurov@gmail.com'
-}
 
 export function EmailPage() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
+	const user = useSelector(state => state.currentUser);
 
 	return(
 		<React.Fragment>
@@ -44,12 +40,12 @@ export function EmailPage() {
 							<Box mr='40%'>
 								<Typography>E-mail address</Typography>
 							</Box>
-							<Typography>
-								{user.email}
+							<Box>
+								<Typography component='div'>{user.email}</Typography>
 								<Typography component='div' className={classes.description}>
 									Address used to identify your account
 								</Typography>
-							</Typography>
+							</Box>
 						</Box>
 					</Card>
 			</Container>

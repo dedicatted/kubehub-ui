@@ -5,5 +5,5 @@ import { Avatar } from '@material-ui/core';
 
 export function UserAvatar() {
 
-  return <Avatar src/>;
+  return <Avatar/>;
 }

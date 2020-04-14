@@ -3,6 +3,7 @@ import {  makeStyles, Typography, Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style"
 import { UserAvatar } from './UserAvatar';
+import { useSelector } from 'react-redux';
 const useStyles = makeStyles(theme => ({
 	root: {
 		display: "flex",
@@ -21,20 +22,15 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-const user = {
-	name: "Artem",
-	secondName: "Lakhurov",
-	password: "11111111",
-}
-
 export function UserCard() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
+	const user = useSelector(state => state.currentUser)
 
 	return (
 		<Link to={`/user`} className={commonClasses.links}>
 			<Container component="span" className={classes.root}>
-				<Typography component="h2" variant="body1" color="primary" className={classes.userName}>{`${user.name} ${user.secondName}`}</Typography>
+				<Typography component="h2" variant="body1" color="primary" className={classes.userName}>{`${user.name} ${user.surname}`}</Typography>
 				<UserAvatar />
 			</Container>
 		</Link>

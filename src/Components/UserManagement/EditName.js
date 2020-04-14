@@ -9,7 +9,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function EditName (props) {
 	const [name, setName] = useState(props.user.name);
-	const [surname, setSurname] = useState(props.user.secondName);
+	const [surname, setSurname] = useState(props.user.surname);
 	const classes = useStyles();
 
 	const handleChangeName = event => setName(event.target.valuer);

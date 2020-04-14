@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { MainListItems } from './listItems';
 import { Routes } from '../Routes';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { UserCard } from './UserManagement/UserCard';
+import { selectUser } from '../Actions/CurrentUserActions';
 
 
 const drawerWidth = 220;
@@ -81,13 +82,26 @@ export function clearFields() {
 		arguments[i]('');
 	}
 }
+//Need to Delete
+const user = {
+	name: "Artem",
+	surname: "Lakhurov",
+	password: "1111",
+	email: 'lakhurov@gmail.com'
+}
+
 export 	function Dashboard() {
- 	const classes = useStyles();
+	 const classes = useStyles();
+	const dispatch = useDispatch();
 	const [open, setOpen] = React.useState(false);
 	const selectedCluster = useSelector(state => state.selectedCluster);
  	const handleDrawerOpenClose = () => {
  	 	setOpen(!open);
-	 };
+	};
+
+	useEffect(() => {
+		dispatch(selectUser(user))
+	}, [dispatch]);
 
  	return (
 		<div className={classes.root}>

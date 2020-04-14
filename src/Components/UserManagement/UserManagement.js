@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import { UserData } from './UserData';
 import { PasswordPage } from './PasswordPage';
@@ -8,6 +8,7 @@ import { PhotoPage } from './PhotoPage';
 
 export function UserManagement() {
 	let { path } = useRouteMatch();
+
 
 	return (
 		<Switch>

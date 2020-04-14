@@ -4,6 +4,7 @@ import { commonStyles } from '../../styles/style';
 import EditIcon from '@material-ui/icons/Edit';
 import EditName from './EditName';
 import { UserAppBar } from './UserAppBar';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
 	item: {
@@ -25,12 +26,7 @@ const useStyles = makeStyles(theme => ({
 export function UserNamePage() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
-	const user = {
-		name: "Artem",
-		secondName: "Lakhurov",
-		password: "lakhurov@gmail.com",
-		email: 'lakhurov@gmail.com'
-	}
+	const user = useSelector(state => state.currentUser);
 	const [open, setOpen] = React.useState(false);
 
 	const handleClickOpen = () => {
@@ -46,7 +42,7 @@ export function UserNamePage() {
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<Card className={classes.card}>
 					<Box className={classes.item}>
-						<Typography>{`${user.name} ${user.secondName}`}</Typography>
+						<Typography>{`${user.name} ${user.surname}`}</Typography>
 						<IconButton>
 							<EditIcon className={classes.description} onClick={handleClickOpen}/>
 						</IconButton>
