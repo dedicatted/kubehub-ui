@@ -80,7 +80,6 @@ export function UserData() {
 				<Link to={`${url}/password`} className={commonClasses.links}>
 					<Box component='div' className={classes.item}>
 						<Typography className={classes.description}>Password</Typography>
-						<Typography className={classes.textPadding}>{'*'.repeat(user.password.length)}</Typography>
 						<ArrowForwardIosIcon className={classes.description}/>
 					</Box>
 				</Link>
