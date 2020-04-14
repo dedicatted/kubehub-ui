@@ -1,6 +1,6 @@
 import React from 'react';
 import { AppBar, Toolbar, IconButton, Typography, makeStyles } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles = makeStyles(theme => ({
@@ -12,16 +12,21 @@ const useStyles = makeStyles(theme => ({
 	},
 }))
 
-export function UserAppBar(props) {
+export function TopBar(props) {
+	const history = useHistory();
 	const classes = useStyles();
 	return (
 		<AppBar position='static' className={classes.appBar}>
 			<Toolbar>
-				<Link to="/user">
-					<IconButton className={classes.backIcon}>
-						<ArrowBackIcon color='primary' />
-					</IconButton>
-				</Link>
+				{
+					props.backIcon
+						? (
+							<IconButton onClick={history.goBack} className={classes.backIcon}>
+								<ArrowBackIcon color='primary' />
+							</IconButton>
+						)
+						: null
+				}
 				<Typography color='primary' variant='h6' >{props.title}</Typography>
 			</Toolbar>
 		</AppBar>

@@ -6,7 +6,7 @@ import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import { UserAppBar } from './UserAppBar';
+import { TopBar } from '../TopBar';
 
 export function PasswordPage() {
 	const commonClasses = commonStyles();
@@ -39,7 +39,7 @@ export function PasswordPage() {
 
 	return(
 		<>
-			<UserAppBar title='Change password' />
+			<TopBar backIcon link='/user' title='Change password' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<TextField
 					value={currentPassword}

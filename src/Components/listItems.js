@@ -6,6 +6,8 @@ import CloudCircleIcon from '@material-ui/icons/CloudCircle';
 import ComputerIcon from '@material-ui/icons/Computer';
 import StorageIcon from '@material-ui/icons/Storage';
 import AssignmentIcon from '@material-ui/icons/Assignment';
+import GroupIcon from '@material-ui/icons/Group';
+import { useSelector } from 'react-redux';
 
 const useStyle = makeStyles({
 	links: {
@@ -16,6 +18,8 @@ const useStyle = makeStyles({
 
 export function MainListItems()	{
 	const classes = useStyle();
+	const currentUser = useSelector(state => state.currentUser);
+
 	return(
 		<div>
 			<Link to='/' className={classes.links}>
@@ -58,6 +62,19 @@ export function MainListItems()	{
 					<ListItemText primary="VM types" />
 				</ListItem>
 			</Link>
+			{
+				currentUser.admin
+					? (
+					<Link to={{pathname: '/users'}} className={classes.links}>
+						<ListItem button>
+							<ListItemIcon>
+								<GroupIcon />
+							</ListItemIcon>
+						</ListItem>
+					</Link>
+					)
+					: null
+			}
 		</div>
 	)
 };

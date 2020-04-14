@@ -87,7 +87,8 @@ const user = {
 	name: "Artem",
 	surname: "Lakhurov",
 	password: "1111",
-	email: 'lakhurov@gmail.com'
+	email: 'lakhurov@gmail.com',
+	admin: true,
 }
 
 export 	function Dashboard() {

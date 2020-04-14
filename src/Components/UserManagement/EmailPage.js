@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles, Typography, Container, Card, Box } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
-import { UserAppBar } from './UserAppBar';
 import { useSelector } from 'react-redux';
+import { TopBar } from '../TopBar';
 
 const useStyles = makeStyles(theme => ({
 	description: {
@@ -33,7 +33,7 @@ export function EmailPage() {
 
 	return(
 		<React.Fragment>
-			<UserAppBar title='E-mail address' />
+			<TopBar backIcon link='/user' title='E-mail address' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 					<Card className={classes.card}>
 						<Box className={classes.item}>

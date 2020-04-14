@@ -3,8 +3,8 @@ import { IconButton, Typography, makeStyles, Container, Card, Box } from '@mater
 import { commonStyles } from '../../styles/style';
 import EditIcon from '@material-ui/icons/Edit';
 import EditName from './EditName';
-import { UserAppBar } from './UserAppBar';
 import { useSelector } from 'react-redux';
+import { TopBar } from '../TopBar';
 
 const useStyles = makeStyles(theme => ({
 	item: {
@@ -38,7 +38,7 @@ export function UserNamePage() {
 
 	return(
 		<>
-			<UserAppBar title='Name' />
+			<TopBar backIcon link='/user' title='Name' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<Card className={classes.card}>
 					<Box className={classes.item}>

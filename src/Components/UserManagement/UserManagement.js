@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import { UserData } from './UserData';
 import { PasswordPage } from './PasswordPage';
