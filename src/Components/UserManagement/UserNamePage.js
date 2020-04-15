@@ -38,7 +38,7 @@ export function UserNamePage() {
 
 	return(
 		<>
-			<TopBar backIcon link='/user' title='Name' />
+			<TopBar backIcon title='Name' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<Card className={classes.card}>
 					<Box className={classes.item}>

@@ -33,7 +33,7 @@ export function EmailPage() {
 
 	return(
 		<React.Fragment>
-			<TopBar backIcon link='/user' title='E-mail address' />
+			<TopBar backIcon title='E-mail address' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 					<Card className={classes.card}>
 						<Box className={classes.item}>

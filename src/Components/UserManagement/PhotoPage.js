@@ -24,7 +24,7 @@ export function PhotoPage() {
 
 	return(
 		<React.Fragment>
-			<TopBar backIcon link='/user' title='Select a profile photo' />
+			<TopBar backIcon title='Select a profile photo' />
 			<Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
 				{({getRootProps, getInputProps}) => (
 					<Box {...getRootProps()} className={classes.card}>

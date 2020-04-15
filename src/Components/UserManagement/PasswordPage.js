@@ -39,7 +39,7 @@ export function PasswordPage() {
 
 	return(
 		<>
-			<TopBar backIcon link='/user' title='Change password' />
+			<TopBar backIcon title='Change password' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<TextField
 					value={currentPassword}

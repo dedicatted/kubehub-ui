@@ -4,6 +4,9 @@ import { commonStyles } from '../../styles/style';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { TopBar } from '../TopBar';
+import AddIcon from '@material-ui/icons/Add';
+import { Link, useRouteMatch } from 'react-router-dom';
+
 
 const useStyles = makeStyles(theme => ({
 	fab: {
@@ -37,6 +40,7 @@ export function TableOfUsers() {
 	const classes = useStyles();
 	const [DeleteMenu, setDeleteMenu] = useState(false);
 	const [ArrayOfDeletedUsers, setArrayOfDeletedUsers] = useState([]);
+	let { url } = useRouteMatch();
 
 	const showDeleteMenu = () => {
 		setDeleteMenu(true);
@@ -58,6 +62,15 @@ export function TableOfUsers() {
 		<>
 			<TopBar title='Users management' />
 			<Container maxWidth="xl" className={commonClasses.container}>
+				<Link to={`${url}/add_user`} className={commonClasses.links}>
+					<Button
+						color='primary'
+						startIcon={<AddIcon />}
+					>
+						Add user
+					</Button>
+				</Link>
+
 				<Button
 					color='primary'
 					startIcon={<DeleteOutlineIcon />}

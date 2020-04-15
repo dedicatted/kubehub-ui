@@ -70,6 +70,7 @@ export function MainListItems()	{
 							<ListItemIcon>
 								<GroupIcon />
 							</ListItemIcon>
+							<ListItemText primary="Users manager" />
 						</ListItem>
 					</Link>
 					)
