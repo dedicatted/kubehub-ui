@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TopBar } from '../TopBar';
-import { TextField, Container, Grid, InputAdornment, IconButton } from '@material-ui/core';
+import { TextField, Container, Grid, InputAdornment, IconButton, Checkbox, FormControlLabel } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@material-ui/icons/Visibility';
@@ -17,7 +17,7 @@ export function AddUser() {
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [isPasswordNotSimilarity, setIsPasswordNotSimilarity] = useState(false);
-
+	const [adminStatus, setAdminStatus] = useState('');
 
 	const handleNameChange = event => setName(event.target.value);
 	const handleSurnameChange = event => setSurname(event.target.value);
@@ -25,6 +25,7 @@ export function AddUser() {
 	const handlePasswordChange = event => setPassword(event.target.value);
 	const handleConfirmPasswordChange = event => setConfirmPassword(event.target.value);
 	const handleClickShowPassword = () => setShowPassword(!showPassword);
+	const handleAdminStatus = () => setAdminStatus(!adminStatus);
 	const checkPasswordSimilarity = event => {
 		if(event.target.value !== password && event.target.value.length) {
 			setIsPasswordNotSimilarity(true);
@@ -32,7 +33,6 @@ export function AddUser() {
 			setIsPasswordNotSimilarity(false);
 		}
 	}
-
 
 	return(
 		<>
@@ -114,6 +114,18 @@ export function AddUser() {
 						</InputAdornment>,
 					}}
 				/>
+				<FormControlLabel
+					control={
+						<Checkbox
+							checked={adminStatus}
+							onChange={handleAdminStatus}
+							color='primary'
+							label='Admin status'
+						/>
+					}
+					label='Give admin status'
+				/>
+
 				<Grid
 					container
 					direction="row"
