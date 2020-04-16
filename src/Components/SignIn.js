@@ -86,7 +86,7 @@ export default function SignIn(props) {
 					</Button>
 					<Grid container>
 						<Grid item xs>
-							<Link variant="body2" className={classes.link}>
+							<Link to="/forgot_password" variant="body2" className={classes.link}>
 								Forgot password?
 							</Link>
 						</Grid>

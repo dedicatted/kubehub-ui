@@ -75,7 +75,7 @@ export function CreateCluster (props) {
 				helperText="Name of cluster"
 				fullWidth
 				variant='outlined'
-				/>
+			/>
 			<TextField
 				id="standard-select-kubernetesVersionId"
 				label="Version"

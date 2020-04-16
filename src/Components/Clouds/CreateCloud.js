@@ -1,9 +1,11 @@
 import React from "react";
-import { TextField, Button, MenuItem, Container, Typography, Grid } from "@material-ui/core";
+import { TextField, MenuItem, Container, Typography, Grid, IconButton } from "@material-ui/core";
 import { serverURL } from "../../serverLink";
 import { addCloud } from "../../Actions/CloudActions";
 import { Link } from "react-router-dom";
 import { commonStyles } from "../../styles/style";
+import DoneIcon from '@material-ui/icons/Done';
+import CloseIcon from '@material-ui/icons/Close';
 
 export default function CreateCloud (props) {
 	const commonClasses = commonStyles();
@@ -96,14 +98,14 @@ export default function CreateCloud (props) {
 				alignItems="center"
 			>
 				<Link to="/clouds" className={commonClasses.links}>
-					<Button variant="contained" color="primary" className={commonClasses.margin}>
-						Cancel
-					</Button>
+					<IconButton className={commonClasses.margin}>
+						<CloseIcon color="primary"/>
+					</IconButton>
 				</Link>
 				<Link to="/clouds" className={commonClasses.links}>
-					<Button variant="contained" onClick={createCloud} color="primary" className={commonClasses.margin}>
-						Create
-					</Button>
+					<IconButton className={commonClasses.margin} onClick={createCloud}>
+						<DoneIcon color="primary"/>
+					</IconButton>
 				</Link>
 			</Grid>
 		</Container>

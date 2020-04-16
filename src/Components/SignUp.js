@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Copyright from './Copyright';
-import { Line } from 'recharts';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({

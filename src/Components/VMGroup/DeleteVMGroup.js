@@ -42,7 +42,6 @@ export default function DeleteVMGroup (props) {
 					alignItems="center"
 				>
 					<TextField
-						id="standard-select-CP_type"
 						label="Name of VM group"
 						value={nameOfVMGroup}
 						onChange={handleNameOfVMGroupChange}
