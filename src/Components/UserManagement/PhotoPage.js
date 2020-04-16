@@ -25,8 +25,11 @@ export function PhotoPage() {
 	return(
 		<React.Fragment>
 			<TopBar backIcon title='Select a profile photo' />
-			<Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
-				{({getRootProps, getInputProps}) => (
+			<Dropzone
+				onDrop={acceptedFiles => console.log(acceptedFiles)}
+				accept='image/jpeg, image/png'
+			>
+				{({getRootProps, getInputProps, isDragActive, isDragReject, acceptedFiles}) => (
 					<Box {...getRootProps()} className={classes.card}>
 						<Grid
 							container
@@ -37,7 +40,17 @@ export function PhotoPage() {
 						>
 							<PhotoLibraryIcon className={classes.photoIcon}/>
 							<input {...getInputProps()} />
-							<Typography className={classes.description}>Drag a photo here or click and select a file on your computer</Typography>
+							<Box className={classes.description}>
+								{!isDragActive && (
+									<Box>
+										<Typography>Click here or drop a file to upload!</Typography>
+										<Typography>Accepted types: jpeg, png!</Typography>
+									</Box>
+								)}
+								{isDragActive && !isDragReject && <Typography>Drop it like it's hot!</Typography>}
+								{isDragReject && <Typography>File type not accepted, sorry!</Typography>}
+								{acceptedFiles[0] && acceptedFiles[0].name}
+							</Box>
 						</Grid>
 					</Box>
 				)}
