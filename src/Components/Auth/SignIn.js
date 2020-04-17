@@ -1,9 +1,8 @@
 import React from 'react';
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container } from "@material-ui/core"
+import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container } from "@material-ui/core"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import Auth from "../auth";
-import Copyright from './Copyright';
+import Auth from "./auth";
 import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +34,7 @@ export default function SignIn(props) {
 	const history = useHistory();
 
 	return (
-		<Container component="main" maxWidth="xs">
+		<Container component="main" maxWidth="xs" >
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
@@ -98,9 +97,6 @@ export default function SignIn(props) {
 					</Grid>
 				</form>
 			</div>
-			<Box mt={8}>
-				<Copyright />
-			</Box>
 		</Container>
 	);
 }

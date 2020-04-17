@@ -7,9 +7,9 @@ import './index.css';
 import { Dashboard } from './Components/Dashboard';
 import * as serviceWorker from './serviceWorker';
 import { allReducers } from './Reducers/AllReducers'
-import SignIn from './Components/SignIn';
-import Auth from "./auth"
-import SignUp from './Components/SignUp';
+import SignIn from './Components/Auth/SignIn';
+import Auth from "./Components/Auth/auth"
+import { ForgotPassword } from './Components/Auth/ForgotPassword';
 
 const store = createStore(
 	allReducers,
@@ -20,9 +20,9 @@ ReactDOM.render(
 	<Provider store={store}>
 		<Router>
 			<Switch>
-				<Route exact path="/sign_in" component={() => Auth.isAuthenticated ? <SignIn /> : <Redirect to="/" />} />
+				<Route path="/sign_in" component={() => Auth.isAuthenticated ? <SignIn /> : <Redirect to="/" />} />
 				<Route exact path="/" component={() => Auth.isAuthenticated ? <Dashboard /> : <Redirect to="/sign_in" />} />
-				<Route exact path="/sign_up" component={SignUp} />
+				<Route path='/forgot_password' component={ForgotPassword} />
 				<Route path="*" component={Dashboard} />
 			</Switch>
 			<Redirect to={Auth.isAuthenticated ? "/sign_in" : "/"}/>
