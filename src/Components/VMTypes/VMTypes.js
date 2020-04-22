@@ -20,10 +20,7 @@ export function VMTypes() {
 		})
 		.then(response => response.json())
 		.then(data => dispatch(addVMTypes(data.template_list)))
-		.catch(() => {
-			auth.refreshToken();
-			getVMTypes();
-		})
+		.catch((error) => console.log(error));
 	};
 
 	useEffect(getVMTypes, []);
