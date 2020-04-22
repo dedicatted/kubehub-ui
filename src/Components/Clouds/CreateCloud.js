@@ -26,7 +26,10 @@ export default function CreateCloud (props) {
 				name: name,
 				api_endpoint: apiEndpoint,
 				password: password
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		props.dispatch(addCloud(CPType,name,apiEndpoint,password));
 		setTimeout(props.getClouds,100);

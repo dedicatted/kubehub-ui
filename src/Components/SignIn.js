@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container } from "@material-ui/core"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import Auth from "../auth";
+import auth from "../auth";
 import Copyright from './Copyright';
 import { Link, useHistory } from 'react-router-dom';
 
@@ -33,7 +33,11 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn(props) {
 	const classes = useStyles();
 	const history = useHistory();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
 
+	const handleEmailChange = event => setEmail(event.target.value);
+	const handlePasswordChange = event => setPassword(event.target.value);
 	return (
 		<Container component="main" maxWidth="xs">
 			<CssBaseline />
@@ -51,6 +55,8 @@ export default function SignIn(props) {
 						required
 						fullWidth
 						id="email"
+						value={email}
+						onChange={handleEmailChange}
 						label="Email Address"
 						name="email"
 						autoComplete="email"
@@ -61,10 +67,12 @@ export default function SignIn(props) {
 						margin="normal"
 						required
 						fullWidth
+						id="password"
+						value={password}
+						onChange={handlePasswordChange}
 						name="password"
 						label="Password"
 						type="password"
-						id="password"
 						autoComplete="current-password"
 					/>
 					<FormControlLabel
@@ -77,7 +85,7 @@ export default function SignIn(props) {
 						color="primary"
 						className={classes.submit}
 						onClick={() => {
-							Auth.login(() => {
+							auth.login(email, password, () => {
 								history.push("/");
 							});
 						}}

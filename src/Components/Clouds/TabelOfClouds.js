@@ -16,7 +16,12 @@ export function TableOfClouds (props) {
 	const commonClasses = commonStyles();
 
 	const getVMGroups = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/list`)
+		fetch(`${serverURL}/api/proxmox/vm/group/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => props.dispatch(showVMGroup(data)))

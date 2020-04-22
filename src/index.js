@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -8,26 +8,32 @@ import { Dashboard } from './Components/Dashboard';
 import * as serviceWorker from './serviceWorker';
 import { allReducers } from './Reducers/AllReducers'
 import SignIn from './Components/SignIn';
-import Auth from "./auth"
-import SignUp from './Components/SignUp';
+import Auth from './auth';
 
 const store = createStore(
 	allReducers,
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-ReactDOM.render(
-	<Provider store={store}>
+function Index() {
+	const [authenticated] = useState(Auth.authenticated)
+
+	return (
+		<Provider store={store}>
 		<Router>
 			<Switch>
-				<Route exact path="/sign_in" component={() => Auth.isAuthenticated ? <SignIn /> : <Redirect to="/" />} />
-				<Route exact path="/" component={() => Auth.isAuthenticated ? <Dashboard /> : <Redirect to="/sign_in" />} />
-				<Route exact path="/sign_up" component={SignUp} />
-				<Route path="*" component={Dashboard} />
+				<Route  path="/sign_in" component={SignIn} />
+				<Route exact path="/" render={() => !authenticated ? <Dashboard /> : <Redirect to="/sign_in" />} />
+				<Route path='*' component={Dashboard} />
 			</Switch>
-			<Redirect to={Auth.isAuthenticated ? "/sign_in" : "/"}/>
+			<Redirect to={!authenticated ? "/sign_in" : "/"}/>
 		</Router>
-	</Provider>,
+	</Provider>
+	)
+}
+
+ReactDOM.render(
+	<Index />,
 	document.getElementById('root')
 );
 

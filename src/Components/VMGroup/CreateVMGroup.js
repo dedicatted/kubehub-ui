@@ -24,7 +24,10 @@ export function CreateVMGroup (props) {
 				template_id: VMTypeId,
 				number_of_nodes: numberOfNodes,
 				name: name
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		.then(props.getVMGroups()) // !! After receiving a response
 		setTimeout(props.getVMGroups(),100) // !! After sending a request

@@ -16,7 +16,12 @@ export function VMGroup() {
 	let { path } = useRouteMatch();
 
 	const getClouds = () => {
-		fetch(`${serverURL}/api/cloud_providers/list`)
+		fetch(`${serverURL}/api/cloud_providers/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => data.cloud_provider_list)
 		.then(data => {
@@ -26,13 +31,23 @@ export function VMGroup() {
 		})
 	};
 	const getVMGroups = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/list`)
+		fetch(`${serverURL}/api/proxmox/vm/group/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)))
 	};
 	const getVMTypes = () => {
-		fetch(`${serverURL}/api/proxmox/template/list`)
+		fetch(`${serverURL}/api/proxmox/template/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => dispatch(addVMTypes(data.template_list)))
 	};

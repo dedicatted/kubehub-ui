@@ -8,7 +8,9 @@ import { Routes } from '../Routes';
 import { useSelector, useDispatch } from 'react-redux';
 import { UserCard } from './UserManagement/UserCard';
 import { selectUser } from '../Actions/CurrentUserActions';
-
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import auth from '../auth';
+import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 220;
 
@@ -92,8 +94,9 @@ const user = {
 }
 
 export 	function Dashboard() {
-	 const classes = useStyles();
+	const classes = useStyles();
 	const dispatch = useDispatch();
+	const history = useHistory();
 	const [open, setOpen] = React.useState(false);
 	const selectedCluster = useSelector(state => state.selectedCluster);
  	const handleDrawerOpenClose = () => {
@@ -126,6 +129,9 @@ export 	function Dashboard() {
 						<Badge badgeContent={4} color="secondary">
 							<NotificationsIcon />
 						</Badge>
+					</IconButton>
+					<IconButton color="inherit" onClick={() => auth.logout(() => history.push('/sign_in'))}>
+						<ExitToAppIcon />
 					</IconButton>
 				</Toolbar>
 			</AppBar>

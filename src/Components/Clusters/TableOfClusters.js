@@ -55,7 +55,10 @@ export function TableOfClusters (props) {
 			method: "POST",
 			body: JSON.stringify({
 				k8s_cluster_id: k8s_cluster_id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		.then(response => response.json())
 		.then(props.getClusters()) // !! After receiving a response
@@ -66,7 +69,10 @@ export function TableOfClusters (props) {
 			method: "POST",
 			body: JSON.stringify({
 				k8s_cluster_id: k8s_cluster_id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		.then(response => response.json())
 		.then(props.getClusters()) // !! After receiving a response
@@ -78,7 +84,10 @@ export function TableOfClusters (props) {
 			method: "POST",
 			body: JSON.stringify({
 				kubernetes_cluster_id: cluster.id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		.then(response => response.blob())
         .then(blob => {

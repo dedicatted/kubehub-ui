@@ -33,7 +33,12 @@ export function Clouds () {
 		setEditableCloudIndex(cloudProviderIndex)
 	};
 	const getClouds = () => {
-		fetch(`${serverURL}/api/cloud_providers/list`)
+		fetch(`${serverURL}/api/cloud_providers/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => data.cloud_provider_list)
 		.then(data => dispatch(showClouds(data)))

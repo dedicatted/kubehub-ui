@@ -35,7 +35,10 @@ export function CreateCluster (props) {
 				name: clusterName,
 				kubernetes_version_id: kubernetesVersionId,
 				vm_group: selectedVMGroup.id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		.then(response => response.json())
 	}

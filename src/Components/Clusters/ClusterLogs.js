@@ -55,7 +55,10 @@ export function ClusterLogs (props) {
 			body: JSON.stringify({
 				kubespray_deploy_id: cluster.kubespray_deployments[cluster.kubespray_deployments.length - 1].id,
 				last_line: lineNumber
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		.then(response => response.json())
 		.then(data => {

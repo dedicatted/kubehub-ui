@@ -21,7 +21,10 @@ export default function DeleteVMGroup (props) {
 			method: 'POST',
 			body: JSON.stringify({
 				vm_group_id: selectedVMGroup.id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 		.then(props.getVMGroups()) // !! After receiving a response
 		setTimeout(props.getVMGroups(),100) // !! After sending a request

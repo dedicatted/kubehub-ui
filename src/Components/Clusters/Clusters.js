@@ -15,19 +15,34 @@ export function Clusters ()	 {
 	const clusters = useSelector(state => state.clusters)
 
 	const getVMGroups = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/list`)
+		fetch(`${serverURL}/api/proxmox/vm/group/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => data.vm_group_list)
 		.then(data => dispatch(showVMGroup(data)));
 	};
 	const getClusters = useCallback(() => {
-		fetch(`${serverURL}/cluster/list`)
+		fetch(`${serverURL}/cluster/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => data.kubernetes_cluster_list)
 		.then(data => dispatch(showClusters(data)))
 	}, [dispatch])
 	const getKubernetesVersions = () => {
-		fetch(`${serverURL}/kubernetes/version/list`)
+		fetch(`${serverURL}/kubernetes/version/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
 		.then(response => response.json())
 		.then(data => data.kubernetes_version_list)
 		.then(kubernetes_version_list => dispatch(addKubernetesVersions(kubernetes_version_list)))

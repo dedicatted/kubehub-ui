@@ -15,7 +15,10 @@ export function EditCloud (props) {
 			body: JSON.stringify({
 				id: props.clouds[props.editableCloudIndex].id,
 				name: props.editableName
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
 	};
 	const handleEditableNameChange = event => props.setEditableName(event.target.value);
