@@ -1,35 +1,34 @@
 import { serverURL } from "./serverLink";
-import { useSelector } from "react-redux";
 
 class Auth {
-	constructor() {
-		this.authenticated = false;
-	}
 	login(email, password, cb) {
-		this.authenticated = true;
-		fetch(`${serverURL}/api/login`,{
+		fetch(`${serverURL}/api/login`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email,
 				password
-			})
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		})
 		.then(response => response.json())
 		.then(data => {
 			localStorage.setItem('accessToken', data.token);
 			localStorage.setItem('refreshToken', data.refreshToken);
-			this.authenticated = true;
+			cb()
 		})
-		.then(cb())
-		.then()
-		.catch(error => console.log(error));
+		.catch((error) => console.log(error));
 	}
 	refreshToken() {
 		fetch(`${serverURL}/api/refreshToken`, {
 			method: 'POST',
 			body: JSON.stringify({
 				refreshToken: localStorage.getItem('refreshToken'),
-			})
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
 		})
 		.then(response => response.json())
 		.then(data => {
@@ -38,15 +37,9 @@ class Auth {
 		})
 		.catch(error => console.log(error));
 	}
-
 	logout(cb) {
 		localStorage.clear();
 		cb();
-		this.authenticated = false;
-	}
-
-	isAuthenticated() {
-		return this.authenticated;
 	}
 }
 
