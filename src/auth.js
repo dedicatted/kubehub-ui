@@ -2,7 +2,7 @@ import { serverURL } from "./serverLink";
 
 class Auth {
 	login(email, password, cb) {
-		fetch(`${serverURL}/api/login`, {
+		return fetch(`${serverURL}/api/login`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email,
@@ -18,7 +18,6 @@ class Auth {
 			localStorage.setItem('refreshToken', data.refreshToken);
 			cb()
 		})
-		.catch((error) => console.log(error));
 	}
 	refreshToken() {
 		fetch(`${serverURL}/api/refreshToken`, {

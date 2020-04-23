@@ -35,7 +35,7 @@ export default function SignIn(props) {
 	const history = useHistory();
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-
+	const [error, setError] = useState(false);
 	const handleEmailChange = event => setEmail(event.target.value);
 	const handlePasswordChange = event => setPassword(event.target.value);
 	return (
@@ -75,10 +75,22 @@ export default function SignIn(props) {
 						type="password"
 						autoComplete="current-password"
 					/>
-					<FormControlLabel
-						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
-					/>
+					<Grid
+						container
+						direction="row"
+						justify="space-between"
+						alignItems="center"
+					>
+						<FormControlLabel
+							control={<Checkbox value="remember" color="primary" />}
+							label="Remember me"
+						/>
+						{error
+							? <Typography align='center' color='error' variant='body1'>Wrong email or password</Typography>
+							: null
+						}
+					</Grid>
+
 					<Button
 						fullWidth
 						variant="contained"
@@ -87,7 +99,8 @@ export default function SignIn(props) {
 						onClick={() => {
 							auth.login(email, password, () => {
 								history.push("/");
-							});
+							})
+							.catch(() => setError(true))
 						}}
 					>
 						Sign In
