@@ -6,6 +6,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { TopBar } from '../TopBar';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, useRouteMatch } from 'react-router-dom';
+import { serverURL } from '../../serverLink';
 
 
 const useStyles = makeStyles(theme => ({
@@ -19,7 +20,7 @@ const useStyles = makeStyles(theme => ({
 		backgroundColor: "#e0e0e0"
 	}
 }))
-
+// Mock users
 const users = [
 	{
 		id: 1,
@@ -39,7 +40,7 @@ export function TableOfUsers() {
 	const commonClasses = commonStyles();
 	const classes = useStyles();
 	const [DeleteMenu, setDeleteMenu] = useState(false);
-	const [ArrayOfDeletedUsers, setArrayOfDeletedUsers] = useState([]);
+	const [ArrayOfDeletedUsersId, setArrayOfDeletedUsersID] = useState([]);
 	let { url } = useRouteMatch();
 
 	const showDeleteMenu = () => {
@@ -47,13 +48,24 @@ export function TableOfUsers() {
 	}
 	const hideDeleteMenu = () => {
 		setDeleteMenu(false);
-		setArrayOfDeletedUsers([]);
+		setArrayOfDeletedUsersID([]);
+	}
+	const deleteUsers = delteUsersArray => {
+		fetch(`${serverURL}/`, {
+			method: 'POST',
+			body: JSON.stringify({
+				ArrayOfDeletedUsersId
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
 	}
 	const onChangeDeleteCheckbox = event => {
 		if (event.target.checked) {
-			setArrayOfDeletedUsers(oldArray => [...oldArray, event.target.value])
+			setArrayOfDeletedUsersID(oldArray => [...oldArray, event.target.value])
 		} else if(!event.target.checked) {
-			setArrayOfDeletedUsers(oldArray => oldArray.filter(item => item !== event.target.value))
+			setArrayOfDeletedUsersID(oldArray => oldArray.filter(item => item !== event.target.value))
 		}
 	}
 
@@ -124,7 +136,7 @@ export function TableOfUsers() {
 							className={classes.fab}
 						>
 							<Fab onClick={hideDeleteMenu}><CancelIcon color="primary"/></Fab>
-							<Fab><DeleteOutlineIcon color="primary"/></Fab>
+							<Fab onClick={() => deleteUsers(ArrayOfDeletedUsersId)}><DeleteOutlineIcon color="primary"/></Fab>
 						</Grid>)
 						: null
 					}

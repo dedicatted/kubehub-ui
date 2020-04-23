@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Typography, Container, makeStyles, AppBar, Toolbar, CircularProgress } from '@material-ui/core';
 import { serverURL } from '../../serverLink';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
@@ -49,7 +49,7 @@ export function ClusterLogs (props) {
 			});
 		}
 	};
-	const showLogs = (cluster,lineNumber) => {
+	const showLogs = useCallback((cluster,lineNumber) => {
 		fetch(`${serverURL}/kubespray/deploy/get/log`,{
 			method: 'POST',
 			body: JSON.stringify({
@@ -70,12 +70,12 @@ export function ClusterLogs (props) {
 				setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
 			}
 		})
-	};
+	}, []);
 
 	useEffect(() => {
 		props.dispatch(selectCluster(localStorageSelectedCluster))
 		showLogs(localStorageSelectedCluster, 0)
-	}, []);
+	}, [localStorageSelectedCluster, props, showLogs]);
 	useEffect(() => {
 		return () => {
 			props.dispatch(selectCluster({}));

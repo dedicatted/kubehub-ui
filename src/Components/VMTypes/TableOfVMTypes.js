@@ -30,9 +30,9 @@ export function TableOfVMTypes () {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{VMTypes.map(VMType => {
+						{VMTypes.map((VMType, i) => {
 							return (
-								<TableRow key={VMTypes.id}>
+								<TableRow key={i}>
 									<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMType.name}</TableCell>
 									<TableCell align="center">{VMType.maxcpu}</TableCell>
 									<TableCell align="center">{Math.floor(VMType.maxmem * 10**-9)} GB</TableCell>

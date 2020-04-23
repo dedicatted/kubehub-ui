@@ -1,6 +1,5 @@
 import React from 'react';
 import { TextField, Button, Container, Typography, Grid, InputAdornment } from '@material-ui/core';
-import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style";
 

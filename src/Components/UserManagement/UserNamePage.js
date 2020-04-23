@@ -43,8 +43,8 @@ export function UserNamePage() {
 				<Card className={classes.card}>
 					<Box className={classes.item}>
 						<Typography>{`${user.name} ${user.surname}`}</Typography>
-						<IconButton>
-							<EditIcon className={classes.description} onClick={handleClickOpen}/>
+						<IconButton onClick={handleClickOpen}>
+							<EditIcon className={classes.description}/>
 						</IconButton>
 					</Box>
 				</Card>
