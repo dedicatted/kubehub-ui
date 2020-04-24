@@ -83,17 +83,15 @@ export default function SignIn(props) {
 					>
 						Sign In
 					</Button>
-					<Grid container>
-						<Grid item xs>
+					<Grid
+						container
+						direction="column"
+						justify="center"
+						alignItems="center"
+					>
 							<Link to="/forgot_password" variant="body2" className={classes.link}>
 								Forgot password?
 							</Link>
-						</Grid>
-						<Grid item>
-							<Link to="/sign_up" variant="body2" className={classes.link}>
-								{"Don't have an account? Sign Up"}
-							</Link>
-						</Grid>
 					</Grid>
 				</form>
 			</div>
