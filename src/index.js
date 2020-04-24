@@ -7,9 +7,9 @@ import './index.css';
 import { Dashboard } from './Components/Dashboard';
 import * as serviceWorker from './serviceWorker';
 import { allReducers } from './Reducers/AllReducers'
-import SignIn from './Components/SignIn';
-import { PrivatRoute } from './Components/PrivatRoute';
-import { ForgotPassword } from './Components/ForgotPassword'
+import SignIn from './Components/Auth/SignIn';
+import { PrivatRoute } from './Components/Auth/PrivatRoute';
+import { ForgotPassword } from './Components/Auth/ForgotPassword'
 
 const store = createStore(
 	allReducers,
@@ -21,10 +21,10 @@ function Index() {
 		<Provider store={store}>
 		<Router>
 			<Switch>
-				<Route  path="/sign_in" component={SignIn} />
+				<Route exact path="/sign_in" component={SignIn} />
+				<Route exact path='/forgot_password' component={ForgotPassword} />
 				<PrivatRoute exact path='/' component={Dashboard} />
 				<PrivatRoute path='*' component={Dashboard} />
-				<Route path='forgot_password' component={ForgotPassword} />
 			</Switch>
 		</Router>
 	</Provider>

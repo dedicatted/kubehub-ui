@@ -5,7 +5,7 @@ import { TableOfVMTypes } from './TableOfVMTypes';
 import { CreateVMType } from './CreateVMType';
 import { serverURL } from '../../serverLink';
 import { addVMTypes } from '../../Actions/VMTypesActions';
-import auth from '../../auth';
+import auth from '../Auth/auth';
 
 export function VMTypes() {
 	const dispatch = useDispatch();

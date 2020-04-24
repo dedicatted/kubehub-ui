@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { UserCard } from './UserManagement/UserCard';
 import { selectUser } from '../Actions/CurrentUserActions';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import auth from '../auth';
+import auth from '../Components/Auth/auth';
 import { useHistory } from 'react-router-dom';
 
 const drawerWidth = 220;

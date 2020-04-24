@@ -1,4 +1,4 @@
-import { serverURL } from "./serverLink";
+import { serverURL } from "../../serverLink";
 
 class Auth {
 	login(email, password, cb) {
