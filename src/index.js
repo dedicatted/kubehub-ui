@@ -9,6 +9,7 @@ import * as serviceWorker from './serviceWorker';
 import { allReducers } from './Reducers/AllReducers'
 import SignIn from './Components/SignIn';
 import { PrivatRoute } from './Components/PrivatRoute';
+import { ForgotPassword } from './Components/ForgotPassword'
 
 const store = createStore(
 	allReducers,
@@ -23,6 +24,7 @@ function Index() {
 				<Route  path="/sign_in" component={SignIn} />
 				<PrivatRoute exact path='/' component={Dashboard} />
 				<PrivatRoute path='*' component={Dashboard} />
+				<Route path='forgot_password' component={ForgotPassword} />
 			</Switch>
 		</Router>
 	</Provider>

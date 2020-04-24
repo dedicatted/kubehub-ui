@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Box, Typography, Container } from "@material-ui/core"
+import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container } from "@material-ui/core"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import auth from "../auth";
-import Copyright from './Copyright';
 import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -39,7 +38,7 @@ export default function SignIn(props) {
 	const handleEmailChange = event => setEmail(event.target.value);
 	const handlePasswordChange = event => setPassword(event.target.value);
 	return (
-		<Container component="main" maxWidth="xs">
+		<Container component="main" maxWidth="xs" >
 			<CssBaseline />
 			<div className={classes.paper}>
 				<Avatar className={classes.avatar}>
@@ -105,23 +104,18 @@ export default function SignIn(props) {
 					>
 						Sign In
 					</Button>
-					<Grid container>
-						<Grid item xs>
+					<Grid
+						container
+						direction="column"
+						justify="center"
+						alignItems="center"
+					>
 							<Link to="/forgot_password" variant="body2" className={classes.link}>
 								Forgot password?
 							</Link>
-						</Grid>
-						<Grid item>
-							<Link to="/sign_up" variant="body2" className={classes.link}>
-								{"Don't have an account? Sign Up"}
-							</Link>
-						</Grid>
 					</Grid>
 				</form>
 			</div>
-			<Box mt={8}>
-				<Copyright />
-			</Box>
 		</Container>
 	);
 }
