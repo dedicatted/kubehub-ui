@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import clsx from 'clsx';
 import { makeStyles, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, IconButton, Badge } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -11,6 +11,7 @@ import { selectUser } from '../Actions/CurrentUserActions';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import auth from '../Components/Auth/auth';
 import { useHistory } from 'react-router-dom';
+import { serverURL } from '../serverLink';
 
 const drawerWidth = 220;
 
@@ -84,14 +85,6 @@ export function clearFields() {
 		arguments[i]('');
 	}
 }
-//Need to Delete
-const user = {
-	name: "Artem",
-	surname: "Lakhurov",
-	password: "1111",
-	email: 'lakhurov@gmail.com',
-	admin: true,
-}
 
 export 	function Dashboard() {
 	const classes = useStyles();
@@ -102,10 +95,29 @@ export 	function Dashboard() {
  	const handleDrawerOpenClose = () => {
  	 	setOpen(!open);
 	};
+	const getAccountData = useCallback(() => {
+		fetch(`${serverURL}/api/auth/account/get_account_data`, {
+			method: 'POST',
+			body: JSON.stringify({
+				id:  JSON.parse(atob(localStorage.getItem('accessToken').split('.')[1])).user_id // ? decode payload data form jwt
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getAccountData);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
+		.then(data => dispatch(selectUser(data)))
+		.catch(error => console.error(error));
+	}, [dispatch])
 
-	useEffect(() => {
-		dispatch(selectUser(user))
-	}, [dispatch]);
+	useEffect(() => getAccountData(), [getAccountData]);
 
  	return (
 		<div className={classes.root}>

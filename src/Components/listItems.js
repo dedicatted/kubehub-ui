@@ -63,7 +63,7 @@ export function MainListItems()	{
 				</ListItem>
 			</Link>
 			{
-				currentUser.admin
+				currentUser.is_admin
 					? (
 					<Link to={{pathname: '/users'}} className={classes.links}>
 						<ListItem button>

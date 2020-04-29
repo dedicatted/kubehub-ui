@@ -6,6 +6,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import { commonStyles } from '../../styles/style';
 import { useSelector } from 'react-redux';
 import { selectCluster } from '../../Actions/ClusterActions';
+import auth from '../Auth/auth';
 
 const useStyles = makeStyles(theme => ({
 	logs: {
@@ -60,7 +61,14 @@ export function ClusterLogs (props) {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(showLogs.bind(cluster, lineNumber));
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => {
 			if(data.readed_lines !== ""){
 				let temporaryLog = [];
@@ -73,6 +81,7 @@ export function ClusterLogs (props) {
 				setTimeout(() => {showLogs(cluster, data.last_line)}, 1000)
 			}
 		})
+		.catch(error => console.error(error))
 	};
 
 	useEffect(() => {

@@ -35,6 +35,8 @@ export default function SignIn(props) {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
+
 	const handleEmailChange = event => setEmail(event.target.value);
 	const handlePasswordChange = event => setPassword(event.target.value);
 	return (
@@ -85,7 +87,11 @@ export default function SignIn(props) {
 							label="Remember me"
 						/>
 						{error
-							? <Typography align='center' color='error' variant='body1'>Wrong email or password</Typography>
+							? <Typography align='center' color='error' variant='body1'>{
+								errorMessage
+									? errorMessage
+									: 'Wrong email or password'
+							}</Typography>
 							: null
 						}
 					</Grid>
@@ -96,10 +102,24 @@ export default function SignIn(props) {
 						color="primary"
 						className={classes.submit}
 						onClick={() => {
-							auth.login(email, password, () => {
-								history.push("/");
-							})
-							.catch(() => setError(true))
+							if(!email || !password) {
+								setError(true);
+								setErrorMessage('Fields must be filled');
+							}
+							else {
+								auth.login(email, password, () => {
+									history.push("/");
+								})
+								.then(data => {
+									console.log(data);
+									if(data.detail) {
+										setError(true)
+										setErrorMessage(data.detail)
+									}
+								})
+								.catch(() => setError(true))
+							}
+
 						}}
 					>
 						Sign In

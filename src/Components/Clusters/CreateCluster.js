@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { serverURL } from '../../serverLink';
 import { commonStyles } from "../../styles/style";
+import auth from '../Auth/auth';
 
 export function CreateCluster (props) {
 	const commonClasses = commonStyles();
@@ -40,7 +41,15 @@ export function CreateCluster (props) {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(createCluster);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
+		.catch(error => console.error(error))
 	}
 
 	useEffect(props.getVMGroups, []);

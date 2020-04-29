@@ -18,12 +18,16 @@ export function VMTypes() {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getVMTypes);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => dispatch(addVMTypes(data.template_list)))
-		.catch(() => {
-			// auth.refreshToken();
-			// getVMTypes()
-		});
+		.catch(error => console.error(error));
 	};
 
 	useEffect(getVMTypes, []);

@@ -8,6 +8,7 @@ import { TableOfClusters } from './TableOfClusters';
 import { showClusters } from '../../Actions/ClusterActions';
 import { ClusterLogs } from './ClusterLogs';
 import { addKubernetesVersions } from '../../Actions/KubernetesVersionActions';
+import auth from '../Auth/auth';
 
 export function Clusters ()	 {
 	let { path } = useRouteMatch();
@@ -21,9 +22,17 @@ export function Clusters ()	 {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getVMGroups);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => data.vm_group_list)
-		.then(data => dispatch(showVMGroup(data)));
+		.then(data => dispatch(showVMGroup(data)))
+		.catch(error => console.error(error))
 	};
 	const getClusters = useCallback(() => {
 		fetch(`${serverURL}/cluster/list`, {
@@ -32,9 +41,17 @@ export function Clusters ()	 {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getClusters);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => data.kubernetes_cluster_list)
 		.then(data => dispatch(showClusters(data)))
+		.catch(error => console.error(error))
 	}, [dispatch])
 	const getKubernetesVersions = () => {
 		fetch(`${serverURL}/kubernetes/version/list`, {
@@ -43,9 +60,17 @@ export function Clusters ()	 {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getKubernetesVersions);
+				Promise.reject();
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => data.kubernetes_version_list)
 		.then(kubernetes_version_list => dispatch(addKubernetesVersions(kubernetes_version_list)))
+		.catch(error => console.error(error))
 	}
 
 	useEffect(getKubernetesVersions, []);

@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { showVMGroup } from '../../Actions/VMGroupActions';
 import { commonStyles } from "../../styles/style";
 import AddIcon from '@material-ui/icons/Add';
+import auth from '../Auth/auth';
 
 export function TableOfClouds (props) {
 	let {url} = useRouteMatch();
@@ -22,9 +23,17 @@ export function TableOfClouds (props) {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getVMGroups);
+				Promise.reject();
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => data.vm_group_list)
 		.then(data => props.dispatch(showVMGroup(data)))
+		.catch(error => console.log(error));
 	};
 	const checkActiveVMGroup = (cloudProviderId) => { // Checks if there are groups of virtual machines created on the selected cloud provider
 		let isVMGroupUse;
@@ -47,8 +56,17 @@ export function TableOfClouds (props) {
 					method: 'POST',
 					body: JSON.stringify({id: index})
 				})
+				.then(response => {
+					if(response.status === 401) {
+						auth.refreshToken(deleteCloud);
+						Promise.reject()
+					} else {
+						return response.json()
+					}
+				})
 				.then(() => props.dispatch(deleteCloud(i)))
 				.then(() => props.getClouds())
+				.catch(error => console.error(error))
 				break;
 			}
 		}

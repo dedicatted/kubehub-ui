@@ -2,7 +2,7 @@ import { serverURL } from "../../serverLink";
 
 class Auth {
 	login(email, password, cb) {
-		return fetch(`${serverURL}/api/login`, {
+		return fetch(`${serverURL}/api/auth/account/login`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email,
@@ -14,16 +14,20 @@ class Auth {
 		})
 		.then(response => response.json())
 		.then(data => {
-			localStorage.setItem('accessToken', data.token);
-			localStorage.setItem('refreshToken', data.refreshToken);
-			cb()
+			if(data.access && data.refresh) {
+				localStorage.setItem('accessToken', data.access);
+				localStorage.setItem('refreshToken', data.refresh);
+				// ! There need to add fetch user Data
+				cb()
+			}
+			return data;
 		})
 	}
-	refreshToken() {
-		fetch(`${serverURL}/api/refreshToken`, {
+	refreshToken(cb) {
+		fetch(`${serverURL}/api/auth/account/refresh-token`, {
 			method: 'POST',
 			body: JSON.stringify({
-				refreshToken: localStorage.getItem('refreshToken'),
+				refresh: localStorage.getItem('refreshToken'),
 			}),
 			headers: {
 				'Content-Type': 'application/json'
@@ -31,9 +35,9 @@ class Auth {
 		})
 		.then(response => response.json())
 		.then(data => {
-			localStorage.setItem('accessToken', data.token);
-			localStorage.setItem('refreshToken', data.refreshToken);
+			localStorage.setItem('accessToken', data.access);
 		})
+		.then(cb())
 		.catch(error => console.log(error));
 	}
 	logout(cb) {

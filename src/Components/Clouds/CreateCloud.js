@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { commonStyles } from "../../styles/style";
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
+import auth from "../Auth/auth";
 
 export default function CreateCloud (props) {
 	const commonClasses = commonStyles();
@@ -31,6 +32,15 @@ export default function CreateCloud (props) {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(createCloud);
+				Promise.reject();
+			} else {
+				return response.json()
+			}
+		})
+		.catch(error => console.error(error));
 		props.dispatch(addCloud(CPType,name,apiEndpoint,password));
 		setTimeout(props.getClouds,100);
 	};
