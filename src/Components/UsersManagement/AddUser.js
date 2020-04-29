@@ -7,11 +7,13 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
+import { serverURL } from '../../serverLink';
 
-export function AddUser() {
+export function AddUser(props) {
 	const commonClasses = commonStyles();
 	const [name, setName] = useState('');
 	const [surname, setSurname] = useState('');
+	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -20,6 +22,7 @@ export function AddUser() {
 	const [adminStatus, setAdminStatus] = useState('');
 
 	const handleNameChange = event => setName(event.target.value);
+	const handleUsernameStatus = event => setUsername(event.target.value);
 	const handleSurnameChange = event => setSurname(event.target.value);
 	const handleEmailChange = event => setEmail(event.target.value);
 	const handlePasswordChange = event => setPassword(event.target.value);
@@ -33,31 +36,63 @@ export function AddUser() {
 			setIsPasswordNotSimilarity(false);
 		}
 	}
+	const addUser = () => {
+		fetch(`${serverURL}/api/auth/account/add`, {
+			method: 'POST',
+			body: JSON.stringify({
+				username,
+				email,
+				password,
+				password2: confirmPassword,
+				is_admin: adminStatus
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(props.getUsersData)
+	}
 
 	return(
 		<>
 			<TopBar backIcon title='Add user' />
 			<Container maxWidth='xl' className={commonClasses.container}>
 				<TextField
-					id="standard-Name"
+					id="standard-Username"
 					margin="dense"
-					label="Name"
+					label="Username"
 					size='small'
-					value={name}
-					onChange={handleNameChange}
+					value={username}
+					onChange={handleUsernameStatus}
 					fullWidth
 					variant='outlined'
+					required
 				/>
-				<TextField
-					id="standard-Surname"
-					margin="dense"
-					label="Surname"
-					size='small'
-					value={surname}
-					onChange={handleSurnameChange}
-					fullWidth
-					variant='outlined'
-				/>
+				<Grid
+					container
+					justify='space-between'
+				>
+					<TextField
+						id="standard-Name"
+						margin="dense"
+						label="Name"
+						size='small'
+						value={name}
+						onChange={handleNameChange}
+						style={{width: '48%'}}
+						variant='outlined'
+					/>
+					<TextField
+						id="standard-Surname"
+						margin="dense"
+						label="Surname"
+						size='small'
+						value={surname}
+						onChange={handleSurnameChange}
+						style={{width: '48%'}}
+						variant='outlined'
+					/>
+				</Grid>
 				<TextField
 					id="standard-Email"
 					margin="dense"
@@ -67,6 +102,7 @@ export function AddUser() {
 					onChange={handleEmailChange}
 					fullWidth
 					variant='outlined'
+					required
 				/>
 				<TextField
 					id="standard-Password"
@@ -89,6 +125,7 @@ export function AddUser() {
 						  </IconButton>
 						</InputAdornment>,
 					}}
+					required
 				/>
 				<TextField
 					error={isPasswordNotSimilarity}
@@ -113,6 +150,7 @@ export function AddUser() {
 						  </IconButton>
 						</InputAdornment>,
 					}}
+					required
 				/>
 				<FormControlLabel
 					control={
@@ -133,14 +171,14 @@ export function AddUser() {
 					alignItems="center"
 				>
 					<Link to="/users" className={commonClasses.links}>
-					<IconButton className={commonClasses.margin}>
-						<CloseIcon color="primary"/>
-					</IconButton>
+						<IconButton className={commonClasses.margin}>
+							<CloseIcon color="primary"/>
+						</IconButton>
 					</Link>
 					<Link to="/users" className={commonClasses.links} >
-					<IconButton disabled={isPasswordNotSimilarity} className={commonClasses.margin}>
-						<DoneIcon color={isPasswordNotSimilarity ? 'disabled' : 'primary'}/>
-					</IconButton>
+						<IconButton disabled={isPasswordNotSimilarity} className={commonClasses.margin} onClick={addUser}>
+							<DoneIcon color={isPasswordNotSimilarity ? 'disabled' : 'primary'}/>
+						</IconButton>
 					</Link>
 				</Grid>
 			</Container>

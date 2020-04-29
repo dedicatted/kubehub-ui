@@ -6,7 +6,9 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { TopBar } from '../TopBar';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, useRouteMatch } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
+import BlockIcon from '@material-ui/icons/Block';
 
 const useStyles = makeStyles(theme => ({
 	fab: {
@@ -20,24 +22,10 @@ const useStyles = makeStyles(theme => ({
 	}
 }))
 
-const users = [
-	{
-		id: 1,
-		name: 'Artem',
-		surname: 'Lakhurov',
-		email: 'lakhurov@gmail.com'
-	},
-	{
-		id: 2,
-		name: 'Konstantin',
-		surname: 'Levchenko',
-		email: 'kl@gmail.com'
-	}
-]
-
 export function TableOfUsers() {
 	const commonClasses = commonStyles();
 	const classes = useStyles();
+	const users = useSelector(state => state.users)
 	const [DeleteMenu, setDeleteMenu] = useState(false);
 	const [ArrayOfDeletedUsers, setArrayOfDeletedUsers] = useState([]);
 	let { url } = useRouteMatch();
@@ -88,8 +76,12 @@ export function TableOfUsers() {
 									? (<TableCell></TableCell>)
 									: null
 								}
-								<TableCell>Name</TableCell>
+								<TableCell>Username</TableCell>
 								<TableCell align="center">E-mail</TableCell>
+								<TableCell align="center">Admin</TableCell>
+								<TableCell align="center">Staff</TableCell>
+								<TableCell align="center">Superuser</TableCell>
+								<TableCell align="center">Active account</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -107,8 +99,28 @@ export function TableOfUsers() {
 											)
 											: null
 										}
-										<TableCell component="th" scope="row">{`${user.name} ${user.surname}`}</TableCell>
+										<TableCell component="th" scope="row">{user.username}</TableCell>
 										<TableCell align="center">{user.email}</TableCell>
+										<TableCell align="center">{
+											user.is_admin
+												? (<CheckCircleOutlineIcon className={commonClasses.successColor}  />)
+												: (<BlockIcon className={commonClasses.errorColor}/>)
+										}</TableCell>
+										<TableCell align="center">{
+											user.is_staff
+												? (<CheckCircleOutlineIcon className={commonClasses.successColor}  />)
+												: (<BlockIcon className={commonClasses.errorColor}/>)
+										}</TableCell>
+										<TableCell align="center">{
+											user.is_superuser
+												? (<CheckCircleOutlineIcon className={commonClasses.successColor}  />)
+												: (<BlockIcon className={commonClasses.errorColor}/>)
+										}</TableCell>
+										<TableCell align="center">{
+											user.is_active
+												? (<CheckCircleOutlineIcon className={commonClasses.successColor}  />)
+												: (<BlockIcon className={commonClasses.errorColor}/>)
+										}</TableCell>
 									</TableRow>
 								)
 							})}

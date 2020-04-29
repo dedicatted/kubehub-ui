@@ -5,6 +5,7 @@ import { clusters, selectedCluster } from './ClusterReducer';
 import { kubernetesVersions } from './KubernetesVersionsReducer';
 import { VMTypes } from './VMTypesReducers';
 import { currentUser } from './CurrentUserReducer';
+import { users } from './UsersReducer';
 
 export  const allReducers = combineReducers({
 	clouds,
@@ -14,4 +15,5 @@ export  const allReducers = combineReducers({
 	kubernetesVersions,
 	VMTypes,
 	currentUser,
+	users
 });
