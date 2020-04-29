@@ -17,14 +17,13 @@ class Auth {
 			if(data.access && data.refresh) {
 				localStorage.setItem('accessToken', data.access);
 				localStorage.setItem('refreshToken', data.refresh);
-				// ! There need to add fetch user Data
 				cb()
 			}
 			return data;
 		})
 	}
 	refreshToken(cb) {
-		fetch(`${serverURL}/api/auth/account/refresh-token`, {
+		return fetch(`${serverURL}/api/auth/account/refresh-token`, {
 			method: 'POST',
 			body: JSON.stringify({
 				refresh: localStorage.getItem('refreshToken'),
@@ -33,12 +32,24 @@ class Auth {
 				'Content-Type': 'application/json'
 			}
 		})
-		.then(response => response.json())
-		.then(data => {
-			localStorage.setItem('accessToken', data.access);
+		.then(response => {
+			if(response.status === 401) {
+				Promise.reject();
+			} else {
+				return response.json()
+			}
 		})
-		.then(cb())
-		.catch(error => console.log(error));
+		.then(data => {
+			if(data.access) {
+				localStorage.setItem('accessToken', data.access);
+			}
+		})
+		.then(() => {
+			if(cb) {
+				cb();
+			}
+		})
+		// .catch(error => console.log('*****************************************************************8'));
 	}
 	logout(cb) {
 		localStorage.clear();

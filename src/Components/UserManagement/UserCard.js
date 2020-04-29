@@ -30,8 +30,8 @@ export function UserCard() {
 	return (
 		<Link to={`/user`} className={commonClasses.links}>
 			<Container component="span" className={classes.root}>
-				<Typography component="h2" variant="body1" color="primary" className={classes.userName}>{`${user.name} ${user.surname}`}</Typography>
-				<UserAvatar />
+				<Typography component="h2" variant="body1" color="primary" className={classes.userName}>{user.username}</Typography>
+				<UserAvatar alt={user.username} />
 			</Container>
 		</Link>
 	)

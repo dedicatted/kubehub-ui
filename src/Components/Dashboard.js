@@ -116,8 +116,15 @@ export 	function Dashboard() {
 		.then(data => dispatch(selectUser(data)))
 		.catch(error => console.error(error));
 	}, [dispatch])
-
-	useEffect(() => getAccountData(), [getAccountData]);
+	useEffect(() => {
+		auth.refreshToken()
+		.then(getAccountData)
+		.catch(() => {
+			localStorage.clear();
+			history.push('/sign_in');
+		})
+	})
+	// useEffect(() => setTimeout(, 100), [getAccountData]);
 
  	return (
 		<div className={classes.root}>

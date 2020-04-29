@@ -3,8 +3,9 @@ import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import { UserData } from './UserData';
 import { PasswordPage } from './PasswordPage';
 import { EmailPage } from './EmailPage';
-import { UserNamePage } from './UserNamePage';
+import { UserFullNamePage } from './UserFullNamePage';
 import { PhotoPage } from './PhotoPage';
+import { UsernamePage } from './Username';
 
 export function UserManagement() {
 	let { path } = useRouteMatch();
@@ -19,7 +20,10 @@ export function UserManagement() {
 				<UserData />
 			</Route>
 			<Route path={`${path}/name`}>
-				<UserNamePage />
+				<UserFullNamePage />
+			</Route>
+			<Route path={`${path}/username`}>
+				<UsernamePage />
 			</Route>
 			<Route path={`${path}/photo`}>
 				<PhotoPage />
