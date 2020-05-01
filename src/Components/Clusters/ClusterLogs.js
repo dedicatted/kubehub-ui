@@ -63,7 +63,7 @@ export function ClusterLogs (props) {
 		})
 		.then(response => {
 			if(response.status === 401) {
-				auth.refreshToken(showLogs.bind(cluster, lineNumber));
+				auth.refreshToken(showLogs(cluster, lineNumber));
 				Promise.reject()
 			} else {
 				return response.json()

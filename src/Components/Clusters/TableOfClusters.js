@@ -63,7 +63,7 @@ export function TableOfClusters (props) {
 		})
 		.then(response => {
 			if(response.status === 401) {
-				auth.refreshToken(deleteCluster.bind(k8s_cluster_id)); //! Need to test
+				auth.refreshToken(deleteCluster(k8s_cluster_id)); //! Need to test
 				Promise.reject()
 			} else {
 				return response.json()
@@ -85,7 +85,7 @@ export function TableOfClusters (props) {
 		})
 		.then(response => {
 			if(response.status === 401) {
-				auth.refreshToken(reloadCluster.bind(k8s_cluster_id)); //! Need to test
+				auth.refreshToken(reloadCluster(k8s_cluster_id)); //! Need to test
 				Promise.reject();
 			} else {
 				return response.json()
@@ -108,7 +108,7 @@ export function TableOfClusters (props) {
 		})
 		.then(response => {
 			if(response.status === 401) {
-				auth.refreshToken(getConfig.bind(cluster));
+				auth.refreshToken(getConfig(cluster));
 				Promise.reject()
 			} else {
 				return response.json()

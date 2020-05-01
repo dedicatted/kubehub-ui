@@ -29,7 +29,7 @@ export default function DeleteVMGroup (props) {
 		})
 		.then(response => {
 			if(response.status === 401) {
-				auth.refreshToken(DeleteVMGroup.bind(selectedVMGroup)); // ! Need to test--------------
+				auth.refreshToken(DeleteVMGroup(selectedVMGroup)); // ! Need to test--------------
 				Promise.reject();
 			} else {
 				return response.json()

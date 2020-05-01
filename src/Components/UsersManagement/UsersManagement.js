@@ -5,6 +5,7 @@ import { AddUser } from './AddUser';
 import { serverURL } from '../../serverLink';
 import { useDispatch } from 'react-redux';
 import { getUsers } from '../../Actions/UsersActions';
+import auth from '../Auth/auth';
 
 export function UsersManagement() {
 	let { path } = useRouteMatch();
@@ -16,7 +17,14 @@ export function UsersManagement() {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getUsersData); //! Need to test
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => dispatch(getUsers(data.user_list)))
 		.catch(error => console.log(error));
 	}
@@ -26,7 +34,9 @@ export function UsersManagement() {
 	return(
 		<Switch>
 			<Route exact path={path}>
-				<TableOfUsers/>
+				<TableOfUsers
+					getUsersData={getUsersData}
+				/>
 			</Route>
 			<Route path={`${path}/add_user`}>
 				<AddUser

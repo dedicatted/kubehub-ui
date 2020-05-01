@@ -8,22 +8,23 @@ import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import DoneIcon from '@material-ui/icons/Done';
 import CloseIcon from '@material-ui/icons/Close';
 import { serverURL } from '../../serverLink';
+import auth from '../Auth/auth';
 
 export function AddUser(props) {
 	const commonClasses = commonStyles();
 	const [name, setName] = useState('');
-	const [surname, setSurname] = useState('');
+	const [lastname, setLastname] = useState('');
 	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [isPasswordNotSimilarity, setIsPasswordNotSimilarity] = useState(false);
-	const [adminStatus, setAdminStatus] = useState('');
+	const [adminStatus, setAdminStatus] = useState(false);
 
 	const handleNameChange = event => setName(event.target.value);
 	const handleUsernameStatus = event => setUsername(event.target.value);
-	const handleSurnameChange = event => setSurname(event.target.value);
+	const handleLastnameChange = event => setLastname(event.target.value);
 	const handleEmailChange = event => setEmail(event.target.value);
 	const handlePasswordChange = event => setPassword(event.target.value);
 	const handleConfirmPasswordChange = event => setConfirmPassword(event.target.value);
@@ -44,13 +45,24 @@ export function AddUser(props) {
 				email,
 				password,
 				password2: confirmPassword,
+				first_name: name,
+				last_name: lastname,
 				is_admin: adminStatus
 			}),
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
 			},
 		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(addUser); //! Need to test
+				Promise.reject();
+			} else {
+				return response.json()
+			}
+		})
 		.then(props.getUsersData)
+		.catch(error => console.log(error));
 	}
 
 	return(
@@ -83,12 +95,12 @@ export function AddUser(props) {
 						variant='outlined'
 					/>
 					<TextField
-						id="standard-Surname"
+						id="standard-Lastname"
 						margin="dense"
-						label="Surname"
+						label="Lastname"
 						size='small'
-						value={surname}
-						onChange={handleSurnameChange}
+						value={lastname}
+						onChange={handleLastnameChange}
 						style={{width: '48%'}}
 						variant='outlined'
 					/>
