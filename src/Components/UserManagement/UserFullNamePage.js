@@ -2,7 +2,7 @@ import React from 'react';
 import { IconButton, Typography, makeStyles, Container, Card, Box } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import EditIcon from '@material-ui/icons/Edit';
-import EditName from './EditName';
+import EditFullName from './EditFullName';
 import { useSelector } from 'react-redux';
 import { TopBar } from '../TopBar';
 
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
 	},
 }));
 
-export function UserNamePage() {
+export function UserFullNamePage() {
 	const classes = useStyles();
 	const commonClasses = commonStyles();
 	const user = useSelector(state => state.currentUser);
@@ -49,7 +49,7 @@ export function UserNamePage() {
 					</Box>
 				</Card>
 			</Container>
-			<EditName
+			<EditFullName
 				open={open}
 				handleClose={handleClose}
 				user={user}

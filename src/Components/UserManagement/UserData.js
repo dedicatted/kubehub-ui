@@ -60,11 +60,27 @@ export function UserData() {
 						<UserAvatar className={classes.avatarLarge} />
 					</Box>
 				</Link>
+				{
+					user.first_name && user.second_name
+						? (
+							<>
+								<Divider />
+								<Link to={`${url}/name`} className={commonClasses.links}>
+									<Box component='div' className={classes.item}>
+										<Typography className={classes.description}>Name</Typography>
+										<Typography className={classes.textPadding}>{`${user.name} ${user.surname}`}</Typography>
+										<ArrowForwardIosIcon className={classes.description} />
+									</Box>
+								</Link>
+							</>
+						)
+						: null
+				}
 				<Divider />
-				<Link to={`${url}/name`} className={commonClasses.links}>
+				<Link to={`${url}/username`} className={commonClasses.links}>
 					<Box component='div' className={classes.item}>
-						<Typography className={classes.description}>Name</Typography>
-						<Typography className={classes.textPadding}>{`${user.name} ${user.surname}`}</Typography>
+						<Typography className={classes.description}>Username</Typography>
+						<Typography className={classes.textPadding}>{user.username}</Typography>
 						<ArrowForwardIosIcon className={classes.description} />
 					</Box>
 				</Link>
