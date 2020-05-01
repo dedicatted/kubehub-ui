@@ -6,7 +6,7 @@ import { TableOfClouds } from './TabelOfClouds';
 import { EditCloud } from './EditCloud';
 import { serverURL } from '../../serverLink';
 import CreateCloud from './CreateCloud';
-
+import auth from '../Auth/auth';
 
 const CP_types = [
 	{
@@ -33,10 +33,22 @@ export function Clouds () {
 		setEditableCloudIndex(cloudProviderIndex)
 	};
 	const getClouds = () => {
-		fetch(`${serverURL}/api/cloud_providers/list`)
-		.then(response => response.json())
+		fetch(`${serverURL}/api/cloud_providers/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getClouds);
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => data.cloud_provider_list)
 		.then(data => dispatch(showClouds(data)))
+		.catch(error => console.error(error))
 	};
 
 	useEffect(getClouds, []);

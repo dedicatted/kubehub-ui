@@ -3,6 +3,7 @@ import { TextField, MenuItem, Button, Container, Typography, Grid } from '@mater
 import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style";
+import auth from '../Auth/auth';
 
 
 export function CreateVMGroup (props) {
@@ -24,9 +25,21 @@ export function CreateVMGroup (props) {
 				template_id: VMTypeId,
 				number_of_nodes: numberOfNodes,
 				name: name
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(createVMGroup);
+				Promise.reject();
+			} else {
+				return response.json()
+			}
 		})
 		.then(props.getVMGroups()) // !! After receiving a response
+		.catch(error => console.error(error))
 		setTimeout(props.getVMGroups(),100) // !! After sending a request
 	};
 

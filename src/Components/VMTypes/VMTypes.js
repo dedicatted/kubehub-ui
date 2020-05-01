@@ -5,15 +5,29 @@ import { TableOfVMTypes } from './TableOfVMTypes';
 import { CreateVMType } from './CreateVMType';
 import { serverURL } from '../../serverLink';
 import { addVMTypes } from '../../Actions/VMTypesActions';
+import auth from '../Auth/auth';
 
 export function VMTypes() {
 	const dispatch = useDispatch();
 	let { path } = useRouteMatch();
 
 	const getVMTypes = () => {
-		fetch(`${serverURL}/api/proxmox/template/list`)
-		.then(response => response.json())
+		fetch(`${serverURL}/api/proxmox/template/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getVMTypes);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
 		.then(data => dispatch(addVMTypes(data.template_list)))
+		.catch(error => console.error(error));
 	};
 
 	useEffect(getVMTypes, []);
