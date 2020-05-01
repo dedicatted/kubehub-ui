@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState	 } from 'react';
 import { Typography, Container, makeStyles, AppBar, Toolbar, CircularProgress } from '@material-ui/core';
 import { serverURL } from '../../serverLink';
