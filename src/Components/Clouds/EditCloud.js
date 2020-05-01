@@ -4,6 +4,7 @@ import { editCloud } from '../../Actions/CloudActions';
 import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style";
+import auth from '../Auth/auth';
 
 export function EditCloud (props) {
 	const commonClasses = commonStyles();
@@ -15,8 +16,20 @@ export function EditCloud (props) {
 			body: JSON.stringify({
 				id: props.clouds[props.editableCloudIndex].id,
 				name: props.editableName
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(submitEditedData);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
+		.catch(error => console.error(error))
 	};
 	const handleEditableNameChange = event => props.setEditableName(event.target.value);
 

@@ -3,6 +3,7 @@ import { Dialog, DialogTitle, TextField, DialogContent, DialogActions, Button, G
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { serverURL } from '../../serverLink';
 import { commonStyles } from "../../styles/style";
+import auth from '../Auth/auth';
 
 export default function DeleteVMGroup (props) {
 	const commonClasses = commonStyles();
@@ -21,9 +22,21 @@ export default function DeleteVMGroup (props) {
 			method: 'POST',
 			body: JSON.stringify({
 				vm_group_id: selectedVMGroup.id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(DeleteVMGroup(selectedVMGroup)); // ! Need to test--------------
+				Promise.reject();
+			} else {
+				return response.json()
+			}
 		})
 		.then(props.getVMGroups()) // !! After receiving a response
+		.catch(error => console.error(error))
 		setTimeout(props.getVMGroups(),100) // !! After sending a request
 		handledeleteVMGroupWindowClose();
 		setDeleteButtonDisabled(true);

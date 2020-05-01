@@ -2,32 +2,37 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './index.css';
 import { Dashboard } from './Components/Dashboard';
 import * as serviceWorker from './serviceWorker';
 import { allReducers } from './Reducers/AllReducers'
-import SignIn from './Components/SignIn';
-import auth from './Components/auth';
-import { ForgotPassword } from './Components/ForgotPassword';
+import SignIn from './Components/Auth/SignIn';
+import { PrivatRoute } from './Components/Auth/PrivatRoute';
+import { ForgotPassword } from './Components/Auth/ForgotPassword'
 
 const store = createStore(
 	allReducers,
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-ReactDOM.render(
-	<Provider store={store}>
+function Index() {
+	return (
+		<Provider store={store}>
 		<Router>
 			<Switch>
-				<Route path="/sign_in" component={() => auth.isAuthenticated ? <SignIn /> : <Redirect to="/" />} />
-				<Route exact path="/" component={() => auth.isAuthenticated ? <Dashboard /> : <Redirect to="/sign_in" />} />
-				<Route path='/forgot_password' component={ForgotPassword} />
-				<Route path="*" component={Dashboard} />
+				<Route exact path="/sign_in" component={SignIn} />
+				<Route exact path='/forgot_password' component={ForgotPassword} />
+				<PrivatRoute exact path='/' component={Dashboard} />
+				<PrivatRoute path='*' component={Dashboard} />
 			</Switch>
-			<Redirect to={auth.isAuthenticated ? "/sign_in" : "/"}/>
 		</Router>
-	</Provider>,
+	</Provider>
+	)
+}
+
+ReactDOM.render(
+	<Index />,
 	document.getElementById('root')
 );
 

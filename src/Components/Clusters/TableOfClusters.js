@@ -13,6 +13,7 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import AddIcon from '@material-ui/icons/Add';
 import CancelIcon from '@material-ui/icons/Cancel';
+import auth from '../Auth/auth';
 
 const useStyles = makeStyles(theme => ({
 	fab: {
@@ -55,10 +56,21 @@ export function TableOfClusters (props) {
 			method: "POST",
 			body: JSON.stringify({
 				k8s_cluster_id: k8s_cluster_id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(deleteCluster(k8s_cluster_id)); //! Need to test
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
 		.then(props.getClusters()) // !! After receiving a response
+		.catch(error => console.error(error))
 		setTimeout(props.getClusters(),100) // !! After sending a request
 	};
 	const reloadCluster = (k8s_cluster_id) => {
@@ -66,10 +78,21 @@ export function TableOfClusters (props) {
 			method: "POST",
 			body: JSON.stringify({
 				k8s_cluster_id: k8s_cluster_id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
-		.then(response => response.json())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(reloadCluster(k8s_cluster_id)); //! Need to test
+				Promise.reject();
+			} else {
+				return response.json()
+			}
+		})
 		.then(props.getClusters()) // !! After receiving a response
+		.catch(error => console.error(error))
 		setTimeout(props.getClusters(),100) // !! After sending a request
 	};
 
@@ -78,9 +101,19 @@ export function TableOfClusters (props) {
 			method: "POST",
 			body: JSON.stringify({
 				kubernetes_cluster_id: cluster.id
-			})
+			}),
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
 		})
-		.then(response => response.blob())
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getConfig(cluster));
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
         .then(blob => {
             var url = window.URL.createObjectURL(blob);
             var a = document.createElement('a');
@@ -89,7 +122,8 @@ export function TableOfClusters (props) {
             document.body.appendChild(a); // we need to append the element to the dom
             a.click();
             a.remove();  //afterwards we remove the element again
-        });
+		})
+		.catch(error => console.error(error))
 	}
 
 	useEffect(() => {

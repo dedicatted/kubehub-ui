@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, Button, CssBaseline, TextField, FormControlLabel, Checkbox, Grid, Typography, Container } from "@material-ui/core"
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
-import Auth from "./auth";
+import auth from "./auth";
 import { Link, useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +32,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn(props) {
 	const classes = useStyles();
 	const history = useHistory();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
 
+	const handleEmailChange = event => setEmail(event.target.value);
+	const handlePasswordChange = event => setPassword(event.target.value);
 	return (
 		<Container component="main" maxWidth="xs" >
 			<CssBaseline />
@@ -50,6 +56,8 @@ export default function SignIn(props) {
 						required
 						fullWidth
 						id="email"
+						value={email}
+						onChange={handleEmailChange}
 						label="Email Address"
 						name="email"
 						autoComplete="email"
@@ -60,25 +68,58 @@ export default function SignIn(props) {
 						margin="normal"
 						required
 						fullWidth
+						id="password"
+						value={password}
+						onChange={handlePasswordChange}
 						name="password"
 						label="Password"
 						type="password"
-						id="password"
 						autoComplete="current-password"
 					/>
-					<FormControlLabel
-						control={<Checkbox value="remember" color="primary" />}
-						label="Remember me"
-					/>
+					<Grid
+						container
+						direction="row"
+						justify="space-between"
+						alignItems="center"
+					>
+						<FormControlLabel
+							control={<Checkbox value="remember" color="primary" />}
+							label="Remember me"
+						/>
+						{error
+							? <Typography align='center' color='error' variant='body1'>{
+								errorMessage
+									? errorMessage
+									: 'Wrong email or password'
+							}</Typography>
+							: null
+						}
+					</Grid>
+
 					<Button
 						fullWidth
 						variant="contained"
 						color="primary"
 						className={classes.submit}
 						onClick={() => {
-							Auth.login(() => {
-								history.push("/");
-							});
+							if(!email || !password) {
+								setError(true);
+								setErrorMessage('Fields must be filled');
+							}
+							else {
+								auth.login(email, password, () => {
+									history.push("/");
+								})
+								.then(data => {
+									console.log(data);
+									if(data.detail) {
+										setError(true)
+										setErrorMessage(data.detail)
+									}
+								})
+								.catch(() => setError(true))
+							}
+
 						}}
 					>
 						Sign In
