@@ -27,7 +27,7 @@ export function TopBar(props) {
 						)
 						: null
 				}
-				<Typography color='primary' variant='h6' >{props.title}</Typography>
+				<Typography color='primary' variant='h6' >{props.title || props.children}</Typography>
 			</Toolbar>
 		</AppBar>
 	)

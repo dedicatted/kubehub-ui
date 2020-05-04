@@ -141,7 +141,7 @@ export 	function Dashboard() {
 						<MenuIcon />
 					</IconButton>
 					<Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-						Dedicatted
+						Kubehub
 					</Typography>
 					<UserCard />
 					<IconButton color="inherit">

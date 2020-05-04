@@ -11,7 +11,7 @@ export function CreateVMGroup (props) {
 	const [name, setName] = React.useState('');
 	const [CPTypeId, setCPTypeId] = React.useState('');
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
-	const [VMTypeId, setVMTypeId] = React.useState();
+	const [VMTypeId, setVMTypeId] = React.useState('');
 
 	const handleCPTypeChange = event => setCPTypeId(event.target.value);
 	const handleNameChange = event => setName(event.target.value);
