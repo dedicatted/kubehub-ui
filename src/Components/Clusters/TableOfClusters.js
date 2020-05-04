@@ -34,6 +34,7 @@ export function TableOfClusters (props) {
 	const kubernetesVersions = useSelector(state => state.kubernetesVersions);
 	const clusters = useSelector(state => state.clusters)
 	let {url} = useRouteMatch();
+	// eslint-disable-next-line no-unused-vars
 	const [arrayOfDeletedClusters, setArrayOfDeletedClusters] = useState([]);
 	const [DeleteMenu, setDeleteMenu] = useState(false);
 
@@ -138,7 +139,7 @@ export function TableOfClusters (props) {
 			props.getClusters();
 		}, 100);
 		props.getVMGroups();
-	},[]);
+	},[props]);
 
 	return (
 		<Container maxWidth="xl" className={commonClasses.container}>

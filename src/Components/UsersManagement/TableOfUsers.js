@@ -30,7 +30,7 @@ export function TableOfUsers(props) {
 	const classes = useStyles();
 	const users = useSelector(state => state.users)
 	const [DeleteMenu, setDeleteMenu] = useState(false);
-	const [ArrayOfDeletedUsers, setArrayOfDeletedUsers] = useState([]);
+	const [ArrayOfDeletedUsersId, setArrayOfDeletedUsersID] = useState([]);
 	let { url } = useRouteMatch();
 
 	const showDeleteMenu = () => {
@@ -38,13 +38,24 @@ export function TableOfUsers(props) {
 	}
 	const hideDeleteMenu = () => {
 		setDeleteMenu(false);
-		setArrayOfDeletedUsers([]);
+		setArrayOfDeletedUsersID([]);
+	}
+	const deleteUsers = delteUsersArray => {
+		fetch(`${serverURL}/`, {
+			method: 'POST',
+			body: JSON.stringify({
+				ArrayOfDeletedUsersId
+			}),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		})
 	}
 	const onChangeDeleteCheckbox = event => {
 		if (event.target.checked) {
-			setArrayOfDeletedUsers(oldArray => [...oldArray, event.target.value])
+			setArrayOfDeletedUsersID(oldArray => [...oldArray, event.target.value])
 		} else if(!event.target.checked) {
-			setArrayOfDeletedUsers(oldArray => oldArray.filter(item => item !== event.target.value))
+			setArrayOfDeletedUsersID(oldArray => oldArray.filter(item => item !== event.target.value))
 		}
 	}
 	const deleteUser = (userId) => {
@@ -171,7 +182,7 @@ export function TableOfUsers(props) {
 							className={classes.fab}
 						>
 							<Fab onClick={hideDeleteMenu}><CancelIcon color="primary"/></Fab>
-							<Fab><DeleteOutlineIcon color="primary"/></Fab>
+							<Fab onClick={() => deleteUsers(ArrayOfDeletedUsersId)}><DeleteOutlineIcon color="primary"/></Fab>
 						</Grid>)
 						: null
 					}
