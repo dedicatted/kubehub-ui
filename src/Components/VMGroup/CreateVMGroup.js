@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { TextField, MenuItem, Button, Container, Typography, Grid, Stepper, Step, StepLabel, Paper, Card, makeStyles, InputAdornment } from '@material-ui/core';
+import { TextField, MenuItem, Button, Container, Typography, Grid, Stepper, Step, StepLabel, Card, makeStyles, InputAdornment, ListSubheader } from '@material-ui/core';
 import { serverURL } from '../../serverLink';
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style";
 import auth from '../Auth/auth';
-import { TopBar } from '../TopBar';
 import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles(theme => ({
@@ -27,16 +26,23 @@ export function CreateVMGroup (props) {
 	const commonClasses = commonStyles();
 	const classes = useStyles();
 	const [name, setName] = React.useState('');
-	const [CPTypeId, setCPTypeId] = React.useState('');
+	const [CPType, setCPType] = React.useState();
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
 	const [VMType, setVMType] = React.useState('');
 	const [imageOrTemplate, setImageOrTemplate] = useState('');
 	const [diskSize, setDiskSize] = useState('')
 	const [activeStep, setActiveStep] = React.useState(0);
-	const steps = ['Select cloud provider', 'Create virtual machine group'];
+	const steps = ['Select cloud provider', 'Set config of virtual machine group', 'Create virtual machine group'];
 	const clouds = useSelector(state => state.clouds);
+	const templates = useSelector(state => state.templates);
+	const images = useSelector(state => state.images);
 
-	const handleCPTypeChange = event => setCPTypeId(event.target.value);
+	const handleCPTypeChange = event => {
+		console.log(event.target.dataset.value)
+		setCPType(event.target.dataset.value);
+		console.log(clouds)
+		console.log(clouds.find(cloud => cloud.id === event.target.dataset.value))
+	};
 	const handleNameChange = event => setName(event.target.value);
 	const handleImageOrTemplateChange = event => setImageOrTemplate(event.target.value);
 	const handleNumberOfNodes = event => setNumberOfNodes(event.target.value);
@@ -47,8 +53,8 @@ export function CreateVMGroup (props) {
 		fetch(`${serverURL}/api/proxmox/vm/group/add`, {
 			method: 'POST',
 			body: JSON.stringify({
-				cloud_provider_id: CPTypeId,
-				template_id: VMType,
+				cloud_provider_id: CPType,
+				template_id: imageOrTemplate.id,
 				number_of_nodes: numberOfNodes,
 				name: name
 			}),
@@ -102,7 +108,7 @@ export function CreateVMGroup (props) {
 										? (
 											clouds.map((cloud, i) => (
 												<Grid key={i} item xs={3}>
-													<Card key={i} className={classes.card} value={cloud.id} onClick={event => {
+													<Card key={i} className={classes.card} data-value={cloud.id} onClick={event => {
 														handleCPTypeChange(event);
 														setActiveStep(prevState => ++prevState)
 													}}>
@@ -133,6 +139,7 @@ export function CreateVMGroup (props) {
 									<TextField
 										id="standard-select-image-or-template"
 										select
+										margin="dense"
 										label="Image or template"
 										value={imageOrTemplate}
 										onChange={handleImageOrTemplateChange}
@@ -141,9 +148,16 @@ export function CreateVMGroup (props) {
 										variant="outlined"
 										size="small"
 									>
-										{clouds.map(cloud => (
-											<MenuItem key={cloud.id} value={cloud.id}>
-												{cloud.name}
+										<ListSubheader>Templates</ListSubheader>
+										{templates.map(template => (
+												<MenuItem key={template.id} value={template}>
+													{template.name}
+												</MenuItem>
+										))}
+										<ListSubheader>Images</ListSubheader>
+										{images.map(image => (
+											<MenuItem key={image.id} value={image}>
+												{image.name}
 											</MenuItem>
 										))}
 									</TextField>
@@ -152,6 +166,7 @@ export function CreateVMGroup (props) {
 										id="number_of_nodes"
 										label="Number of nodes"
 										fullWidth
+										type='number'
 										value={numberOfNodes}
 										onChange={handleNumberOfNodes}
 										variant="outlined"
@@ -169,8 +184,8 @@ export function CreateVMGroup (props) {
 										size="small"
 									>
 										{props.VMTypes.map(VMType => (
-											<MenuItem key={VMType.id} value={VMType.id}>
-												{VMType.name}
+											<MenuItem key={VMType.id} value={VMType}>
+												{`${VMType.name} (${VMType.vCPU} vcpu, ${VMType.memory} GB RAM)`}
 											</MenuItem>
 										))}
 									</TextField>
@@ -179,6 +194,7 @@ export function CreateVMGroup (props) {
 										id="disk"
 										label="Disk size"
 										fullWidth
+										type='number'
 										value={diskSize}
 										onChange={handleDiskSizeChange}
 										variant="outlined"
@@ -198,14 +214,30 @@ export function CreateVMGroup (props) {
 										}}>
 											Back
 										</Button>
-										<Link to="/vm_group" className={commonClasses.links}>
-											<Button color="primary" className={commonClasses.margin}>
-												Create
-											</Button>
-										</Link>
+										<Button color="primary" className={commonClasses.margin} onClick={() => {
+											setActiveStep(prevState => ++prevState)
+										}}>
+											Next
+										</Button>
 									</Grid>
 								</React.Fragment>
-							) : null
+							) : activeStep === 2
+									? (
+										<React.Fragment>
+											<Typography>{`Name: ${name}`}</Typography>
+											<Typography>{`Cloud provider: ${clouds.find(cloud => cloud.id === +CPType).name}`}</Typography>
+											<Typography>{
+												imageOrTemplate.template
+													? `Template: ${imageOrTemplate.name}`
+													: `Image ${imageOrTemplate.name}`
+											}</Typography>
+											<Typography>{`Number of nodes: ${numberOfNodes}`}</Typography>
+											<Typography>{`vCPU: ${VMType.vCPU} Cores`}</Typography>
+											<Typography>{`RAM: ${VMType.memory} GB`}</Typography>
+											<Typography>{`Disk size: ${diskSize} GB`}</Typography>
+										</React.Fragment>
+									)
+									: null
 
 				}
 			</Container>
