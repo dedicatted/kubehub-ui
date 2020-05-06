@@ -35,7 +35,7 @@ export function CreateVMGroup (props) {
 	const [imageOrTemplate, setImageOrTemplate] = useState('');
 	const [diskSize, setDiskSize] = useState('')
 	const [activeStep, setActiveStep] = React.useState(0);
-	const steps = ['Select cloud provider', 'Set config of virtual machine group', 'Create virtual machine group'];
+	const steps = ['Select cloud provider', 'Set config of virtual machine group', 'Validate and Create virtual machine group'];
 	const clouds = useSelector(state => state.clouds);
 	const templates = useSelector(state => state.templates);
 	const images = useSelector(state => state.images);
