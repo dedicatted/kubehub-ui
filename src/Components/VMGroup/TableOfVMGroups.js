@@ -85,7 +85,7 @@ export function TableOfVMGroup (props) {
 									<TableCell align="center">{VMGroupItem.vms.length}</TableCell>
 									<TableCell align="center">{
 										props.clouds.map((cloud, i) => {
-											return(cloud.id === VMGroupItem.vms[0].cloud_provider
+											return(cloud.id === VMGroupItem.cloud_provider
 												? cloud.name
 												: null
 											)
