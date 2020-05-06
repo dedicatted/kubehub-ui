@@ -54,7 +54,10 @@ export function TableOfClouds (props) {
 			if(props.clouds[i].id === index) {
 				fetch(`${serverURL}/api/cloud_providers/remove`,{
 					method: 'POST',
-					body: JSON.stringify({id: index})
+					body: JSON.stringify({id: index}),
+					headers: {
+						"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+					}
 				})
 				.then(response => {
 					if(response.status === 401) {

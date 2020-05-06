@@ -3,18 +3,28 @@ import { TextField, Button, Container, Grid, InputAdornment } from '@material-ui
 import { Link } from 'react-router-dom';
 import { commonStyles } from "../../styles/style";
 import { TopBar } from '../TopBar';
+import { useDispatch } from 'react-redux';
+import { addVMType } from '../../Actions/VMTypesActions';
 
 
 export function CreateVMType (props) {
 	const commonClasses = commonStyles();
+	const dispatch = useDispatch();
 	const [name, setName] = React.useState('');
-	const [vCPU, setVCPU] = React.useState('');
-	const [memory, setMemory] = React.useState('');
+	const [vCPU, setVCPU] = React.useState(0);
+	const [memory, setMemory] = React.useState(0);
 
 	const handleNameChange = event => setName(event.target.value);
 	const handleVCPUChange = event => setVCPU(event.target.value);
 	const handleMemoryChange = event => setMemory(event.target.value);
 
+	const createVMType = () => {
+		dispatch(addVMType({
+			name,
+			vCPU,
+			memory
+		}))
+	}
 	return (
 		<>
 			<TopBar backIcon>
@@ -51,6 +61,7 @@ export function CreateVMType (props) {
 					value={memory}
 					onChange={handleMemoryChange}
 					fullWidth
+					type='number'
 					variant="outlined"
 					size="small"
 					helperText="RAM size"
@@ -65,12 +76,12 @@ export function CreateVMType (props) {
 					alignItems="center"
 				>
 					<Link to="/vm_types" className={commonClasses.links}>
-						<Button variant="contained" color="primary" className={commonClasses.margin}>
+						<Button color="primary" className={commonClasses.margin}>
 							Cancel
 						</Button>
 					</Link>
 					<Link to="/vm_types" className={commonClasses.links}>
-						<Button variant="contained" color="primary" className={commonClasses.margin}>
+						<Button color="primary" className={commonClasses.margin} onClick={createVMType}>
 							Create
 						</Button>
 					</Link>
