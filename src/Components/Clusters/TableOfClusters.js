@@ -137,7 +137,7 @@ export function TableOfClusters (props) {
 	useEffect(() => {
 		setTimeout(() => {
 			props.getClusters();
-		}, 100);
+		}, 4000);
 		props.getVMGroups();
 	},[props]);
 

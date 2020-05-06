@@ -2,12 +2,13 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { showClouds } from '../../Actions/CloudActions';
 import { showVMGroup } from '../../Actions/VMGroupActions';
-import { addVMTypes } from '../../Actions/VMTypesActions';
 import { TableOfVMGroup } from './TableOfVMGroups';
 import { CreateVMGroup } from './CreateVMGroup';
 import { serverURL } from '../../serverLink';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 import auth from '../Auth/auth';
+import { addTemplates } from '../../Actions/TemplateActions';
+import { addImages } from '../../Actions/ImageActions';
 
 
 export function VMGroup() {
@@ -58,7 +59,7 @@ export function VMGroup() {
 		.then(data => dispatch(showVMGroup(data)))
 		.catch(error => console.error(error))
 	};
-	const getVMTypes = () => {
+	const getTemplates = () => {
 		fetch(`${serverURL}/api/proxmox/template/list`, {
 			method: 'GET',
 			headers: {
@@ -67,18 +68,38 @@ export function VMGroup() {
 		})
 		.then(response => {
 			if(response.status === 401) {
-				auth.refreshToken(getVMTypes);
+				auth.refreshToken(getTemplates);
 				Promise.reject()
 			} else {
 				return response.json()
 			}
 		})
-		.then(data => dispatch(addVMTypes(data.template_list)))
+		.then(data => dispatch(addTemplates(data.template_list)))
 		.catch(error => console.log(error))
 	};
+	const getImages = () => {
+		fetch(`${serverURL}/api/proxmox/vm/os-image/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getImages);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
+		.then(data => dispatch(addImages(data.os_image_list)))
+		.catch(error => console.log(error))
+	}
 
-	useEffect(getVMTypes, []);
+
+	useEffect(getTemplates, []);
 	useEffect(getClouds, []);
+	useEffect(getImages, []);
 
 	return (
 		<Switch>

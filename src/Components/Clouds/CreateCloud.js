@@ -1,11 +1,9 @@
 import React from "react";
-import { TextField, MenuItem, Container, Typography, Grid, IconButton } from "@material-ui/core";
+import { TextField, MenuItem, Container, Typography, Grid, Button } from "@material-ui/core";
 import { serverURL } from "../../serverLink";
 import { addCloud } from "../../Actions/CloudActions";
 import { Link } from "react-router-dom";
 import { commonStyles } from "../../styles/style";
-import DoneIcon from '@material-ui/icons/Done';
-import CloseIcon from '@material-ui/icons/Close';
 import auth from "../Auth/auth";
 
 export default function CreateCloud (props) {
@@ -14,11 +12,13 @@ export default function CreateCloud (props) {
 	const [name, setName] = React.useState("");
 	const [apiEndpoint, setApiEndpoint] = React.useState("");
 	const [password, setPassword] = React.useState("");
+	const [sharedStorageName, setSharedStorageName] = React.useState('');
 
 	const handleCPTypeChange = event => setCPType(event.target.value);
 	const handleNameChange = event => setName(event.target.value);
 	const handleApiEndpointChange = event => setApiEndpoint(event.target.value);
 	const handlePasswordChange = event => setPassword(event.target.value);
+	const handleSharedStorageNameChange = event => setSharedStorageName(event.target.value);
 	const createCloud = () => {
 		fetch(`${serverURL}/api/cloud_providers/add`, {
 			method: "POST",
@@ -26,7 +26,8 @@ export default function CreateCloud (props) {
 				cp_type: CPType,
 				name: name,
 				api_endpoint: apiEndpoint,
-				password: password
+				password: password,
+				shared_storage_name: sharedStorageName
 			}),
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
@@ -104,6 +105,16 @@ export default function CreateCloud (props) {
 				variant="outlined"
 				size="small"
 			/>
+			<TextField
+				value={sharedStorageName}
+				onChange={handleSharedStorageNameChange}
+				margin="dense"
+				id="shared_storage_name"
+				label="Shared storage name"
+				fullWidth
+				variant="outlined"
+				size="small"
+			/>
 			<Grid
 				container
 				direction="row"
@@ -111,14 +122,14 @@ export default function CreateCloud (props) {
 				alignItems="center"
 			>
 				<Link to="/clouds" className={commonClasses.links}>
-					<IconButton className={commonClasses.margin}>
-						<CloseIcon color="primary"/>
-					</IconButton>
+					<Button color='primary' className={commonClasses.margin}>
+						Close
+					</Button>
 				</Link>
 				<Link to="/clouds" className={commonClasses.links}>
-					<IconButton className={commonClasses.margin} onClick={createCloud}>
-						<DoneIcon color="primary"/>
-					</IconButton>
+					<Button color='primary' className={commonClasses.margin} onClick={createCloud}>
+						Create
+					</Button>
 				</Link>
 			</Grid>
 		</Container>

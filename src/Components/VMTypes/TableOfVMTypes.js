@@ -37,8 +37,15 @@ export function TableOfVMTypes () {
 								return (
 									<TableRow key={i}>
 										<TableCell className={classes.tableNameWidth} component="th" scope="row">{VMType.name}</TableCell>
-										<TableCell align="center">{VMType.maxcpu}</TableCell>
-										<TableCell align="center">{Math.floor(VMType.maxmem * 10**-9)} GB</TableCell>
+										<TableCell align="center">
+											{VMType.vCPU}
+											{
+												VMType.vCPU >= 2
+													? ' Cores'
+													: ' Core'
+											}
+											</TableCell>
+										<TableCell align="center">{VMType.memory} GB</TableCell>
 										<TableCell align="center">
 											<IconButton
 												className={classes.deleteIcon}
