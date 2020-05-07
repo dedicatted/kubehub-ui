@@ -5,28 +5,8 @@ import { StepChoseCloud } from './StepChoseCloud';
 import { StepSetConfig } from './StepSetConfig';
 import { StepValidateAndCreate } from './StepValidateAndCreate';
 
-const useStyles = makeStyles(theme => ({
-	root: {
-		flexGrow: 1
-	},
-	typography: {
-		padding: theme.spacing(1)
-	},
-	card: {
-		padding: theme.spacing(4),
-		"&:hover" : {
-			boxShadow: "0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12)",
-			cursor: 'pointer'
-		}
-	},
-	boder: {
-		border: '2px solid #3f51b5',
-	}
-}))
-
 export function CreateVMGroup (props) {
 	const commonClasses = commonStyles();
-	const classes = useStyles();
 	const [name, setName] = React.useState('');
 	const [CPType, setCPType] = React.useState();
 	const [numberOfNodes, setNumberOfNodes] = React.useState('');
