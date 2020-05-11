@@ -30,7 +30,7 @@ export function CreateCluster (props) {
 
 	return (
 		<Container maxWidth='xl' className={commonClasses.container}>
-			<Stepper activeStep={activeStep}>{
+			<Stepper activeStep={activeStep} alternativeLabel>{
 				steps.map(label => (
 					<Step key={label}>
 						<StepLabel>{label}</StepLabel>
