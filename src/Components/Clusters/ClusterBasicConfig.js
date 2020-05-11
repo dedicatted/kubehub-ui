@@ -123,7 +123,7 @@ export function ClusterBasicConfig (props) {
 				justify="flex-end"
 				alignItems="center"
 			>
-				<Button color="primary" className={commonClasses.margin} onClick={() => {
+				<Button color="primary" disabled={!props.selectedVMGroup} className={commonClasses.margin} onClick={() => {
 					props.advancedConfig
 						? props.setActiveStep(prevState => ++prevState)
 						: props.setActiveStep(props.steps.length - 1)

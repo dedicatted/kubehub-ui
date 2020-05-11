@@ -19,7 +19,7 @@ export function CreateCluster (props) {
 	const [numberOfMasterNodes, setNumberOfMasterNodes] = useState(0);
 	const [workerImageOrTemplate, setWorkerImageOrTemplate] = useState();
 	const [workerVMType, setWorkerVMType] = React.useState('');
-	const [workerDiskSize, setWorkerDiskSize] = useState('');
+	const [workerDiskSize, setWorkerDiskSize] = useState(0);
 	const [numberOfWorkerNodes, setNumberOfWorkerNodes] = useState(0);
 	const [selectedVMGroup, setSelectedVMGroup] = useState('');
 	const [activeStep, setActiveStep] = useState(0);

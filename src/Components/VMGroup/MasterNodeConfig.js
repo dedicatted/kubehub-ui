@@ -94,7 +94,7 @@ export function MasterNodeConfig (props) {
 				}}>
 					Back
 				</Button>
-				<Button color="primary" className={commonClasses.margin} onClick={() => {
+				<Button color="primary" disabled={!props.masterImageOrTemplate} className={commonClasses.margin} onClick={() => {
 					props.setActiveStep(prevState => ++prevState)
 				}}>
 					Next
