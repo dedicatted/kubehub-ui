@@ -9,22 +9,20 @@ import { DescriptionTypography } from './DescriptionTypography';
 
 export function ValidateAndCreateVMGroup (props) {
 	const commonClasses = commonStyles();
-
+	// ! TO DO
 	const choosingRightBody = () => {
 		let body = {
 			cloud_provider_id: props.CPType.id,
-			number_of_nodes: props.numberOfNodes,
+			number_of_nodes: props.numberOfMasterNodes,
 			name: props.name,
 			cores: props.VMType.vCPU,
-			sockets: 1,
-			memory: props.VMType.memory * 1024,
+			memory: props.VMType.memory,
 			boot_disk: props.diskSize,
-			disk_type: "scsi0",
 		};
-		if(props.imageOrTemplate.template) {
-			body.template_id = props.imageOrTemplate.id;
+		if(props.masterImageOrTemplate.template) {
+			body.template_id = props.masterImageOrTemplate.id;
 		} else {
-			body.os_image_id = props.imageOrTemplate.id;
+			body.os_image_id = props.masterImageOrTemplate.id;
 		}
 		return body;
 	}

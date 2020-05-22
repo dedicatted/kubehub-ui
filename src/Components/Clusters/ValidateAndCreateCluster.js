@@ -16,7 +16,7 @@ export function ValidateAndCreateCluster (props) {
 			body: JSON.stringify({
 				name: props.clusterName,
 				kubernetes_version_id: props.kubernetesVersionId,
-				// vm_group: selectedVMGroup.id
+				vm_group: props.selectedVMGroup.id
 			}),
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`

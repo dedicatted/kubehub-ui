@@ -21,7 +21,7 @@ export function CreateCluster (props) {
 	const [workerVMType, setWorkerVMType] = React.useState('');
 	const [workerDiskSize, setWorkerDiskSize] = useState(0);
 	const [numberOfWorkerNodes, setNumberOfWorkerNodes] = useState(0);
-	const [selectedVMGroup, setSelectedVMGroup] = useState('');
+	const [selectedVMGroup, setSelectedVMGroup] = useState();
 	const [activeStep, setActiveStep] = useState(0);
 	const steps = ['Set basic configurations', 'Set configurations for master nodes' ,'Set configurations for worker nodes', 'Validate and Create Cluster'];
 
@@ -103,6 +103,9 @@ export function CreateCluster (props) {
 										VMGname={VMGname}
 										CPType={CPType}
 										getClusters={props.getClusters}
+										setSelectedVMGroup={setSelectedVMGroup}
+										numberOfMasterNodes={numberOfMasterNodes}
+										numberOfWorkerNodes={numberOfWorkerNodes}
 									/>
 								)
 								: null
