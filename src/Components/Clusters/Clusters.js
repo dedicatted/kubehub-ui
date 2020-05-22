@@ -9,12 +9,33 @@ import { showClusters } from '../../Actions/ClusterActions';
 import { ClusterLogs } from './ClusterLogs';
 import { addKubernetesVersions } from '../../Actions/KubernetesVersionActions';
 import auth from '../Auth/auth';
+import { addTemplates } from '../../Actions/TemplateActions';
+import { addImages } from '../../Actions/ImageActions';
+import { showClouds } from '../../Actions/CloudActions';
 
 export function Clusters ()	 {
 	let { path } = useRouteMatch();
 	const dispatch = useDispatch();
 	const clusters = useSelector(state => state.clusters)
 
+	const getClouds = () => {
+		fetch(`${serverURL}/api/cloud_providers/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getClouds);
+			} else {
+				return response.json()
+			}
+		})
+		.then(data => data.cloud_provider_list)
+		.then(data => dispatch(showClouds(data)))
+		.catch(error => console.error(error))
+	};
 	const getVMGroups = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/list`, {
 			method: 'GET',
@@ -72,8 +93,47 @@ export function Clusters ()	 {
 		.then(kubernetes_version_list => dispatch(addKubernetesVersions(kubernetes_version_list)))
 		.catch(error => console.error(error))
 	}
+	const getTemplates = () => {
+		fetch(`${serverURL}/api/proxmox/template/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getTemplates);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
+		.then(data => dispatch(addTemplates(data.template_list)))
+		.catch(error => console.log(error))
+	};
+	const getImages = () => {
+		fetch(`${serverURL}/api/proxmox/vm/os-image/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getImages);
+				Promise.reject()
+			} else {
+				return response.json()
+			}
+		})
+		.then(data => dispatch(addImages(data.os_image_list)))
+		.catch(error => console.log(error))
+	}
 
 	useEffect(getKubernetesVersions, []);
+	useEffect(getTemplates, []);
+	useEffect(getImages, []);
+	useEffect(getClouds, []);
 
 	return(
 		<Switch>

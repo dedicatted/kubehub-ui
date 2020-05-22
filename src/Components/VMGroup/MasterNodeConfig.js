@@ -1,39 +1,29 @@
 import React from 'react';
-import { TextField, ListSubheader, MenuItem, Grid, InputAdornment, Button } from '@material-ui/core';
+import { TextField, ListSubheader, MenuItem, InputAdornment, Grid, Button } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { commonStyles } from "../../styles/style";
+import { commonStyles } from '../../styles/style';
 
-export function StepSetConfig (props) {
+export function MasterNodeConfig (props) {
 	const VMTypes = useSelector(state => state.VMTypes);
 	const templates = useSelector(state => state.templates);
 	const images = useSelector(state => state.images);
 	const commonClasses = commonStyles();
 
-	const handleNameChange = event => props.setName(event.target.value);
-	const handleImageOrTemplateChange = event => props.setImageOrTemplate(event.target.value);
-	const handleNumberOfNodes = event => props.setNumberOfNodes(event.target.value);
-	const handleVMType = event => props.setVMType(event.target.value);
-	const handleDiskSizeChange = event => props.setDiskSize(event.target.value);
+	const handleMasterImageOrTemplateChange= event => props.setMasterImageOrTemplate(event.target.value);
+	const handleMasterVMType = event => props.setMasterVMType(event.target.value);
+	const handleMasterDiskSizeChange = event => props.setMasterDiskSize(event.target.value);
+	const hanldeNumberOfMasterNodes = event => props.setNumberOfMasterNodes(event.target.value);
+
 	return (
 		<React.Fragment>
-			<TextField
-				value={props.name}
-				onChange={handleNameChange}
-				margin="dense"
-				id="name"
-				label="Name"
-				fullWidth
-				variant="outlined"
-				size="small"
-			/>
 			<TextField
 				id="standard-select-image-or-template"
 				select
 				margin="dense"
 				label="Image or template"
-				value={props.imageOrTemplate}
-				onChange={handleImageOrTemplateChange}
-				helperText="Please select image or template"
+				value={props.masterImageOrTemplate}
+				onChange={handleMasterImageOrTemplateChange}
+				helperText="Please select image or template. If you choose a template for master nodes, you cannot use the image for worker nodes and vice versa"
 				fullWidth
 				variant="outlined"
 				size="small"
@@ -53,21 +43,10 @@ export function StepSetConfig (props) {
 			</TextField>
 			<TextField
 				margin="dense"
-				id="number_of_nodes"
-				label="Number of nodes"
-				fullWidth
-				type='number'
-				value={props.numberOfNodes}
-				onChange={handleNumberOfNodes}
-				variant="outlined"
-				size="small"
-			/>
-			<TextField
-				margin="dense"
 				id="VMType"
 				label="VM type"
-				value={props.VMType}
-				onChange={handleVMType}
+				value={props.masterVMType}
+				onChange={handleMasterVMType}
 				select
 				fullWidth
 				variant="outlined"
@@ -81,12 +60,23 @@ export function StepSetConfig (props) {
 			</TextField>
 			<TextField
 				margin="dense"
+				id="number-of-master-nodes"
+				label="Number of Master Nodes"
+				value={props.numberOfMasterNodes}
+				onChange={hanldeNumberOfMasterNodes}
+				type="number"
+				fullWidth
+				variant="outlined"
+				size="small"
+			/>
+			<TextField
+				margin="dense"
 				id="disk"
 				label="Disk size"
 				fullWidth
 				type='number'
-				value={props.diskSize}
-				onChange={handleDiskSizeChange}
+				value={props.masterDiskSize}
+				onChange={handleMasterDiskSizeChange}
 				variant="outlined"
 				size="small"
 				InputProps={{
@@ -104,7 +94,7 @@ export function StepSetConfig (props) {
 				}}>
 					Back
 				</Button>
-				<Button color="primary" className={commonClasses.margin} onClick={() => {
+				<Button color="primary" disabled={!props.masterImageOrTemplate} className={commonClasses.margin} onClick={() => {
 					props.setActiveStep(prevState => ++prevState)
 				}}>
 					Next

@@ -7,27 +7,26 @@ import auth from '../Auth/auth';
 import { DescriptionTypography } from './DescriptionTypography';
 
 
-export function StepValidateAndCreate (props) {
+export function ValidateAndCreateVMGroup (props) {
 	const commonClasses = commonStyles();
-
+	// ! TO DO
 	const choosingRightBody = () => {
 		let body = {
 			cloud_provider_id: props.CPType.id,
-			number_of_nodes: props.numberOfNodes,
+			number_of_nodes: props.numberOfMasterNodes,
 			name: props.name,
 			cores: props.VMType.vCPU,
-			sockets: 1,
-			memory: props.VMType.memory * 1024,
+			memory: props.VMType.memory,
 			boot_disk: props.diskSize,
-			disk_type: "scsi0",
 		};
-		if(props.imageOrTemplate.template) {
-			body.template_id = props.imageOrTemplate.id;
+		if(props.masterImageOrTemplate.template) {
+			body.template_id = props.masterImageOrTemplate.id;
 		} else {
-			body.os_image_id = props.imageOrTemplate.id;
+			body.os_image_id = props.masterImageOrTemplate.id;
 		}
 		return body;
 	}
+	// ! TO DO
 	const createVMGroup = () => {
 		fetch(`${serverURL}/api/proxmox/vm/group/add`, {
 			method: 'POST',
@@ -53,20 +52,34 @@ export function StepValidateAndCreate (props) {
 			<DescriptionTypography>{`Name: ${props.name}`}</DescriptionTypography>
 			<Divider />
 			<DescriptionTypography>{`Cloud provider: ${props.CPType.name}`}</DescriptionTypography>
+			<DescriptionTypography>{`Master ${
+				props.masterImageOrTemplate.template
+					? 'Template:'
+					: 'Image:'
+			} ${props.masterImageOrTemplate.name}`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{
-				props.imageOrTemplate.template
-					? `Template: ${props.imageOrTemplate.name}`
-					: `Image: ${props.imageOrTemplate.name}`
-			}</DescriptionTypography>
+			<DescriptionTypography>{`Master VMType Name: ${props.masterVMType.name}`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`Number of nodes: ${props.numberOfNodes}`}</DescriptionTypography>
+			<DescriptionTypography>{`Master vCPU: ${props.masterVMType.vCPU} Cores`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`vCPU: ${props.VMType.vCPU} Cores`}</DescriptionTypography>
+			<DescriptionTypography>{`Master RAM: ${props.masterVMType.memory} GB`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`RAM: ${props.VMType.memory} GB`}</DescriptionTypography>
+			<DescriptionTypography>{`Master Disk size: ${props.masterDiskSize} GB`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`Disk size: ${props.diskSize} GB`}</DescriptionTypography>
+			<DescriptionTypography>{`Worker ${
+				props.workerImageOrTemplate.template
+					? 'Template:'
+					: 'Image:'
+			} ${props.workerImageOrTemplate.name}`}</DescriptionTypography>
+			<Divider />
+			<DescriptionTypography>{`Worker VMType Name: ${props.workerVMType.name}`}</DescriptionTypography>
+			<Divider />
+			<DescriptionTypography>{`Worker vCPU: ${props.workerVMType.vCPU} Cores`}</DescriptionTypography>
+			<Divider />
+			<DescriptionTypography>{`Worker RAM: ${props.workerVMType.memory} GB`}</DescriptionTypography>
+			<Divider />
+			<DescriptionTypography>{`Worker Disk size: ${props.workerDiskSize} GB`}</DescriptionTypography>
+			<Divider />
 			<Grid
 				container
 				direction="row"

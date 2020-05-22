@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 
-export function StepChoseCloud (props) {
+export function ChoseCloud (props) {
 	const classes = useStyles();
 	const clouds = useSelector(state => state.clouds);
 
