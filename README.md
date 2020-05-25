@@ -15,7 +15,7 @@ You will also see any lint errors in the console.
 ### 'REACT_APP_SERVER_URL=http://localhost:8080 npm start'
 
 In order to connect the frontend to the server that you need and run app in the development mode.<br />
-Instead of http: // localhost: 8080, paste the URL of your server.
+Instead of http://localhost:8080, paste the URL of your server.
 
 ### `npm test`
 
