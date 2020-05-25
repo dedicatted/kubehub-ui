@@ -19,7 +19,7 @@ export function Clusters ()	 {
 	const clusters = useSelector(state => state.clusters)
 
 	const getClouds = () => {
-		fetch(`${serverURL}/api/cloud_providers/list`, {
+		fetch(`${serverURL}/api/cloud_providers/cp/list`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`

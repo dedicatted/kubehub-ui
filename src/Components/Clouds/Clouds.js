@@ -33,7 +33,7 @@ export function Clouds () {
 		setEditableCloudIndex(cloudProviderIndex)
 	};
 	const getClouds = () => {
-		fetch(`${serverURL}/api/cloud_providers/list`, {
+		fetch(`${serverURL}/api/cloud_providers/cp/list`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
@@ -50,6 +50,25 @@ export function Clouds () {
 		.then(data => dispatch(showClouds(data)))
 		.catch(error => console.error(error))
 	};
+
+	// const getVirtualBoxClouds = () => {
+	// 	fetch(`${serverURL}/api/virtualbox/cloud-provider/list`, {
+	// 		method: 'GET',
+	// 		headers: {
+	// 			'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+	// 		},
+	// 	})
+	// 	.then(response => {
+	// 		if(response.status === 401) {
+	// 			auth.refreshToken(getVirtualBoxClouds);
+	// 		} else {
+	// 			return response.json()
+	// 		}
+	// 	})
+	// 	.then(data => data.virtualbox_provider_list)
+	// 	.then(data => dispatch(showClouds(data)))
+	// 	.catch(error => console.error(error))
+	// }
 
 	useEffect(getClouds, []);
 
