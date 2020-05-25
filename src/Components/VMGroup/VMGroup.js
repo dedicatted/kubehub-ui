@@ -18,7 +18,7 @@ export function VMGroup() {
 	let { path } = useRouteMatch();
 
 	const getClouds = () => {
-		fetch(`${serverURL}/api/cloud_providers/cp/list`, {
+		fetch(`${serverURL}/api/kubehub/cloud-provider/list/all`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`

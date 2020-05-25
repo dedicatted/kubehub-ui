@@ -14,57 +14,67 @@ export function ValidateAndCreateCloud (props) {
 	const dispatch = useDispatch();
 
 	const createCloud = () => {
+		switch (props.CPType) {
+			case 'Proxmox':
+				fetch(`${serverURL}/api/proxmox/cloud-provider/add`, {
+					method: "POST",
+					body: JSON.stringify({
+						cp_type: props.CPType,
+						name: props.name,
+						api_endpoint: props.apiEndpoint,
+						password: props.password,
+						shared_storage_name: props.sharedStorageName
+					}),
+					headers: {
+						'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+					},
+				})
+				.then(response => {
+					if(response.status === 401) {
+						auth.refreshToken(createCloud);
+						Promise.reject();
+					} else {
+						return response.json()
+					}
+				})
+				.catch(error => console.error(error));
+				dispatch(addCloud(props.CPType, props.name, props.apiEndpoint, props.password));
+				setTimeout(props.getClouds,100);
+				break;
+			case 'VirtualBox':
+				fetch(`${serverURL}/api/virtualbox/cloud-provider/add`, {
+					method: "POST",
+					body: JSON.stringify({
+						cp_type: props.CPType,
+						name: props.name,
+						api_endpoint: props.apiEndpoint,
+						password: props.password,
+						image_folder: props.virtualBoxImageFolder,
+						machine_folder: props.virtualBoxMachineFolder
+					}),
+					headers: {
+						'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+					},
+				})
+				.then(response => {
+					if(response.status === 401) {
+						auth.refreshToken(createCloud);
+						Promise.reject();
+					} else {
+						return response.json()
+					}
+				})
+				.catch(error => console.error(error));
+				dispatch(addCloud(props.CPType, props.name, props.apiEndpoint, props.password));
+				setTimeout(props.getClouds,100);
+				break;
+			default:
+				break;
+		}
 		if(props.CPType === 'Proxmox') {
-			fetch(`${serverURL}/api/cloud_providers/add`, {
-				method: "POST",
-				body: JSON.stringify({
-					cp_type: props.CPType,
-					name: props.name,
-					api_endpoint: props.apiEndpoint,
-					password: props.password,
-					shared_storage_name: props.sharedStorageName
-				}),
-				headers: {
-					'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
-				},
-			})
-			.then(response => {
-				if(response.status === 401) {
-					auth.refreshToken(createCloud);
-					Promise.reject();
-				} else {
-					return response.json()
-				}
-			})
-			.catch(error => console.error(error));
-			dispatch(addCloud(props.CPType, props.name, props.apiEndpoint, props.password));
-			setTimeout(props.getClouds,100);
+
 		} else if(props.CPType === 'VirtualBox') {
-			fetch(`${serverURL}/api/virtualbox/cloud-provider/add`, {
-				method: "POST",
-				body: JSON.stringify({
-					cp_type: props.CPType,
-					name: props.name,
-					api_endpoint: props.apiEndpoint,
-					password: props.password,
-					image_folder: props.virtualBoxImageFolder,
-					machine_folder: props.virtualBoxMachineFolder
-				}),
-				headers: {
-					'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
-				},
-			})
-			.then(response => {
-				if(response.status === 401) {
-					auth.refreshToken(createCloud);
-					Promise.reject();
-				} else {
-					return response.json()
-				}
-			})
-			.catch(error => console.error(error));
-			dispatch(addCloud(props.CPType, props.name, props.apiEndpoint, props.password));
-			setTimeout(props.getClouds,100);
+
 		}
 
 	};
