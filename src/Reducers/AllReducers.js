@@ -8,6 +8,7 @@ import { currentUser } from './CurrentUserReducer';
 import { users } from './UsersReducer';
 import { templates } from './TemplateReducer';
 import { images } from './ImageReducer';
+import { VboxImages } from './VboxImagesReducer';
 
 export  const allReducers = combineReducers({
 	clouds,
@@ -20,4 +21,5 @@ export  const allReducers = combineReducers({
 	users,
 	templates,
 	images,
+	VboxImages,
 });

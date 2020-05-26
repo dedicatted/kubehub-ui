@@ -8,6 +8,7 @@ export function MasterNodeConfig (props) {
 	const templates = useSelector(state => state.templates);
 	const images = useSelector(state => state.images);
 	const commonClasses = commonStyles();
+	const VboxImages = useSelector(state => state.VboxImages);
 
 	const handleMasterImageOrTemplateChange= event => props.setMasterImageOrTemplate(event.target.value);
 	const handleMasterVMType = event => props.setMasterVMType(event.target.value);
@@ -16,31 +17,57 @@ export function MasterNodeConfig (props) {
 
 	return (
 		<React.Fragment>
-			<TextField
-				id="standard-select-image-or-template"
-				select
-				margin="dense"
-				label="Image or template"
-				value={props.masterImageOrTemplate}
-				onChange={handleMasterImageOrTemplateChange}
-				helperText="Please select image or template. If you choose a template for master nodes, you cannot use the image for worker nodes and vice versa"
-				fullWidth
-				variant="outlined"
-				size="small"
-			>
-				<ListSubheader>Templates</ListSubheader>
-				{templates.map(template => (
-						<MenuItem key={template.id} value={template}>
-							{template.name}
-						</MenuItem>
-				))}
-				<ListSubheader>Images</ListSubheader>
-				{images.map(image => (
-					<MenuItem key={image.id} value={image}>
-						{image.name}
-					</MenuItem>
-				))}
-			</TextField>
+			{
+				props.CPType.cp_type === 'VirtualBox'
+					? (
+						<TextField
+							id="standard-select-image-or-template"
+							select
+							margin="dense"
+							label="Image or template"
+							value={props.masterImageOrTemplate}
+							onChange={handleMasterImageOrTemplateChange}
+							helperText="Please select image or template. If you choose a template for master nodes, you cannot use the image for worker nodes and vice versa"
+							fullWidth
+							variant="outlined"
+							size="small"
+						>
+							<ListSubheader>Images</ListSubheader>
+							{VboxImages.map(image => (
+								<MenuItem key={image.id} value={image}>
+									{image.img_name}
+								</MenuItem>
+							))}
+						</TextField>
+					)
+					: (
+						<TextField
+							id="standard-select-image-or-template"
+							select
+							margin="dense"
+							label="Image or template"
+							value={props.masterImageOrTemplate}
+							onChange={handleMasterImageOrTemplateChange}
+							helperText="Please select image or template. If you choose a template for master nodes, you cannot use the image for worker nodes and vice versa"
+							fullWidth
+							variant="outlined"
+							size="small"
+						>
+							<ListSubheader>Templates</ListSubheader>
+							{templates.map(template => (
+									<MenuItem key={template.id} value={template}>
+										{template.name}
+									</MenuItem>
+							))}
+							<ListSubheader>Images</ListSubheader>
+							{images.map(image => (
+								<MenuItem key={image.id} value={image}>
+									{image.name}
+								</MenuItem>
+							))}
+						</TextField>
+					)
+			}
 			<TextField
 				margin="dense"
 				id="VMType"

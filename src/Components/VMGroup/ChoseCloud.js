@@ -1,6 +1,9 @@
 import React from 'react';
 import { Grid, makeStyles, Card, Typography } from '@material-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { serverURL } from '../../serverLink';
+import auth from '../Auth/auth';
+import { addVboxImages } from '../../Actions/VboxImagesActions';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -19,8 +22,51 @@ const useStyles = makeStyles(theme => ({
 export function ChoseCloud (props) {
 	const classes = useStyles();
 	const clouds = useSelector(state => state.clouds);
+	const dispatch = useDispatch();
 
-	const handleCPTypeChange = cloud => props.setCPType(cloud);
+	const getVboxImages = () => {
+		fetch(`${serverURL}/api/virtualbox/vbox_img/list`, {
+			method: 'GET',
+			headers: {
+				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+			},
+		})
+		.then(response => {
+			if(response.status === 401) {
+				auth.refreshToken(getVboxImages);
+				Promise.reject();
+			} else {
+				return response.json()
+			}
+		})
+		.then(data => dispatch(addVboxImages(data.vbox_images_list)))
+		.catch(error => console.error(error))
+	}
+
+	const handleCPTypeChange = cloud => {
+		props.setCPType(cloud);
+		if(cloud.cp_type === "VirtualBox") {
+			fetch(`${serverURL}/api/virtualbox/vbox_img/add`, {
+				method: 'POST',
+				body: JSON.stringify({
+					cloud_provider_id: cloud.id
+				}),
+				headers: {
+					'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
+				},
+			})
+			.then(response => {
+				if(response.status === 401) {
+					auth.refreshToken(handleCPTypeChange(cloud));
+					Promise.reject();
+				} else {
+					return response.json()
+				}
+			})
+			.then(() => getVboxImages())
+			.catch(error => console.error(error))
+		}
+	};
 	return (
 		<Grid
 			className={classes.root}
