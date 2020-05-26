@@ -49,12 +49,15 @@ export function TableOfClouds (props) {
 		}
 		return isVMGroupUse;
 	}
-	const deleteCloudData = (index) => {
+	const deleteCloudData = (cloud) => {
 		for(let i = 0; i <= props.clouds.length; i++) {
-			if(props.clouds[i].id === index) {
-				fetch(`${serverURL}/api/cloud_providers/remove`,{
+			if(props.clouds[i].id === cloud.id) {
+				fetch(`${serverURL}/api/kubehub/cloud-provider/remove`,{
 					method: 'POST',
-					body: JSON.stringify({id: index}),
+					body: JSON.stringify({
+						cloud_provider_id: cloud.id,
+						cp_type: cloud.cp_type
+					}),
 					headers: {
 						"Authorization": `Bearer ${localStorage.getItem('accessToken')}`
 					}
@@ -113,7 +116,7 @@ export function TableOfClouds (props) {
 														</IconButton>
 													</span>
 												</Tooltip> )
-											: ( <IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud.id)}} className={commonClasses.deleteIcon}>
+											: ( <IconButton aria-label="delete" onClick={() => {deleteCloudData(cloud)}} className={commonClasses.deleteIcon}>
 													<DeleteIcon />
 												</IconButton> )
 										}

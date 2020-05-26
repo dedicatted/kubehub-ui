@@ -11,10 +11,11 @@ export function EditCloud (props) {
 
 	const submitEditedData = () => {
 		props.dispatch(editCloud(props.editableName, props.editableCloudIndex));
-		fetch(`${serverURL}/api/cloud_providers/edit`,{
+		fetch(`${serverURL}/api/kubehub/cloud-provider/edit`,{
 			method: 'POST',
 			body: JSON.stringify({
 				id: props.clouds[props.editableCloudIndex].id,
+				cp_type: props.clouds[props.editableCloudIndex].cp_type,
 				name: props.editableName
 			}),
 			headers: {
