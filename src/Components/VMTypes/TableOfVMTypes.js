@@ -29,6 +29,7 @@ export function TableOfVMTypes () {
 								<TableCell>Name</TableCell>
 								<TableCell align="center">vCPU</TableCell>
 								<TableCell align="center">Memory</TableCell>
+								<TableCell align="center">Boot Disk</TableCell>
 								<TableCell align="center"></TableCell>
 							</TableRow>
 						</TableHead>
@@ -46,6 +47,7 @@ export function TableOfVMTypes () {
 											}
 											</TableCell>
 										<TableCell align="center">{VMType.memory} GB</TableCell>
+										<TableCell align="center">{VMType.boot_disk}</TableCell>
 										<TableCell align="center">
 											<IconButton
 												className={classes.deleteIcon}
