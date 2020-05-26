@@ -15,7 +15,6 @@ export default function CreateCloud (props) {
 	const [activeStep, setActiveStep] = useState(0);
 	const steps = ['Chose cloud provider type', 'Set configurations of cloud provider' , 'Validate and Create Cloud'];
 	const [virtualBoxImageFolder, setVirtualBoxImagefolder] = useState('');
-	const [virtualBoxMachineFolder, setVirtualBoxMachineFolder] = useState('');
 
 
 
@@ -51,8 +50,6 @@ export default function CreateCloud (props) {
 								CPType={CPType}
 								virtualBoxImageFolder={virtualBoxImageFolder}
 								setVirtualBoxImagefolder={setVirtualBoxImagefolder}
-								virtualBoxMachineFolder={virtualBoxMachineFolder}
-								setVirtualBoxMachineFolder={setVirtualBoxMachineFolder}
 							/>
 						)
 						: activeStep === 2
@@ -64,7 +61,6 @@ export default function CreateCloud (props) {
 									CPType={CPType}
 									sharedStorageName={sharedStorageName}
 									virtualBoxImageFolder={virtualBoxImageFolder}
-									virtualBoxMachineFolder={virtualBoxMachineFolder}
 									getClouds={props.getClouds}
 									setActiveStep={setActiveStep}
 								/>

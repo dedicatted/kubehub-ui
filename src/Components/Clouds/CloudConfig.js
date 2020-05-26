@@ -10,7 +10,6 @@ export function CloudConfig(props) {
 	const handlePasswordChange = event => props.setPassword(event.target.value);
 	const handleSharedStorageNameChange = event => props.setSharedStorageName(event.target.value);
 	const handleVirtualBoxImageFolderChange = event => props.setVirtualBoxImagefolder(event.target.value);
-	const handleVirtualBoxMachineFolder = event => props.setVirtualBoxMachineFolder(event.target.value);
 
 	return (
 		<React.Fragment>
@@ -62,30 +61,17 @@ export function CloudConfig(props) {
 				)
 				: props.CPType === 'VirtualBox'
 					? (
-						<React.Fragment>
-							<TextField
-								margin="dense"
-								id="virtualbox-image-folder"
-								label="VirtualBox image folder"
-								value={props.virtualBoxImageFolder}
-								onChange={handleVirtualBoxImageFolderChange}
-								type="url"
-								fullWidth
-								variant="outlined"
-								size="small"
-							/>
-							<TextField
-								margin="dense"
-								id="virtualbox-machine-folder"
-								label="VirtualBox machine folder"
-								value={props.virtualBoxMachineFolder}
-								onChange={handleVirtualBoxMachineFolder}
-								type="url"
-								fullWidth
-								variant="outlined"
-								size="small"
-							/>
-						</React.Fragment>
+						<TextField
+							margin="dense"
+							id="virtualbox-image-folder"
+							label="VirtualBox image folder"
+							value={props.virtualBoxImageFolder}
+							onChange={handleVirtualBoxImageFolderChange}
+							type="url"
+							fullWidth
+							variant="outlined"
+							size="small"
+						/>
 					)
 					: null
 			}

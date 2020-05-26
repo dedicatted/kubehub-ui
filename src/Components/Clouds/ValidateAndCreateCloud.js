@@ -96,11 +96,7 @@ export function ValidateAndCreateCloud (props) {
 					)
 				: props.CPType === 'VirtualBox'
 					? (
-						<React.Fragment>
-							<DescriptionTypography>{`VirtualBox image folder: ${props.virtualBoxImageFolder}`}</DescriptionTypography>
-							<Divider />
-							<DescriptionTypography>{`VirtualBox machine folder: ${props.virtualBoxMachineFolder}`}</DescriptionTypography>
-						</React.Fragment>
+						<DescriptionTypography>{`VirtualBox image folder: ${props.virtualBoxImageFolder}`}</DescriptionTypography>
 					)
 					: null
 			}
