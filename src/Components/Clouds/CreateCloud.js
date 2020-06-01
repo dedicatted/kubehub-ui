@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { Stepper, Step, StepLabel } from "@material-ui/core";
+import { Stepper, Step, StepLabel, Container } from "@material-ui/core";
 import { ChoseCPtype } from "./ChoseCPtype";
 import { CloudConfig } from "./CloudConfig";
+import { commonStyles } from '../../styles/style';
 import { ValidateAndCreateCloud } from "./ValidateAndCreateCloud";
 
 export default function CreateCloud (props) {
+	const commonClasses = commonStyles();
 	const [CPType, setCPType] = useState("");
 	const [name, setName] = useState("");
 	const [apiEndpoint, setApiEndpoint] = useState("");
@@ -17,7 +19,7 @@ export default function CreateCloud (props) {
 
 
 	return (
-		<>
+		<Container className={commonClasses.container}>
 			<Stepper activeStep={activeStep} alternativeLabel>{
 				steps.map(lable => (
 					<Step key={lable}>
@@ -65,6 +67,6 @@ export default function CreateCloud (props) {
 							)
 							: null
 			}
-			</>
+			</Container>
 	);
 };

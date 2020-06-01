@@ -1,6 +1,6 @@
 import React from 'react';
 import { commonStyles } from '../../styles/style';
-import { TextField, Grid, Button } from '@material-ui/core';
+import { TextField, Grid, Button, Container } from '@material-ui/core';
 
 export function CloudConfig(props) {
 	const commonClasses = commonStyles();
@@ -12,7 +12,7 @@ export function CloudConfig(props) {
 	const handleVirtualBoxImageFolderChange = event => props.setVirtualBoxImagefolder(event.target.value);
 
 	return (
-		<React.Fragment>
+		<Container className={commonClasses.container}>
 			<TextField
 				margin="dense"
 				id="name"
@@ -91,6 +91,6 @@ export function CloudConfig(props) {
 					Next
 				</Button>
 			</Grid>
-		</React.Fragment>
+		</Container>
 	)
 }

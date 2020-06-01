@@ -1,5 +1,5 @@
 import React from 'react';
-import { Divider, Grid, Button } from '@material-ui/core';
+import { Divider, Grid, Button, Container } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import { Link } from 'react-router-dom';
 import { serverURL } from '../../serverLink';
@@ -77,7 +77,7 @@ export function ValidateAndCreateCloud (props) {
 	};
 
 	return (
-		<React.Fragment>
+		<Container className={commonClasses.container}>
 			<DescriptionTypography>{`Cloud Name: ${props.name}`}</DescriptionTypography>
 			<Divider />
 			{
@@ -124,6 +124,6 @@ export function ValidateAndCreateCloud (props) {
 					</Button>
 				</Link>
 			</Grid>
-		</React.Fragment>
+		</Container>
 	)
 }

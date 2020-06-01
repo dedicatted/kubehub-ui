@@ -1,5 +1,6 @@
 import React from 'react';
-import { Grid, makeStyles, Card, Typography } from '@material-ui/core';
+import { Grid, makeStyles, Card, Typography, Container } from '@material-ui/core';
+import { commonStyles } from '../../styles/style';
 
 const useStyles = makeStyles(theme => ({
 	root: {
@@ -31,27 +32,29 @@ const CP_types = [
 
 export function ChoseCPtype (props) {
 	const classes = useStyles();
-
+	const commonClasses = commonStyles();
 	const handleCPTypeChange = cloud => props.setCPType(cloud);
 	return (
-		<Grid
-			className={classes.root}
-			container
-			spacing={5}
-		>
-			{
-				CP_types.map((cloud, i) => (
-					<Grid key={i} item xs={3}>
-						<Card key={i} className={classes.card} onClick={() => {
-							handleCPTypeChange(cloud.name);
-							props.setActiveStep(prevState => ++prevState)
-						}}>
-							<Typography variant='body1' align='center'>{cloud.name}</Typography>
-						</Card>
-					</Grid>
-				))
+		<Container className={commonClasses.container}>
+			<Grid
+				className={classes.root}
+				container
+				spacing={5}
+			>
+				{
+					CP_types.map((cloud, i) => (
+						<Grid key={i} item xs={3}>
+							<Card key={i} className={classes.card} onClick={() => {
+								handleCPTypeChange(cloud.name);
+								props.setActiveStep(prevState => ++prevState)
+							}}>
+								<Typography variant='body1' align='center'>{cloud.name}</Typography>
+							</Card>
+						</Grid>
+					))
 
-			}
-		</Grid>
+				}
+			</Grid>
+		</Container>
 	)
 }
