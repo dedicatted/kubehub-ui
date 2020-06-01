@@ -23,41 +23,43 @@ export function CloudConfig(props) {
 				variant="outlined"
 				size="small"
 			/>
-			<TextField
-				margin="dense"
-				id="api-endpoint"
-				label="API-Endpoint"
-				value={props.apiEndpoint}
-				onChange={handleApiEndpointChange}
-				type="url"
-				fullWidth
-				variant="outlined"
-				size="small"
-			/>
-			<TextField
-				value={props.password}
-				onChange={handlePasswordChange}
-				type="password"
-				margin="dense"
-				id="password"
-				label="Password"
-				fullWidth
-				variant="outlined"
-				size="small"
-			/>
 			{
 				props.CPType === 'Proxmox'
 				? (
-					<TextField
-						value={props.sharedStorageName}
-						onChange={handleSharedStorageNameChange}
-						margin="dense"
-						id="shared_storage_name"
-						label="Shared storage name"
-						fullWidth
-						variant="outlined"
-						size="small"
-					/>
+					<>
+						<TextField
+							margin="dense"
+							id="api-endpoint"
+							label="API-Endpoint"
+							value={props.apiEndpoint}
+							onChange={handleApiEndpointChange}
+							type="url"
+							fullWidth
+							variant="outlined"
+							size="small"
+						/>
+						<TextField
+							value={props.password}
+							onChange={handlePasswordChange}
+							type="password"
+							margin="dense"
+							id="password"
+							label="Password"
+							fullWidth
+							variant="outlined"
+							size="small"
+						/>
+						<TextField
+							value={props.sharedStorageName}
+							onChange={handleSharedStorageNameChange}
+							margin="dense"
+							id="shared_storage_name"
+							label="Shared storage name"
+							fullWidth
+							variant="outlined"
+							size="small"
+						/>
+					</>
 				)
 				: props.CPType === 'VirtualBox'
 					? (

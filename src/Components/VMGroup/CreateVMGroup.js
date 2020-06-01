@@ -20,7 +20,6 @@ export function CreateVMGroup (props) {
 	const [workerVMType, setWorkerVMType] = React.useState();
 	const [workerDiskSize, setWorkerDiskSize] = useState(0);
 	const [numberOfWorkerNodes, setNumberOfWorkerNodes] = useState(0);
-	const [VboxImages, setVboxImages] = useState([]);
 	const steps = ['Select cloud provider', 'Set name of virtual machine group', 'Set configurations for master nodes' ,'Set configurations for worker nodes', 'Validate and Create virtual machine group'];
 
 	return (
@@ -60,8 +59,6 @@ export function CreateVMGroup (props) {
 										numberOfMasterNodes={numberOfMasterNodes}
 										setNumberOfMasterNodes={setNumberOfMasterNodes}
 										CPType={CPType}
-										setVboxImages={setVboxImages}
-										VboxImages={VboxImages}
 									/>
 								)
 								: activeStep === 3
@@ -78,7 +75,6 @@ export function CreateVMGroup (props) {
 											setNumberOfWorkerNodes={setNumberOfWorkerNodes}
 											masterImageOrTemplate={masterImageOrTemplate}
 											CPType={CPType}
-											VboxImages={VboxImages}
 										/>
 									)
 									: activeStep === 4
@@ -93,6 +89,8 @@ export function CreateVMGroup (props) {
 												masterVMType={masterVMType}
 												masterDiskSize={masterDiskSize}
 												getVMGroups={props.getVMGroups}
+												numberOfMasterNodes={numberOfMasterNodes}
+												numberOfWorkerNodes={numberOfWorkerNodes}
 											/>
 										)
 										: null

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, MenuItem, InputAdornment, Grid, Button } from '@material-ui/core';
+import { TextField, MenuItem, InputAdornment, Grid, Button, ListSubheader } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { commonStyles } from '../../styles/style';
 
@@ -8,6 +8,7 @@ export function WorkerNodeConfig (props) {
 	const templates = useSelector(state => state.templates);
 	const images = useSelector(state => state.images);
 	const commonClasses = commonStyles();
+	const VboxImages = useSelector(state => state.VboxImages);
 
 	const handleWorkerImageOrTemplateChange= event => props.setWorkerImageOrTemplate(event.target.value);
 	const handleWorkerVMType = event => props.setWorkerVMType(event.target.value);
@@ -16,7 +17,31 @@ export function WorkerNodeConfig (props) {
 
 	return (
 		<React.Fragment>
-			<TextField
+			{
+				props.CPType.cp_type === 'VirtualBox'
+				? (
+					<TextField
+							id="standard-select-image-or-template"
+							select
+							margin="dense"
+							label="Image or template"
+							value={props.workerImageOrTemplate}
+							onChange={handleWorkerImageOrTemplateChange}
+							helperText="Please select image or template. If you choose a template for master nodes, you cannot use the image for worker nodes and vice versa"
+							fullWidth
+							variant="outlined"
+							size="small"
+						>
+							<ListSubheader>Images</ListSubheader>
+							{VboxImages.map(image => (
+								<MenuItem key={image.id} value={image}>
+									{image.name}
+								</MenuItem>
+							))}
+						</TextField>
+				)
+				: (
+					<TextField
 				id="standard-select-image-or-template"
 				select
 				margin="dense"
@@ -46,6 +71,10 @@ export function WorkerNodeConfig (props) {
 						)
 				}
 			</TextField>
+				)
+
+			}
+
 			<TextField
 				margin="dense"
 				id="VMType"
@@ -59,7 +88,7 @@ export function WorkerNodeConfig (props) {
 			>
 				{VMTypes.map(VMType => (
 					<MenuItem key={VMType.id} value={VMType}>
-						{`${VMType.name} (${VMType.vCPU} vcpu, ${VMType.memory} GB RAM)`}
+						{`${VMType.name} (${VMType.cores} vcpu, ${VMType.memory} GB RAM)`}
 					</MenuItem>
 				))}
 			</TextField>

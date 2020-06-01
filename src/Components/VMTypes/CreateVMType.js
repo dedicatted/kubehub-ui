@@ -26,7 +26,7 @@ export function CreateVMType (props) {
 		fetch(`${serverURL}/api/kubehub/vm-type/add`, {
 			method: 'POST',
 			body: JSON.stringify({
-				// name,
+				name,
 				cores: vCPU,
 				memory: memory,
 				boot_disk: bootDisk,
@@ -43,7 +43,7 @@ export function CreateVMType (props) {
 			}
 		})
 		.then(() => dispatch(addVMType({
-			// name,
+			name,
 			vCPU,
 			memory,
 			bootDisk

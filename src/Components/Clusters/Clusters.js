@@ -37,7 +37,7 @@ export function Clusters ()	 {
 		.catch(error => console.error(error))
 	};
 	const getVMGroups = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/list`, {
+		fetch(`${serverURL}/api/kubehub/vm/group/list`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
@@ -56,7 +56,7 @@ export function Clusters ()	 {
 		.catch(error => console.error(error))
 	};
 	const getClusters = useCallback(() => {
-		fetch(`${serverURL}/cluster/list`, {
+		fetch(`${serverURL}/api/kubehub/cluster/list`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
@@ -75,7 +75,7 @@ export function Clusters ()	 {
 		.catch(error => console.error(error))
 	}, [dispatch])
 	const getKubernetesVersions = () => {
-		fetch(`${serverURL}/kubernetes/version/list`, {
+		fetch(`${serverURL}/api/kubehub/kubernetes/version/list`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
@@ -94,7 +94,7 @@ export function Clusters ()	 {
 		.catch(error => console.error(error))
 	}
 	const getTemplates = () => {
-		fetch(`${serverURL}/api/proxmox/template/list`, {
+		fetch(`${serverURL}api/kubehub/cluster/get/config`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`

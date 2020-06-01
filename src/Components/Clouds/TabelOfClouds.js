@@ -17,7 +17,7 @@ export function TableOfClouds (props) {
 	const commonClasses = commonStyles();
 
 	const getVMGroups = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/list`, {
+		fetch(`${serverURL}/api/kubehub/vm/group/list`, {
 			method: 'GET',
 			headers: {
 				'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`

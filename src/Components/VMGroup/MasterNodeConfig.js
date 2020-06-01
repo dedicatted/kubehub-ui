@@ -35,7 +35,7 @@ export function MasterNodeConfig (props) {
 							<ListSubheader>Images</ListSubheader>
 							{VboxImages.map(image => (
 								<MenuItem key={image.id} value={image}>
-									{image.img_name}
+									{image.name}
 								</MenuItem>
 							))}
 						</TextField>
@@ -81,7 +81,7 @@ export function MasterNodeConfig (props) {
 			>
 				{VMTypes.map(VMType => (
 					<MenuItem key={VMType.id} value={VMType}>
-						{`${VMType.name} (${VMType.vCPU} vcpu, ${VMType.memory} GB RAM)`}
+						{`${VMType.name} (${VMType.cores} vcpu, ${VMType.memory} GB RAM)`}
 					</MenuItem>
 				))}
 			</TextField>

@@ -52,7 +52,7 @@ export function ClusterLogs (props) {
 		}
 	};
 	const showLogs = (cluster,lineNumber) => {
-		fetch(`${serverURL}/kubespray/deploy/get/log`,{
+		fetch(`${serverURL}/api/kubehub/kubespray/deploy/get/log`,{
 			method: 'POST',
 			body: JSON.stringify({
 				kubespray_deploy_id: cluster.kubespray_deployments[cluster.kubespray_deployments.length - 1].id,

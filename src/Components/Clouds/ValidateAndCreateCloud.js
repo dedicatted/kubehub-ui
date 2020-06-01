@@ -47,10 +47,7 @@ export function ValidateAndCreateCloud (props) {
 					body: JSON.stringify({
 						cp_type: props.CPType,
 						name: props.name,
-						api_endpoint: props.apiEndpoint,
-						password: props.password,
 						image_folder: props.virtualBoxImageFolder,
-						machine_folder: props.virtualBoxMachineFolder
 					}),
 					headers: {
 						'Authorization' : `Bearer ${localStorage.getItem('accessToken')}`
@@ -83,12 +80,21 @@ export function ValidateAndCreateCloud (props) {
 		<React.Fragment>
 			<DescriptionTypography>{`Cloud Name: ${props.name}`}</DescriptionTypography>
 			<Divider />
+			{
+				props.CPType === 'Proxmox'
+					? (
+						<>
+							<DescriptionTypography>{`API-Endpoint: ${props.apiEndpoint}`}</DescriptionTypography>
+							<Divider />
+							<DescriptionTypography>{`Password: ${props.password}`}</DescriptionTypography>
+							<Divider />
+						</>
+					)
+					: null
+			}
 			<DescriptionTypography>{`CP type: ${props.CPType}`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`API-Endpoint: ${props.apiEndpoint}`}</DescriptionTypography>
-			<Divider />
-			<DescriptionTypography>{`Password: ${props.password}`}</DescriptionTypography>
-			<Divider />
+
 			{
 				props.CPType === 'Proxmox'
 				? (

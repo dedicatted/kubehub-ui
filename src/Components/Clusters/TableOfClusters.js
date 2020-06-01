@@ -53,7 +53,7 @@ export function TableOfClusters (props) {
 		setArrayOfDeletedClusters([]);
 	}
 	const deleteCluster = (k8s_cluster_id) => {
-		fetch(`${serverURL}/cluster/remove`, {
+		fetch(`${serverURL}/api/kubehub/cluster/remove`, {
 			method: "POST",
 			body: JSON.stringify({
 				k8s_cluster_id: k8s_cluster_id
@@ -75,7 +75,7 @@ export function TableOfClusters (props) {
 		setTimeout(props.getClusters(),100) // !! After sending a request
 	};
 	const reloadCluster = (k8s_cluster_id) => {
-		fetch(`${serverURL}/kubespray/deploy/restart`, {
+		fetch(`${serverURL}/api/kubehub/kubespray/deploy/restart`, {
 			method: "POST",
 			body: JSON.stringify({
 				k8s_cluster_id: k8s_cluster_id

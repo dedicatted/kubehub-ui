@@ -11,7 +11,7 @@ export function ValidateAndCreateCluster (props) {
 	const commonClasses = commonStyles();
 
 	const createCluster = () => {
-		fetch(`${serverURL}/cluster/add`, {
+		fetch(`${serverURL}/api/kubehub/cluster/add`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name: props.clusterName,

@@ -12,23 +12,46 @@ export function ValidateAndCreateVMGroup (props) {
 	// ! TO DO
 	const choosingRightBody = () => {
 		let body = {
-			cloud_provider_id: props.CPType.id,
-			number_of_nodes: props.numberOfMasterNodes,
 			name: props.name,
-			cores: props.VMType.vCPU,
-			memory: props.VMType.memory,
-			boot_disk: props.diskSize,
-		};
-		if(props.masterImageOrTemplate.template) {
-			body.template_id = props.masterImageOrTemplate.id;
-		} else {
-			body.os_image_id = props.masterImageOrTemplate.id;
+			cloud_provider_id: props.CPType.id,
+			master: {
+				number_of_nodes: props.numberOfMasterNodes,
+				cores: props.masterVMType.cores,
+				memory: props.masterVMType.memory,
+				boot_disk: props.masterVMType.boot_disk,
+			},
+			worker: {
+				number_of_nodes: props.numberOfWorkerNodes,
+				cores: props.workerVMType.cores,
+				memory: props.workerVMType.memory,
+				boot_disk: props.workerVMType.boot_disk,
+			},
 		}
+		if(props.masterImageOrTemplate.template) {
+			body.master.template = props.masterImageOrTemplate.id;
+			body.worker.template = props.workerImageOrTemplate.id;
+		} else if (props.CPType.cp_type === 'VirtualBox') {
+			console.log('vbox_os_image')
+			body.master.vbox_os_image = props.masterImageOrTemplate.id;
+			body.worker.vbox_os_image = props.workerImageOrTemplate.id;
+		} else {
+			body.master.os_image = props.masterImageOrTemplate.id;
+			body.worker.os_image = props.workerImageOrTemplate.id;
+		}
+
 		return body;
 	}
 	// ! TO DO
 	const createVMGroup = () => {
-		fetch(`${serverURL}/api/proxmox/vm/group/add`, {
+		let requestUrl = ''
+		console.log(props.CPType.cp_type);
+		if(props.CPType.cp_type === 'Proxmox') {
+			requestUrl = '/api/proxmox/vm/group/add';
+		} else if(props.CPType.cp_type === 'VirtualBox') {
+			requestUrl = '/api/virtualbox/vmg/add';
+		}
+		console.log(`${serverURL}${requestUrl}`)
+		fetch(`${serverURL}${requestUrl}`, {
 			method: 'POST',
 			body: JSON.stringify(choosingRightBody()),
 			headers: {
@@ -56,29 +79,29 @@ export function ValidateAndCreateVMGroup (props) {
 				props.masterImageOrTemplate.template
 					? 'Template:'
 					: 'Image:'
-			} ${props.masterImageOrTemplate.name}`}</DescriptionTypography>
+			} ${props.masterImageOrTemplate.name }`}</DescriptionTypography>
 			<Divider />
 			<DescriptionTypography>{`Master VMType Name: ${props.masterVMType.name}`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`Master vCPU: ${props.masterVMType.vCPU} Cores`}</DescriptionTypography>
+			<DescriptionTypography>{`Master vCPU: ${props.masterVMType.cores} Cores`}</DescriptionTypography>
 			<Divider />
 			<DescriptionTypography>{`Master RAM: ${props.masterVMType.memory} GB`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`Master Disk size: ${props.masterDiskSize} GB`}</DescriptionTypography>
+			<DescriptionTypography>{`Master Disk size: ${props.masterVMType.boot_disk} GB`}</DescriptionTypography>
 			<Divider />
 			<DescriptionTypography>{`Worker ${
 				props.workerImageOrTemplate.template
 					? 'Template:'
 					: 'Image:'
-			} ${props.workerImageOrTemplate.name}`}</DescriptionTypography>
+			} ${props.workerImageOrTemplate.name}`} </DescriptionTypography>
 			<Divider />
 			<DescriptionTypography>{`Worker VMType Name: ${props.workerVMType.name}`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`Worker vCPU: ${props.workerVMType.vCPU} Cores`}</DescriptionTypography>
+			<DescriptionTypography>{`Worker vCPU: ${props.workerVMType.cores} Cores`}</DescriptionTypography>
 			<Divider />
 			<DescriptionTypography>{`Worker RAM: ${props.workerVMType.memory} GB`}</DescriptionTypography>
 			<Divider />
-			<DescriptionTypography>{`Worker Disk size: ${props.workerDiskSize} GB`}</DescriptionTypography>
+			<DescriptionTypography>{`Worker Disk size: ${props.masterVMType.boot_disk} GB`}</DescriptionTypography>
 			<Divider />
 			<Grid
 				container
