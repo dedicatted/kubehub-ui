@@ -12,7 +12,6 @@ export function MasterNodeConfig (props) {
 
 	const handleMasterImageOrTemplateChange= event => props.setMasterImageOrTemplate(event.target.value);
 	const handleMasterVMType = event => props.setMasterVMType(event.target.value);
-	const handleMasterDiskSizeChange = event => props.setMasterDiskSize(event.target.value);
 	const hanldeNumberOfMasterNodes = event => props.setNumberOfMasterNodes(event.target.value);
 
 	return (
@@ -95,20 +94,6 @@ export function MasterNodeConfig (props) {
 				fullWidth
 				variant="outlined"
 				size="small"
-			/>
-			<TextField
-				margin="dense"
-				id="disk"
-				label="Disk size"
-				fullWidth
-				type='number'
-				value={props.masterDiskSize}
-				onChange={handleMasterDiskSizeChange}
-				variant="outlined"
-				size="small"
-				InputProps={{
-					endAdornment: <InputAdornment position="start">GB</InputAdornment>,
-				}}
 			/>
 			<Grid
 				container

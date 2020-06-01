@@ -14,11 +14,9 @@ export function CreateVMGroup (props) {
 	const [activeStep, setActiveStep] = React.useState(0);
 	const [masterImageOrTemplate, setMasterImageOrTemplate] = useState();
 	const [masterVMType, setMasterVMType] = React.useState();
-	const [masterDiskSize, setMasterDiskSize] = useState(0);
 	const [numberOfMasterNodes, setNumberOfMasterNodes] = useState(0);
 	const [workerImageOrTemplate, setWorkerImageOrTemplate] = useState();
 	const [workerVMType, setWorkerVMType] = React.useState();
-	const [workerDiskSize, setWorkerDiskSize] = useState(0);
 	const [numberOfWorkerNodes, setNumberOfWorkerNodes] = useState(0);
 	const steps = ['Select cloud provider', 'Set name of virtual machine group', 'Set configurations for master nodes' ,'Set configurations for worker nodes', 'Validate and Create virtual machine group'];
 
@@ -51,10 +49,8 @@ export function CreateVMGroup (props) {
 									<MasterNodeConfig
 										masterImageOrTemplate={masterImageOrTemplate}
 										masterVMType={masterVMType}
-										masterDiskSize={masterDiskSize}
 										setMasterImageOrTemplate={setMasterImageOrTemplate}
 										setMasterVMType={setMasterVMType}
-										setMasterDiskSize={setMasterDiskSize}
 										setActiveStep={setActiveStep}
 										numberOfMasterNodes={numberOfMasterNodes}
 										setNumberOfMasterNodes={setNumberOfMasterNodes}
@@ -64,10 +60,8 @@ export function CreateVMGroup (props) {
 								: activeStep === 3
 									? (
 										<WorkerNodeConfig
-											workerDiskSize={workerDiskSize}
 											workerImageOrTemplate={workerImageOrTemplate}
 											workerVMType={workerVMType}
-											setWorkerDiskSize={setWorkerDiskSize}
 											setWorkerImageOrTemplate={setWorkerImageOrTemplate}
 											setWorkerVMType={setWorkerVMType}
 											setActiveStep={setActiveStep}
@@ -82,12 +76,10 @@ export function CreateVMGroup (props) {
 											<ValidateAndCreateVMGroup
 												CPType={CPType}
 												name={name}
-												workerDiskSize={workerDiskSize}
 												workerImageOrTemplate={workerImageOrTemplate}
 												workerVMType={workerVMType}
 												masterImageOrTemplate={masterImageOrTemplate}
 												masterVMType={masterVMType}
-												masterDiskSize={masterDiskSize}
 												getVMGroups={props.getVMGroups}
 												numberOfMasterNodes={numberOfMasterNodes}
 												numberOfWorkerNodes={numberOfWorkerNodes}

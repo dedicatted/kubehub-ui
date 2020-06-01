@@ -12,7 +12,6 @@ export function WorkerNodeConfig (props) {
 
 	const handleWorkerImageOrTemplateChange= event => props.setWorkerImageOrTemplate(event.target.value);
 	const handleWorkerVMType = event => props.setWorkerVMType(event.target.value);
-	const handleWorkerDiskSizeChange = event => props.setWorkerDiskSize(event.target.value);
 	const hanldeNumberOfWorkerNodes = event => props.setNumberOfWorkerNodes(event.target.value);
 
 	return (
@@ -102,20 +101,6 @@ export function WorkerNodeConfig (props) {
 				fullWidth
 				variant="outlined"
 				size="small"
-			/>
-			<TextField
-				margin="dense"
-				id="disk"
-				label="Disk size"
-				fullWidth
-				type='number'
-				value={props.workerDiskSize}
-				onChange={handleWorkerDiskSizeChange}
-				variant="outlined"
-				size="small"
-				InputProps={{
-					endAdornment: <InputAdornment position="start">GB</InputAdornment>,
-				}}
 			/>
 			<Grid
 				container
