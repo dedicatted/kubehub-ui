@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, MenuItem, InputAdornment, Grid, Button, ListSubheader } from '@material-ui/core';
+import { TextField, MenuItem, Grid, Button, ListSubheader } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { commonStyles } from '../../styles/style';
 

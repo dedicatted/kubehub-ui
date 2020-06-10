@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import { TopBar } from '../TopBar';
-import { TextField, Container, Grid, InputAdornment, IconButton, Checkbox, FormControlLabel } from '@material-ui/core';
+import { TextField, Container, Grid, InputAdornment, IconButton, Checkbox, FormControlLabel, Button } from '@material-ui/core';
 import { commonStyles } from '../../styles/style';
 import { Link } from 'react-router-dom';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import DoneIcon from '@material-ui/icons/Done';
-import CloseIcon from '@material-ui/icons/Close';
 import { serverURL } from '../../serverLink';
 import auth from '../Auth/auth';
 
@@ -183,14 +181,15 @@ export function AddUser(props) {
 					alignItems="center"
 				>
 					<Link to="/users" className={commonClasses.links}>
-						<IconButton className={commonClasses.margin}>
-							<CloseIcon color="primary"/>
-						</IconButton>
+						<Button color='primary' className={commonClasses.margin}>Cancel</Button>
 					</Link>
 					<Link to="/users" className={commonClasses.links} >
-						<IconButton disabled={isPasswordNotSimilarity} className={commonClasses.margin} onClick={addUser}>
-							<DoneIcon color={isPasswordNotSimilarity ? 'disabled' : 'primary'}/>
-						</IconButton>
+						<Button
+							color='primary'
+							className={commonClasses.margin}
+							disabled={isPasswordNotSimilarity}
+							onClick={addUser}
+						>Create</Button>
 					</Link>
 				</Grid>
 			</Container>

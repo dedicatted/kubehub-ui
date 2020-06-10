@@ -3,7 +3,7 @@ import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Conta
 import { commonStyles } from '../../styles/style';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { TopBar } from '../TopBar';
+// import { TopBar } from '../TopBar';
 import AddIcon from '@material-ui/icons/Add';
 import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -88,7 +88,7 @@ export function TableOfUsers(props) {
 
 	return(
 		<>
-			<TopBar title='Users management' />
+			{/* <TopBar title='Users management' /> */}
 			<Container maxWidth="xl" className={commonClasses.container}>
 				<Link to={`${url}/add_user`} className={commonClasses.links}>
 					<Button

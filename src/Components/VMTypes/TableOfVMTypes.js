@@ -5,7 +5,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import { TopBar } from '../TopBar';
+// import { TopBar } from '../TopBar';
 
 export function TableOfVMTypes () {
 	const classes = commonStyles();
@@ -14,7 +14,7 @@ export function TableOfVMTypes () {
 
 	return (
 		<>
-			<TopBar>VM-Types</TopBar>
+			{/* <TopBar>VM-Types</TopBar> */}
 			<Container maxWidth="xl" className={classes.container}>
 				<Link to={`${url}/create_vm_type`} className={classes.links}>
 					<Button
